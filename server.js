@@ -9,8 +9,8 @@ const { calculateRoomStatus } = require('./services/statusCalculator');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const CACHE_TTL_SECONDS = parseInt(process.env.CACHE_TTL_SECONDS, 10) || 60;
-const DEFAULT_ROOM_EMAIL = process.env.DEFAULT_ROOM_EMAIL || 'sala-juntas@empresa.com';
-const DEFAULT_ROOM_NAME = process.env.DEFAULT_ROOM_NAME || 'Sala de Juntas Principal';
+const DEFAULT_ROOM_EMAIL = process.env.DEFAULT_ROOM_EMAIL || 'SaladeJuntasCamp@itzamna.mx';
+const DEFAULT_ROOM_NAME = process.env.DEFAULT_ROOM_NAME || 'Sala de Juntas Campeche';
 
 // Inicializar servicios
 const cacheService = new CacheService(CACHE_TTL_SECONDS);

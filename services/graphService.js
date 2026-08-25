@@ -264,13 +264,16 @@ class GraphService {
       ];
     }
 
-    // Si la sala tiene eventos explícitamente asignados en el almacén en memoria
-    if (this.mockEventsStore.has(roomEmail)) {
+    // Si es un buzón de prueba explícito
+    if (this.mockEventsStore.has(roomEmail) && (roomEmail.startsWith('sala-disponible') || roomEmail.startsWith('test-'))) {
       return this.mockEventsStore.get(roomEmail) || [];
     }
 
-    // Escenario por defecto dinámico: Reunión actual en progreso
-    return [
+    // Eventos adicionales creados dinámicamente por reservas rápidas
+    const customStored = this.mockEventsStore.get(roomEmail) || [];
+
+    // Escenario por defecto dinámico: Reunión actual en progreso + Agenda completa
+    const defaultEvents = [
       {
         id: 'demo-def-1',
         subject: 'Comité Operativo & TI',
@@ -293,6 +296,8 @@ class GraphService {
         end: { dateTime: new Date(now.getTime() + 180 * 60000).toISOString() }
       }
     ];
+
+    return [...defaultEvents, ...customStored];
   }
 }
 
