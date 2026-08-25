@@ -1,0 +1,42 @@
+{
+  "name": "ITZ Sala de Juntas - Kiosk",
+  "short_name": "ITZ Kiosk",
+  "description": "Sistema de visualización y reserva en tiempo real de salas de juntas ITZ Oil and Gas",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#060a12",
+  "theme_color": "#060a12",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/logonegro.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Reserva Rápida",
+      "short_name": "Reservar",
+      "description": "Abrir reserva inmediata de sala",
+      "url": "/?action=book",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

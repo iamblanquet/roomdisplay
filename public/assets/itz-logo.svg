@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE033" />
+      <stop offset="100%" stop-color="#FFA800" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Isotipo: Pirámide Maya / Torre de Perforación estilizada -->
+  <g transform="translate(10, 8)">
+    <rect width="64" height="64" rx="16" fill="#0c1322" stroke="#1e293b" stroke-width="2" />
+    <!-- Símbolo ITZ (Torre / Pirámide estilizada dorada) -->
+    <path d="M32 12 L48 48 L16 48 Z" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linejoin="round" />
+    <path d="M24 36 L40 36" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" />
+    <path d="M28 26 L36 26" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round" />
+    <circle cx="32" cy="48" r="4" fill="#00D2B4" />
+    <!-- Acento de energía azul -->
+    <circle cx="48" cy="18" r="3.5" fill="#38BDF8" />
+  </g>
+
+  <!-- Tipografía ITZ OIL & GAS -->
+  <text x="88" y="42" font-family="'Montserrat', 'Inter', 'Segoe UI', sans-serif" font-weight="900" font-size="28" fill="#FFFFFF" letter-spacing="2">
+    ITZ
+  </text>
+  <text x="145" y="42" font-family="'Montserrat', 'Inter', 'Segoe UI', sans-serif" font-weight="800" font-size="20" fill="url(#goldGrad)" letter-spacing="1.5">
+    OIL &amp; GAS
+  </text>
+
+  <!-- Subtítulo institucional -->
+  <text x="89" y="58" font-family="'Inter', sans-serif" font-weight="600" font-size="9" fill="#94A3B8" letter-spacing="3.5">
+    ENERGY SOLUTIONS
+  </text>
+</svg>

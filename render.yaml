@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: itz-room-kiosk
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DEMO_MODE
+        value: "true"
+      - key: DEFAULT_ROOM_EMAIL
+        value: SaladeJuntasCamp@itzamna.mx
+      - key: DEFAULT_ROOM_NAME
+        value: Sala de Juntas Campeche
+      - key: CACHE_TTL_SECONDS
+        value: "60"
+      - key: TIMEZONE
+        value: America/Mexico_City

@@ -1,0 +1,11 @@
+<resources>
+    <!-- Tema Kiosk en pantalla completa sin barra de acciones ni status bar -->
+    <style name="Theme.RoomKiosk.Fullscreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:colorBackground">@color/background_dark</item>
+    </style>
+</resources>

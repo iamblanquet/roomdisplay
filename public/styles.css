@@ -1,0 +1,201 @@
+/* ==========================================================================
+   ITZ OIL & GAS - Room Display Kiosk
+   Sistema Dinámico: Modo Día (Light) / Modo Noche (Dark)
+   Diseño Limpio, Ejecutivo y 100% Responsivo
+   ========================================================================== */
+
+:root {
+  --itz-gold: #ffc400;
+  --itz-gold-dark: #b45309;
+  --itz-azure: #176be0;
+  --itz-free: #00b090;
+  --itz-occupied: #e11d48;
+}
+
+/* ==========================================================================
+   1. MODO NOCHE (DARK THEME - DEFAULT)
+   ========================================================================== */
+body.theme-dark {
+  --bg-main: #060a12;
+  --bg-header: #090f1b;
+  --bg-card: #0c1424;
+  --bg-card-sub: #131e33;
+  --border-color: #1c283f;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  background-color: #060a12;
+  color: #f1f5f9;
+}
+
+body.theme-dark .bg-kiosk-main { background-color: #060a12; }
+body.theme-dark .bg-kiosk-header { background-color: rgba(9, 15, 27, 0.95); }
+body.theme-dark .bg-kiosk-card { background-color: rgba(12, 20, 36, 0.95); }
+body.theme-dark .bg-kiosk-sub { background-color: #131e33; }
+body.theme-dark .border-kiosk { border-color: #1c283f; }
+body.theme-dark .text-kiosk-main { color: #ffffff; }
+body.theme-dark .text-kiosk-muted { color: #94a3b8; }
+body.theme-dark .agenda-item { background-color: #0d1524; border-color: #1c283f; }
+
+/* Bordes y estados en Modo Noche */
+body.theme-dark .border-glow-free {
+  border-color: #00b090 !important;
+  box-shadow: 0 0 25px rgba(0, 176, 144, 0.2);
+}
+body.theme-dark .border-glow-upcoming {
+  border-color: #ffc400 !important;
+  box-shadow: 0 0 25px rgba(255, 196, 0, 0.25);
+}
+body.theme-dark .border-glow-occupied {
+  border-color: #e11d48 !important;
+  box-shadow: 0 0 25px rgba(225, 29, 72, 0.25);
+}
+
+body.theme-dark #liveCountdownBadge {
+  background-color: #131e33;
+  border-color: #1c283f;
+  color: #ffffff;
+}
+
+body.theme-dark #companyLogo {
+  filter: brightness(0) invert(1);
+}
+
+/* ==========================================================================
+   2. MODO DÍA (LIGHT THEME)
+   ========================================================================== */
+body.theme-light {
+  --bg-main: #f1f5f9;
+  --bg-header: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-sub: #f8fafc;
+  --border-color: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #64748b;
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+body.theme-light .bg-kiosk-main { background-color: #f1f5f9; }
+body.theme-light .bg-kiosk-header { background-color: rgba(255, 255, 255, 0.98); }
+body.theme-light .bg-kiosk-card { background-color: #ffffff; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04); }
+body.theme-light .bg-kiosk-sub { background-color: #f8fafc; }
+body.theme-light .border-kiosk { border-color: #e2e8f0; }
+body.theme-light .text-kiosk-main { color: #0f172a; }
+body.theme-light .text-kiosk-muted { color: #475569; }
+body.theme-light .agenda-item { background-color: #f8fafc; border-color: #e2e8f0; }
+body.theme-light #agendaListContainer .text-white { color: #0f172a !important; }
+body.theme-light #agendaListContainer .text-slate-400 { color: #64748b !important; }
+
+/* Bordes nítidos y elegantes en Modo Día (Cero manchones) */
+body.theme-light .border-glow-free {
+  border-color: #00b090 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 176, 144, 0.15), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+}
+body.theme-light .border-glow-upcoming {
+  border-color: #f59e0b !important;
+  box-shadow: 0 4px 20px -2px rgba(245, 158, 11, 0.18), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+}
+body.theme-light .border-glow-occupied {
+  border-color: #e11d48 !important;
+  box-shadow: 0 4px 20px -2px rgba(225, 29, 72, 0.18), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+body.theme-light #liveCountdownBadge {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+  color: #0f172a;
+}
+
+body.theme-light #companyLogo {
+  filter: none;
+}
+
+/* Modales en modo día */
+body.theme-light #modalBooking > div,
+body.theme-light #modalSettings > div {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+body.theme-light #modalBooking input,
+body.theme-light #modalSettings input,
+body.theme-light #modalSettings select {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+body.theme-light #modalBooking h3,
+body.theme-light #modalSettings h3 {
+  color: #0f172a !important;
+}
+
+/* ==========================================================================
+   3. SCROLLBARS Y UTILIDADES
+   ========================================================================== */
+#agendaListContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+body.theme-dark #agendaListContainer::-webkit-scrollbar-track {
+  background: rgba(12, 20, 36, 0.7);
+}
+body.theme-dark #agendaListContainer::-webkit-scrollbar-thumb {
+  background: rgba(37, 54, 84, 0.9);
+}
+
+body.theme-light #agendaListContainer::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.8);
+}
+body.theme-light #agendaListContainer::-webkit-scrollbar-thumb {
+  background: rgba(203, 213, 225, 0.9);
+}
+
+#agendaListContainer::-webkit-scrollbar-thumb:hover {
+  background: #ffc400;
+}
+
+/* Animaciones suaves de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+
+/* ==========================================================================
+   4. OPTIMIZACIÓN RESPONSIVA
+   ========================================================================== */
+html, body {
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  height: 100%;
+}
+
+h1, h2, h3, h4, .font-brand {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+}
+
+/* Ajustes para tabletas en orientación vertical o móviles */
+@media (max-width: 1023px) {
+  body {
+    overflow-y: auto !important;
+  }
+  main {
+    overflow-y: visible !important;
+    height: auto !important;
+  }
+}

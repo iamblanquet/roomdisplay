@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta Oficial ITZ OIL & GAS (itzoilandgas.com) -->
+    <color name="primary">#FFC400</color>
+    <color name="primary_dark">#060A12</color>
+    <color name="accent">#176BE0</color>
+    <color name="background_dark">#060A12</color>
+    <color name="surface_dark">#0D1524</color>
+    <color name="status_free">#00B090</color>
+    <color name="status_occupied">#E11D48</color>
+</resources>
