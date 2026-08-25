@@ -14,7 +14,7 @@ const state = {
   selectedDuration: 30,
   activeScenario: null,
   themeMode: 'auto', // 'auto' | 'light' | 'dark'
-  pollIntervalMs: 30000,
+  pollIntervalMs: 10000,
   pollTimer: null,
   clockTimer: null,
   isOffline: false,
@@ -316,6 +316,7 @@ async function fetchStatus(forceRefresh = false) {
   if (state.roomEmail) params.append('room', state.roomEmail);
   if (state.activeScenario) params.append('scenario', state.activeScenario);
   if (forceRefresh) params.append('refresh', 'true');
+  params.append('_t', Date.now());
 
   const qs = params.toString();
   if (qs) url += `?${qs}`;

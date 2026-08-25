@@ -8,6 +8,21 @@
  * - 'FREE' (Verde): Sala disponible (sin reunión actual ni en los próximos 10 minutos).
  */
 
+function parseGraphDate(val) {
+  if (!val) return new Date();
+  if (typeof val === 'object' && val.dateTime) {
+    val = val.dateTime;
+  }
+  if (typeof val === 'string') {
+    // Si la cadena no contiene 'Z' ni offset (+/-HH:MM), asumir UTC de Microsoft Graph
+    if (!val.endsWith('Z') && !/[+-]\d{2}:\d{2}$/.test(val)) {
+      return new Date(val + 'Z');
+    }
+    return new Date(val);
+  }
+  return new Date(val);
+}
+
 function calculateRoomStatus(events = [], roomEmail, roomName = null, referenceDate = new Date()) {
   const now = new Date(referenceDate);
   const nowMs = now.getTime();
@@ -15,8 +30,8 @@ function calculateRoomStatus(events = [], roomEmail, roomName = null, referenceD
   // Normalizar y ordenar eventos cronológicamente
   const normalizedEvents = events
     .map(evt => {
-      const startTime = new Date(evt.start?.dateTime || evt.start_time || evt.start);
-      const endTime = new Date(evt.end?.dateTime || evt.end_time || evt.end);
+      const startTime = parseGraphDate(evt.start?.dateTime || evt.start_time || evt.start);
+      const endTime = parseGraphDate(evt.end?.dateTime || evt.end_time || evt.end);
       const organizer = evt.organizer?.emailAddress?.name || evt.organizer?.name || evt.organizer || 'Organizador no especificado';
       const title = evt.subject || evt.title || '(Sin título)';
 

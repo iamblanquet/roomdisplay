@@ -78,17 +78,17 @@ class GraphService {
 
     const token = await this.getAccessToken();
 
-    // Rango de consulta: inicio del día actual a fin del día actual (o 24 horas)
+    // Rango de consulta: 48 horas (ayer a mañana) para cubrir cualquier zona horaria
     const now = new Date();
-    const start = startDateTime ? new Date(startDateTime) : new Date(now.setHours(0, 0, 0, 0));
-    const end = endDateTime ? new Date(endDateTime) : new Date(now.setHours(23, 59, 59, 999));
+    const start = startDateTime ? new Date(startDateTime) : new Date(now.getTime() - 24 * 3600000);
+    const end = endDateTime ? new Date(endDateTime) : new Date(now.getTime() + 48 * 3600000);
 
     const startIso = start.toISOString();
     const endIso = end.toISOString();
 
     const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(roomEmail)}/calendarView` +
       `?startDateTime=${encodeURIComponent(startIso)}&endDateTime=${encodeURIComponent(endIso)}` +
-      `&$orderby=start/dateTime&$top=50&$select=id,subject,organizer,start,end,location,isAllDay,showAs`;
+      `&$orderby=start/dateTime&$top=100&$select=id,subject,organizer,start,end,location,isAllDay,showAs`;
 
     try {
       const response = await fetch(graphUrl, {
@@ -96,7 +96,7 @@ class GraphService {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
-          'Prefer': `outlook.timezone="${this.timeZone}"`
+          'Prefer': 'outlook.timezone="UTC"'
         }
       });
 

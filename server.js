@@ -8,7 +8,7 @@ const { calculateRoomStatus } = require('./services/statusCalculator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const CACHE_TTL_SECONDS = parseInt(process.env.CACHE_TTL_SECONDS, 10) || 60;
+const CACHE_TTL_SECONDS = parseInt(process.env.CACHE_TTL_SECONDS, 10) || 15;
 const DEFAULT_ROOM_EMAIL = process.env.DEFAULT_ROOM_EMAIL || 'SaladeJuntasCamp@itzamna.mx';
 const DEFAULT_ROOM_NAME = process.env.DEFAULT_ROOM_NAME || 'Sala de Juntas Campeche';
 
@@ -30,6 +30,10 @@ app.use(express.static(path.join(__dirname, 'public')));
  *  - refresh: 'true' para ignorar la caché
  */
 app.get('/api/status', async (req, res) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+
   try {
     const roomEmail = (req.query.room || DEFAULT_ROOM_EMAIL).trim();
     const scenario = req.query.scenario || null;
