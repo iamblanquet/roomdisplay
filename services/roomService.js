@@ -9,21 +9,18 @@ const DEFAULT_ROOMS = [
     id: 'saladejuntascamp-itzamna-mx',
     email: 'SaladeJuntasCamp@itzamna.mx',
     name: 'Sala de Juntas Campeche',
-    capacity: 10,
     location: 'Piso 1 - Campeche'
   },
   {
     id: 'salamerida-itzamna-mx',
     email: 'SalaMerida@itzamna.mx',
     name: 'Sala de Juntas Mérida',
-    capacity: 14,
     location: 'Piso 2 - Mérida'
   },
   {
     id: 'salacancun-itzamna-mx',
     email: 'SalaCancun@itzamna.mx',
     name: 'Sala Ejecutiva Cancún',
-    capacity: 8,
     location: 'Piso 1 - Cancún'
   }
 ];
@@ -72,7 +69,7 @@ class RoomService {
     return rooms.find(r => r.id.toLowerCase() === searchId || r.email.toLowerCase() === searchId) || null;
   }
 
-  createRoom({ name, email, capacity, location }) {
+  createRoom({ name, email, location }) {
     if (!name || !name.trim()) {
       throw new Error('El nombre de la sala es obligatorio');
     }
@@ -83,7 +80,6 @@ class RoomService {
     const rooms = this.getAllRooms();
     const cleanEmail = email.trim();
     const cleanName = name.trim();
-    const cleanCapacity = parseInt(capacity, 10) || 10;
     const cleanLocation = (location || '').trim() || 'Oficinas ITZ';
 
     // Verificar si ya existe una sala con ese correo
@@ -97,7 +93,6 @@ class RoomService {
       id: newId,
       email: cleanEmail,
       name: cleanName,
-      capacity: cleanCapacity,
       location: cleanLocation
     };
 
@@ -106,7 +101,7 @@ class RoomService {
     return newRoom;
   }
 
-  updateRoom(id, { name, email, capacity, location }) {
+  updateRoom(id, { name, email, location }) {
     const rooms = this.getAllRooms();
     const searchId = (id || '').toString().toLowerCase().trim();
     const index = rooms.findIndex(r => r.id.toLowerCase() === searchId || r.email.toLowerCase() === searchId);
@@ -129,10 +124,6 @@ class RoomService {
 
     if (name && name.trim()) {
       current.name = name.trim();
-    }
-
-    if (capacity !== undefined) {
-      current.capacity = parseInt(capacity, 10) || current.capacity;
     }
 
     if (location !== undefined) {

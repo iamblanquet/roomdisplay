@@ -16,24 +16,21 @@ const testEmail = `sala.testing.${Date.now()}@itzamna.mx`;
 const created = roomService.createRoom({
   name: 'Sala de Pruebas Automatizadas',
   email: testEmail,
-  capacity: 12,
   location: 'Piso 3 - Test Lab'
 });
 
 assert.strictEqual(created.email, testEmail);
 assert.strictEqual(created.name, 'Sala de Pruebas Automatizadas');
-assert.strictEqual(created.capacity, 12);
 console.log('✔ Caso 2: Crear nueva sala (CREATE)');
 
 // 3. Modificar sala
 const updated = roomService.updateRoom(created.id, {
   name: 'Sala de Pruebas Renombrada',
-  capacity: 20,
   location: 'Piso 3 - Sala Ejecutiva'
 });
 
 assert.strictEqual(updated.name, 'Sala de Pruebas Renombrada');
-assert.strictEqual(updated.capacity, 20);
+assert.strictEqual(updated.location, 'Piso 3 - Sala Ejecutiva');
 console.log('✔ Caso 3: Modificar sala existente (UPDATE)');
 
 // 4. Eliminar sala

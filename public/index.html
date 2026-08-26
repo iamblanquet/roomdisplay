@@ -52,7 +52,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=3.8">
+  <link rel="stylesheet" href="styles.css?v=3.9">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="h-full flex flex-col overflow-hidden font-sans select-none antialiased theme-dark" id="bodyRoot">
@@ -477,15 +477,9 @@
               <input type="email" id="inputCrudRoomEmail" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-mono text-xs" placeholder="correo@itzamna.mx">
             </div>
 
-            <div class="grid grid-cols-12 gap-2">
-              <div class="col-span-5">
-                <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Capacidad</label>
-                <input type="number" id="inputCrudRoomCapacity" min="1" max="150" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold text-center text-xs" value="10" placeholder="10">
-              </div>
-              <div class="col-span-7">
-                <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Ubicación / Piso</label>
-                <input type="text" id="inputCrudRoomLocation" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] text-xs font-medium" placeholder="Ej. Piso 1 - Campeche" value="Oficinas ITZ">
-              </div>
+            <div>
+              <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Ubicación / Piso</label>
+              <input type="text" id="inputCrudRoomLocation" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] text-xs font-medium" placeholder="Ej. Piso 1 - Campeche" value="Oficinas ITZ">
             </div>
 
             <div class="flex items-center space-x-2 pt-1">

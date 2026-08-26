@@ -196,7 +196,7 @@ async function runIntegrationTests() {
       const resCreateRoom = await fetch(`http://localhost:${PORT}/api/rooms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: 'Sala API Test', email: tempEmail, capacity: 6, location: 'Remoto' })
+        body: JSON.stringify({ name: 'Sala API Test', email: tempEmail, location: 'Remoto' })
       });
       const dataCreateRoom = await resCreateRoom.json();
       assert.strictEqual(resCreateRoom.status, 201);
@@ -206,10 +206,10 @@ async function runIntegrationTests() {
       const resUpdateRoom = await fetch(`http://localhost:${PORT}/api/rooms/${dataCreateRoom.room.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: 'Sala API Test Modificada', capacity: 15 })
+        body: JSON.stringify({ name: 'Sala API Test Modificada', location: 'Edificio Central' })
       });
       const dataUpdateRoom = await resUpdateRoom.json();
-      assert.strictEqual(dataUpdateRoom.room.capacity, 15);
+      assert.strictEqual(dataUpdateRoom.room.location, 'Edificio Central');
       console.log('✔ PUT /api/rooms/:id: OK (Sala modificada)');
 
       const resDeleteRoom = await fetch(`http://localhost:${PORT}/api/rooms/${dataCreateRoom.room.id}`, {

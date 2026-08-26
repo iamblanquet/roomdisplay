@@ -6,7 +6,6 @@
 const state = {
   roomEmail: 'SaladeJuntasCamp@itzamna.mx',
   roomName: 'Sala de Juntas Campeche',
-  capacity: '10',
   currentStatus: 'FREE',
   currentMeeting: null,
   upcomingMeeting: null,
@@ -78,7 +77,6 @@ const elements = {
   inputBookingOrganizer: document.getElementById('inputBookingOrganizer'),
   inputRoomName: document.getElementById('inputRoomName'),
   inputRoomEmail: document.getElementById('inputRoomEmail'),
-  inputRoomCapacity: document.getElementById('inputRoomCapacity'),
   selectPresetRoom: document.getElementById('selectPresetRoom'),
   themeBtnAuto: document.getElementById('themeBtnAuto'),
   themeBtnLight: document.getElementById('themeBtnLight'),
@@ -97,12 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   const roomParam = urlParams.get('room');
   const nameParam = urlParams.get('name');
-  const capacityParam = urlParams.get('capacity');
   const themeParam = urlParams.get('theme');
 
   const savedRoom = localStorage.getItem('kiosk_room_email');
   const savedName = localStorage.getItem('kiosk_room_name');
-  const savedCapacity = localStorage.getItem('kiosk_room_capacity');
   const savedTheme = localStorage.getItem('kiosk_theme_mode');
   
   if (roomParam) {
@@ -115,14 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     state.roomName = nameParam;
   } else if (savedName) {
     state.roomName = savedName;
-  }
-
-  if (capacityParam) {
-    state.capacity = capacityParam;
-  } else if (savedCapacity) {
-    state.capacity = savedCapacity;
-  } else {
-    state.capacity = '10';
   }
 
   if (themeParam && ['auto', 'light', 'dark'].includes(themeParam)) {
@@ -138,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Actualizar UI inicial con valores cargados
   if (elements.roomNameDisplay) elements.roomNameDisplay.textContent = state.roomName;
   if (elements.roomEmailDisplay) elements.roomEmailDisplay.textContent = state.roomEmail;
-  if (elements.capacityValue) elements.capacityValue.textContent = `${state.capacity} personas`;
 
   // Aplicar tema Día / Noche
   applyTheme(state.themeMode);
@@ -389,7 +376,6 @@ function renderKiosk(data) {
 
   if (elements.roomNameDisplay) elements.roomNameDisplay.textContent = state.roomName;
   if (elements.roomEmailDisplay) elements.roomEmailDisplay.textContent = data.room;
-  if (elements.capacityValue) elements.capacityValue.textContent = `${localStorage.getItem('kiosk_room_capacity') || state.capacity || 10} personas`;
   if (elements.cacheBadge) elements.cacheBadge.textContent = `Caché: ${data.cache_ttl_seconds || 60}s`;
 
   if (elements.demoModeIndicator) {
@@ -766,9 +752,9 @@ async function loadRooms() {
 
   if (!state.roomsList || state.roomsList.length === 0) {
     state.roomsList = [
-      { id: 'saladejuntascamp-itzamna-mx', email: 'SaladeJuntasCamp@itzamna.mx', name: 'Sala de Juntas Campeche', capacity: 10, location: 'Piso 1 - Campeche' },
-      { id: 'salamerida-itzamna-mx', email: 'SalaMerida@itzamna.mx', name: 'Sala de Juntas Mérida', capacity: 14, location: 'Piso 2 - Mérida' },
-      { id: 'salacancun-itzamna-mx', email: 'SalaCancun@itzamna.mx', name: 'Sala Ejecutiva Cancún', capacity: 8, location: 'Piso 1 - Cancún' }
+      { id: 'saladejuntascamp-itzamna-mx', email: 'SaladeJuntasCamp@itzamna.mx', name: 'Sala de Juntas Campeche', location: 'Piso 1 - Campeche' },
+      { id: 'salamerida-itzamna-mx', email: 'SalaMerida@itzamna.mx', name: 'Sala de Juntas Mérida', location: 'Piso 2 - Mérida' },
+      { id: 'salacancun-itzamna-mx', email: 'SalaCancun@itzamna.mx', name: 'Sala Ejecutiva Cancún', location: 'Piso 1 - Cancún' }
     ];
   }
 
@@ -803,7 +789,6 @@ function renderRoomsList() {
             <span class="truncate">${escapeHtml(room.email)}</span>
           </p>
           <div class="flex items-center space-x-3 text-[10px] text-kiosk-muted font-medium mt-1">
-            <span><i class="fa-solid fa-users text-[#ffc400] mr-1"></i>${room.capacity || 10} personas</span>
             <span><i class="fa-solid fa-location-dot text-[#ffc400] mr-1"></i>${escapeHtml(room.location || 'Oficinas ITZ')}</span>
           </div>
         </div>
@@ -836,7 +821,6 @@ function openCreateRoomForm() {
 
   document.getElementById('inputCrudRoomName').value = '';
   document.getElementById('inputCrudRoomEmail').value = '';
-  document.getElementById('inputCrudRoomCapacity').value = '10';
   document.getElementById('inputCrudRoomLocation').value = 'Oficinas ITZ';
 
   document.getElementById('roomsListView').classList.add('hidden');
@@ -855,7 +839,6 @@ function openEditRoomForm(roomId) {
 
   document.getElementById('inputCrudRoomName').value = room.name;
   document.getElementById('inputCrudRoomEmail').value = room.email;
-  document.getElementById('inputCrudRoomCapacity').value = room.capacity || 10;
   document.getElementById('inputCrudRoomLocation').value = room.location || 'Oficinas ITZ';
 
   document.getElementById('roomsListView').classList.add('hidden');
@@ -878,7 +861,6 @@ async function submitRoomForm() {
   const id = (document.getElementById('inputCrudRoomId').value || '').trim();
   const name = (document.getElementById('inputCrudRoomName').value || '').trim();
   const email = (document.getElementById('inputCrudRoomEmail').value || '').trim();
-  const capacity = parseInt(document.getElementById('inputCrudRoomCapacity').value, 10) || 10;
   const location = (document.getElementById('inputCrudRoomLocation').value || '').trim() || 'Oficinas ITZ';
 
   if (!name) {
@@ -898,7 +880,7 @@ async function submitRoomForm() {
     const response = await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, capacity, location })
+      body: JSON.stringify({ name, email, location })
     });
 
     const data = await response.json();
@@ -911,10 +893,8 @@ async function submitRoomForm() {
     if (isEdit && (id === state.roomEmail || id === state.roomName)) {
       state.roomName = name;
       state.roomEmail = email;
-      state.capacity = capacity;
       localStorage.setItem('kiosk_room_name', name);
       localStorage.setItem('kiosk_room_email', email);
-      localStorage.setItem('kiosk_room_capacity', capacity);
       if (elements.roomNameDisplay) elements.roomNameDisplay.textContent = state.roomName;
       if (elements.roomEmailDisplay) elements.roomEmailDisplay.textContent = state.roomEmail;
       fetchStatus(true);
@@ -966,16 +946,13 @@ function selectActiveRoom(roomId) {
 
   state.roomEmail = room.email;
   state.roomName = room.name;
-  state.capacity = room.capacity || '10';
   state.activeScenario = null;
 
   localStorage.setItem('kiosk_room_name', room.name);
   localStorage.setItem('kiosk_room_email', room.email);
-  localStorage.setItem('kiosk_room_capacity', room.capacity || '10');
 
   if (elements.roomNameDisplay) elements.roomNameDisplay.textContent = state.roomName;
   if (elements.roomEmailDisplay) elements.roomEmailDisplay.textContent = state.roomEmail;
-  if (elements.capacityValue) elements.capacityValue.textContent = `${state.capacity} personas`;
 
   renderRoomsList();
   fetchStatus(true);

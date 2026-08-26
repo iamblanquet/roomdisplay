@@ -170,8 +170,8 @@ app.get('/api/rooms', (req, res) => {
  */
 app.post('/api/rooms', (req, res) => {
   try {
-    const { name, email, capacity, location } = req.body;
-    const room = roomService.createRoom({ name, email, capacity, location });
+    const { name, email, location } = req.body;
+    const room = roomService.createRoom({ name, email, location });
     res.status(201).json({
       success: true,
       message: 'Sala creada exitosamente',
@@ -189,8 +189,8 @@ app.post('/api/rooms', (req, res) => {
 app.put('/api/rooms/:id', (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, capacity, location } = req.body;
-    const room = roomService.updateRoom(id, { name, email, capacity, location });
+    const { name, email, location } = req.body;
+    const room = roomService.updateRoom(id, { name, email, location });
     res.json({
       success: true,
       message: 'Sala actualizada exitosamente',

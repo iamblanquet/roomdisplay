@@ -3,21 +3,18 @@
     "id": "saladejuntascamp-itzamna-mx",
     "email": "SaladeJuntasCamp@itzamna.mx",
     "name": "Sala de Juntas Campeche",
-    "capacity": 10,
     "location": "Piso 1 - Campeche"
   },
   {
     "id": "salamerida-itzamna-mx",
     "email": "SalaMerida@itzamna.mx",
     "name": "Sala de Juntas Mérida",
-    "capacity": 14,
     "location": "Piso 2 - Mérida"
   },
   {
     "id": "salacancun-itzamna-mx",
     "email": "SalaCancun@itzamna.mx",
     "name": "Sala Ejecutiva Cancún",
-    "capacity": 8,
     "location": "Piso 1 - Cancún"
   }
 ]
