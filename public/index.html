@@ -52,7 +52,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=3.6">
+  <link rel="stylesheet" href="styles.css?v=3.7">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="h-full flex flex-col overflow-hidden font-sans select-none antialiased theme-dark" id="bodyRoot">
@@ -238,7 +238,7 @@
     </section>
 
     <!-- PANEL DERECHO: AGENDA DEL DÍA -->
-    <section class="agenda-section lg:col-span-5 flex flex-col h-full min-h-0 bg-kiosk-card rounded-2xl sm:rounded-3xl border border-kiosk p-4 sm:p-6 backdrop-blur-md overflow-hidden transition-colors duration-400 shadow-lg">
+    <section class="agenda-section aod-shift-target lg:col-span-5 flex flex-col h-full min-h-0 bg-kiosk-card rounded-2xl sm:rounded-3xl border border-kiosk p-4 sm:p-6 backdrop-blur-md overflow-hidden transition-colors duration-400 shadow-lg">
       
       <!-- Título de Agenda -->
       <div class="flex items-center justify-between pb-2.5 sm:pb-3.5 border-b border-kiosk mb-3 sm:mb-4 shrink-0">
@@ -525,7 +525,7 @@
   <div id="aodActiveBadge" class="fixed bottom-3 left-1/2 -translate-x-1/2 z-30 px-3.5 py-1.5 rounded-full bg-black/75 dark:bg-black/90 backdrop-blur-md border border-[#00b090]/50 text-[11px] font-brand font-bold text-white flex items-center space-x-2 opacity-0 pointer-events-none transition-all duration-700 shadow-xl">
     <span class="w-2 h-2 rounded-full bg-[#00b090] animate-ping"></span>
     <i class="fa-solid fa-shield-halved text-[#00b090]"></i>
-    <span>Protección AOD Activa • Toca la pantalla para interactuar</span>
+    <span id="aodActiveBadgeText">Protección AOD Activa • Toca la pantalla para interactuar</span>
   </div>
 
   <!-- ==================== ACCESO OCULTO / DISCRETO: PANTALLA COMPLETA (IZQUIERDA) ==================== -->

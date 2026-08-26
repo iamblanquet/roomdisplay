@@ -28,7 +28,10 @@ const state = {
   aodIdleTimeoutMs: 180000, // 3 minutos de inactividad
   aodIdleTimer: null,
   aodShiftTimer: null,
-  isAodDimmed: false
+  isAodDimmed: false,
+  isTestingAod: false,
+  aodTestCooldownUntil: 0,
+  aodTestStepTimer: null
 };
 
 const elements = {
@@ -1256,6 +1259,16 @@ function initAodProtection() {
 }
 
 function handleUserActivity() {
+  // Ignorar eventos durante el periodo de protección de la prueba demo (1.8s)
+  if (Date.now() < state.aodTestCooldownUntil) {
+    return;
+  }
+
+  if (state.isTestingAod) {
+    stopAodTestDemo();
+    return;
+  }
+
   if (state.isAodDimmed) {
     exitAodDimmedMode();
   }
@@ -1264,7 +1277,7 @@ function handleUserActivity() {
 
 function resetAodIdleTimer() {
   if (state.aodIdleTimer) clearTimeout(state.aodIdleTimer);
-  if (!state.aodEnabled) return;
+  if (!state.aodEnabled || state.isTestingAod) return;
 
   state.aodIdleTimer = setTimeout(() => {
     enterAodDimmedMode();
@@ -1277,9 +1290,13 @@ function enterAodDimmedMode() {
   document.body.classList.add('aod-dimmed-active');
 
   const badge = document.getElementById('aodActiveBadge');
+  const badgeText = document.getElementById('aodActiveBadgeText');
   if (badge) {
     badge.classList.remove('opacity-0', 'pointer-events-none');
     badge.classList.add('opacity-100');
+  }
+  if (badgeText) {
+    badgeText.textContent = 'Protección AOD Activa • Toca la pantalla para interactuar';
   }
 
   // Aplicar micro-desplazamiento preventivo
@@ -1308,6 +1325,10 @@ function applyPixelShift() {
   const dx = offsets[Math.floor(Math.random() * offsets.length)];
   const dy = offsets[Math.floor(Math.random() * offsets.length)];
 
+  applyCustomPixelShift(dx, dy);
+}
+
+function applyCustomPixelShift(dx, dy) {
   const targets = document.querySelectorAll('.aod-shift-target');
   targets.forEach(el => {
     el.style.transform = `translate(${dx}px, ${dy}px)`;
@@ -1330,6 +1351,7 @@ function toggleAodProtection() {
   } else {
     if (state.aodIdleTimer) clearTimeout(state.aodIdleTimer);
     if (state.aodShiftTimer) clearInterval(state.aodShiftTimer);
+    if (state.isTestingAod) stopAodTestDemo();
     exitAodDimmedMode();
     resetPixelShift();
   }
@@ -1360,6 +1382,60 @@ function testAodProtectionEffect() {
   state.aodEnabled = true;
   localStorage.setItem('kiosk_aod_enabled', 'true');
   updateAodUI();
-  enterAodDimmedMode();
+
+  state.isTestingAod = true;
+  state.aodTestCooldownUntil = Date.now() + 1800; // 1.8s de inmunidad para evitar que el mismo toque cancele la demo
+
+  // Entrar en modo atenuado visible de demostración
+  state.isAodDimmed = true;
+  document.body.classList.add('aod-dimmed-active', 'aod-testing-active');
+
+  const badge = document.getElementById('aodActiveBadge');
+  const badgeText = document.getElementById('aodActiveBadgeText');
+  if (badge) {
+    badge.classList.remove('opacity-0', 'pointer-events-none');
+    badge.classList.add('opacity-100');
+  }
+  if (badgeText) {
+    badgeText.innerHTML = '<span class="text-[#ffc400] font-black mr-1">[DEMO ANTI-QUEMADO]</span> Atenuación activa + Pixel-Shift en curso • <u class="cursor-pointer font-bold">Toca para finalizar</u>';
+  }
+
+  // Secuencia de demostración en vivo de micro-desplazamiento de píxeles
+  let step = 0;
+  const sequence = [
+    { x: 5, y: -4 },
+    { x: -5, y: 5 },
+    { x: 4, y: 4 },
+    { x: -4, y: -3 },
+    { x: 0, y: 0 }
+  ];
+
+  if (state.aodTestStepTimer) clearInterval(state.aodTestStepTimer);
+  applyCustomPixelShift(sequence[0].x, sequence[0].y);
+
+  state.aodTestStepTimer = setInterval(() => {
+    step++;
+    if (step < sequence.length) {
+      applyCustomPixelShift(sequence[step].x, sequence[step].y);
+    } else {
+      applyPixelShift();
+    }
+  }, 1200);
+}
+
+function stopAodTestDemo() {
+  state.isTestingAod = false;
+  if (state.aodTestStepTimer) {
+    clearInterval(state.aodTestStepTimer);
+    state.aodTestStepTimer = null;
+  }
+  document.body.classList.remove('aod-testing-active');
+  const badgeText = document.getElementById('aodActiveBadgeText');
+  if (badgeText) {
+    badgeText.textContent = 'Protección AOD Activa • Toca la pantalla para interactuar';
+  }
+  exitAodDimmedMode();
+  resetPixelShift();
+  resetAodIdleTimer();
 }
 

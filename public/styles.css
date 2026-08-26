@@ -427,22 +427,25 @@ body.theme-light .aod-ambient-glow {
 
 /* Estado de Atenuación Inteligente por Inactividad (AOD Dimmed Mode) */
 body.aod-dimmed-active {
-  transition: filter 1.8s ease-in-out, opacity 1.8s ease-in-out !important;
+  transition: filter 1s ease-in-out !important;
+  filter: brightness(0.65) contrast(0.92) !important;
 }
 
-body.aod-dimmed-active #bodyRoot {
-  filter: brightness(0.82) contrast(0.96);
+/* Modo de prueba visual de AOD (resalta los elementos protegidos) */
+body.aod-testing-active .aod-shift-target {
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  box-shadow: 0 0 15px rgba(0, 176, 144, 0.25) !important;
 }
 
-/* Insignia sutil de Modo AOD Activo */
+/* Insignia de Modo AOD Activo */
 #aodActiveBadge {
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
   will-change: transform, opacity;
-  animation: aodBadgeFloat 6s ease-in-out infinite alternate;
+  animation: aodBadgeFloat 4s ease-in-out infinite alternate;
 }
 
 @keyframes aodBadgeFloat {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-3px); }
+  0% { transform: translate(-50%, 0px); }
+  100% { transform: translate(-50%, -4px); }
 }
 
