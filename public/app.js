@@ -22,7 +22,13 @@ const state = {
   deferredPwaPrompt: null,
   pushEnabled: localStorage.getItem('kiosk_push_enabled') === 'true',
   lastNotifiedStatus: null,
-  lastNotifiedMeetingId: null
+  lastNotifiedMeetingId: null,
+  // Always-On Display (AOD) Anti-Burn-In Protection State
+  aodEnabled: localStorage.getItem('kiosk_aod_enabled') !== 'false',
+  aodIdleTimeoutMs: 180000, // 3 minutos de inactividad
+  aodIdleTimer: null,
+  aodShiftTimer: null,
+  isAodDimmed: false
 };
 
 const elements = {
@@ -149,6 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicializar PWA y Notificaciones Push
   initPwaAndServiceWorker();
   updatePushNotificationUI();
+
+  // Inicializar Protección de Pantalla Always-On (Anti-Burn-In)
+  initAodProtection();
+  updateAodUI();
 
   // Sondeo inicial
   fetchStatus();
@@ -712,6 +722,7 @@ async function submitQuickBooking() {
 // ==========================================
 async function openSettingsModal() {
   updateThemeModalButtons(state.themeMode);
+  updateAodUI();
   cancelRoomForm();
   await loadRooms();
   elements.modalSettings.classList.remove('hidden');
@@ -1225,3 +1236,130 @@ async function testPushNotification() {
     );
   }
 }
+
+// ==========================================
+// PROTECCIÓN ANTI-BURN-IN ALWAYS-ON DISPLAY (AOD)
+// ==========================================
+function initAodProtection() {
+  // 1. Escuchar eventos de interacción del usuario para salir del modo atenuado y resetear timer
+  const activityEvents = ['touchstart', 'touchend', 'mousedown', 'mousemove', 'keydown', 'scroll', 'click'];
+  activityEvents.forEach(evt => {
+    window.addEventListener(evt, handleUserActivity, { passive: true });
+  });
+
+  // 2. Iniciar timer de desplazamiento de píxeles (cada 60 segundos)
+  if (state.aodShiftTimer) clearInterval(state.aodShiftTimer);
+  state.aodShiftTimer = setInterval(applyPixelShift, 60000);
+
+  // 3. Iniciar temporizador de inactividad
+  resetAodIdleTimer();
+}
+
+function handleUserActivity() {
+  if (state.isAodDimmed) {
+    exitAodDimmedMode();
+  }
+  resetAodIdleTimer();
+}
+
+function resetAodIdleTimer() {
+  if (state.aodIdleTimer) clearTimeout(state.aodIdleTimer);
+  if (!state.aodEnabled) return;
+
+  state.aodIdleTimer = setTimeout(() => {
+    enterAodDimmedMode();
+  }, state.aodIdleTimeoutMs);
+}
+
+function enterAodDimmedMode() {
+  if (!state.aodEnabled || state.isAodDimmed) return;
+  state.isAodDimmed = true;
+  document.body.classList.add('aod-dimmed-active');
+
+  const badge = document.getElementById('aodActiveBadge');
+  if (badge) {
+    badge.classList.remove('opacity-0', 'pointer-events-none');
+    badge.classList.add('opacity-100');
+  }
+
+  // Aplicar micro-desplazamiento preventivo
+  applyPixelShift();
+}
+
+function exitAodDimmedMode() {
+  state.isAodDimmed = false;
+  document.body.classList.remove('aod-dimmed-active');
+
+  const badge = document.getElementById('aodActiveBadge');
+  if (badge) {
+    badge.classList.remove('opacity-100');
+    badge.classList.add('opacity-0', 'pointer-events-none');
+  }
+}
+
+function applyPixelShift() {
+  if (!state.aodEnabled) {
+    resetPixelShift();
+    return;
+  }
+
+  // Desplazamiento pseudo-aleatorio suave de -3px a +3px
+  const offsets = [-3, -2, -1, 1, 2, 3];
+  const dx = offsets[Math.floor(Math.random() * offsets.length)];
+  const dy = offsets[Math.floor(Math.random() * offsets.length)];
+
+  const targets = document.querySelectorAll('.aod-shift-target');
+  targets.forEach(el => {
+    el.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
+}
+
+function resetPixelShift() {
+  const targets = document.querySelectorAll('.aod-shift-target');
+  targets.forEach(el => {
+    el.style.transform = 'none';
+  });
+}
+
+function toggleAodProtection() {
+  state.aodEnabled = !state.aodEnabled;
+  localStorage.setItem('kiosk_aod_enabled', state.aodEnabled ? 'true' : 'false');
+
+  if (state.aodEnabled) {
+    initAodProtection();
+  } else {
+    if (state.aodIdleTimer) clearTimeout(state.aodIdleTimer);
+    if (state.aodShiftTimer) clearInterval(state.aodShiftTimer);
+    exitAodDimmedMode();
+    resetPixelShift();
+  }
+
+  updateAodUI();
+}
+
+function updateAodUI() {
+  const icon = document.getElementById('aodStatusIcon');
+  const text = document.getElementById('aodStatusText');
+  const btn = document.getElementById('btnToggleAodProtection');
+
+  if (!btn) return;
+
+  if (state.aodEnabled) {
+    if (icon) icon.className = 'fa-solid fa-circle-check text-[#00b090]';
+    if (text) text.textContent = 'Activo';
+    btn.className = 'px-3 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-xs font-bold text-[#00b090] flex items-center space-x-1.5 transition active:scale-95';
+  } else {
+    if (icon) icon.className = 'fa-solid fa-circle-xmark text-kiosk-muted';
+    if (text) text.textContent = 'Desactivado';
+    btn.className = 'px-3 py-1.5 rounded-xl bg-kiosk-card border border-kiosk text-xs font-bold text-kiosk-muted flex items-center space-x-1.5 transition active:scale-95';
+  }
+}
+
+function testAodProtectionEffect() {
+  closeSettingsModal();
+  state.aodEnabled = true;
+  localStorage.setItem('kiosk_aod_enabled', 'true');
+  updateAodUI();
+  enterAodDimmedMode();
+}
+

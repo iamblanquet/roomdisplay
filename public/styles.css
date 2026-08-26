@@ -381,3 +381,68 @@ main.kiosk-grid-container {
     max-height: 500px !important;
   }
 }
+
+/* ==========================================================================
+   5. PROTECCIÓN ANTI-BURN-IN (ALWAYS-ON DISPLAY / OLED / IPS)
+   ========================================================================== */
+
+/* Transición suave para micro-desplazamiento de píxeles (Pixel Shifting) */
+.aod-shift-target {
+  transition: transform 2.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  will-change: transform;
+}
+
+/* Efecto ambiental de respiración / luz viva anti-estática en segundo plano */
+.aod-ambient-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.35;
+  background: radial-gradient(circle at 50% 50%, rgba(23, 107, 224, 0.08), transparent 70%),
+              radial-gradient(circle at 80% 20%, rgba(255, 196, 0, 0.05), transparent 60%);
+  animation: aodMeshDrift 45s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+
+body.theme-light .aod-ambient-glow {
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+}
+
+@keyframes aodMeshDrift {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.08) translate(-1.5%, 1.5%);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.96) translate(1.5%, -1.5%);
+    opacity: 0.25;
+  }
+}
+
+/* Estado de Atenuación Inteligente por Inactividad (AOD Dimmed Mode) */
+body.aod-dimmed-active {
+  transition: filter 1.8s ease-in-out, opacity 1.8s ease-in-out !important;
+}
+
+body.aod-dimmed-active #bodyRoot {
+  filter: brightness(0.82) contrast(0.96);
+}
+
+/* Insignia sutil de Modo AOD Activo */
+#aodActiveBadge {
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: transform, opacity;
+  animation: aodBadgeFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes aodBadgeFloat {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-3px); }
+}
+
