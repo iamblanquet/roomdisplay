@@ -217,6 +217,18 @@
                 <div id="meetingProgressBar" class="h-full bg-gradient-to-r from-[#e11d48] to-[#fb7185] rounded-full transition-all duration-500 w-1/2"></div>
               </div>
             </div>
+
+            <!-- Botón de Liberación Anticipada de Sala (Finalizar Sesión) -->
+            <div class="pt-2 sm:pt-3 flex flex-wrap items-center justify-between gap-2.5">
+              <button type="button" id="btnEndMeetingEarly" onclick="openEndMeetingConfirmModal()" class="px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl bg-[#e11d48] hover:bg-[#be123c] text-white font-bold font-brand text-xs sm:text-sm transition shadow-md sm:shadow-lg shadow-[#e11d48]/25 flex items-center space-x-2 active:scale-95 cursor-pointer">
+                <i class="fa-solid fa-door-open text-[#ffc400]"></i>
+                <span>Finalizar Sesión Ahora</span>
+              </button>
+              <span class="text-[11px] sm:text-xs text-kiosk-muted font-medium flex items-center space-x-1.5">
+                <i class="fa-solid fa-bolt text-[#ffc400]"></i>
+                <span>Desocupa la sala de inmediato</span>
+              </span>
+            </div>
           </div>
 
         </div>
@@ -571,6 +583,47 @@
       <div class="border-t border-kiosk p-3.5 sm:p-4 shrink-0 bg-kiosk-card flex items-center justify-end">
         <button type="button" onclick="closeSettingsModal()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-main font-bold font-brand transition text-xs sm:text-sm">
           Listo / Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CONFIRMACIÓN PARA FINALIZAR SESIÓN ANTICIPADA ==================== -->
+  <div id="modalEndMeetingConfirm" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto hidden">
+    <div class="bg-kiosk-card border border-rose-500/40 rounded-2xl sm:rounded-3xl max-w-sm w-full p-5 sm:p-6 overflow-hidden shadow-2xl my-auto animate-fade-in space-y-4">
+      
+      <!-- Cabecera con Icono de Alerta -->
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 rounded-2xl bg-rose-500/15 border border-rose-500/40 flex items-center justify-center text-[#e11d48] text-2xl mx-auto shadow-sm">
+          <i class="fa-solid fa-door-open"></i>
+        </div>
+        <h3 class="text-base sm:text-lg font-black font-brand text-kiosk-main">¿Finalizar Sesión Ahora?</h3>
+        <p class="text-xs text-kiosk-muted leading-relaxed">
+          La sala se desocupará de inmediato en la pantalla y se liberará en <strong class="text-kiosk-main">Microsoft 365 Exchange</strong> para que otros colaboradores puedan utilizarla.
+        </p>
+      </div>
+
+      <!-- Resumen de la Reunión Activa -->
+      <div class="p-3.5 rounded-2xl bg-kiosk-sub border border-kiosk space-y-1.5 text-xs">
+        <div class="font-black font-brand text-kiosk-main truncate text-sm" id="endMeetingConfirmTitle">Reunión en Curso</div>
+        <div class="flex items-center justify-between text-kiosk-muted font-medium">
+          <span class="flex items-center space-x-1 truncate max-w-[60%]">
+            <i class="fa-solid fa-user-tie text-[#e11d48] text-[11px]"></i>
+            <span id="endMeetingConfirmOrganizer" class="truncate">Organizador</span>
+          </span>
+          <span id="endMeetingConfirmRemaining" class="text-[#e11d48] font-mono font-bold shrink-0">30 min restantes</span>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="flex items-center space-x-2 pt-2 border-t border-kiosk">
+        <button type="button" onclick="closeEndMeetingConfirmModal()" class="flex-1 py-2.5 rounded-xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand text-xs transition">
+          Cancelar
+        </button>
+        <button type="button" id="btnConfirmEndMeetingSubmit" onclick="submitEndMeeting()" class="flex-1 py-2.5 rounded-xl bg-[#e11d48] hover:bg-[#be123c] text-white font-black font-brand text-xs shadow-md shadow-[#e11d48]/30 transition flex items-center justify-center space-x-1.5 active:scale-95 cursor-pointer">
+          <i class="fa-solid fa-check"></i>
+          <span>Sí, Desocupar</span>
         </button>
       </div>
 

@@ -91,7 +91,13 @@ const elements = {
   btnThemeToggle: document.getElementById('btnThemeToggle'),
   btnFullscreen: document.getElementById('btnFullscreen'),
   btnSettings: document.getElementById('btnSettings'),
-  btnQuickBook: document.getElementById('btnQuickBook')
+  btnQuickBook: document.getElementById('btnQuickBook'),
+  btnEndMeetingEarly: document.getElementById('btnEndMeetingEarly'),
+  modalEndMeetingConfirm: document.getElementById('modalEndMeetingConfirm'),
+  endMeetingConfirmTitle: document.getElementById('endMeetingConfirmTitle'),
+  endMeetingConfirmOrganizer: document.getElementById('endMeetingConfirmOrganizer'),
+  endMeetingConfirmRemaining: document.getElementById('endMeetingConfirmRemaining'),
+  btnConfirmEndMeetingSubmit: document.getElementById('btnConfirmEndMeetingSubmit')
 };
 
 // ==========================================
@@ -789,6 +795,78 @@ async function submitQuickBooking() {
   } finally {
     btn.disabled = false;
     btn.innerHTML = '<span>Confirmar</span><i class="fa-solid fa-check"></i>';
+  }
+}
+
+// ==========================================
+// FINALIZAR SESIÓN ANTICIPADA (LIBERACIÓN EN EXCHANGE)
+// ==========================================
+function openEndMeetingConfirmModal() {
+  if (!state.currentMeeting && state.currentStatus !== 'OCCUPIED') {
+    return;
+  }
+
+  const meeting = state.currentMeeting || {};
+  const title = meeting.title || 'Reunión en Curso';
+  const organizer = meeting.organizer || 'Organizador';
+  const remaining = meeting.minutes_remaining ? `${meeting.minutes_remaining} min restantes` : 'En curso';
+
+  if (elements.endMeetingConfirmTitle) elements.endMeetingConfirmTitle.textContent = title;
+  if (elements.endMeetingConfirmOrganizer) elements.endMeetingConfirmOrganizer.textContent = organizer;
+  if (elements.endMeetingConfirmRemaining) elements.endMeetingConfirmRemaining.textContent = remaining;
+
+  if (elements.modalEndMeetingConfirm) {
+    elements.modalEndMeetingConfirm.classList.remove('hidden');
+  }
+}
+
+function closeEndMeetingConfirmModal() {
+  if (elements.modalEndMeetingConfirm) {
+    elements.modalEndMeetingConfirm.classList.add('hidden');
+  }
+}
+
+async function submitEndMeeting() {
+  const btn = elements.btnConfirmEndMeetingSubmit || document.getElementById('btnConfirmEndMeetingSubmit');
+  const eventId = state.currentMeeting ? state.currentMeeting.id : null;
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i><span>Liberando sala...</span>';
+  }
+
+  try {
+    const response = await fetch('/api/end-meeting', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        room: state.roomEmail,
+        eventId: eventId
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al finalizar sesión');
+    }
+
+    closeEndMeetingConfirmModal();
+
+    // Si estábamos en escenario simulado occupied, restablecerlo para que se vea libre
+    if (state.activeScenario === 'occupied') {
+      state.activeScenario = 'free';
+    }
+
+    // Forzar actualización inmediata para que la pantalla pase a VERDE
+    await fetchStatus(true);
+  } catch (error) {
+    alert(`No se pudo finalizar la sesión: ${error.message}`);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i><span>Sí, Desocupar</span>';
+    }
   }
 }
 

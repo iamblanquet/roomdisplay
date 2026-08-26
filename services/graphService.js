@@ -206,6 +206,120 @@ class GraphService {
   }
 
   /**
+   * Finaliza o libera una reunión activa antes de tiempo (Early Release)
+   * Trunca el horario de fin a la hora actual tanto en Exchange Online como en el simulador.
+   */
+  async endActiveMeeting(roomEmail, eventId = null) {
+    const now = new Date();
+
+    if (this.isDemoMode) {
+      const stored = this.mockEventsStore.get(roomEmail) || [];
+      const updated = stored.filter(e => {
+        if (eventId && e.id === eventId) return false;
+        const start = new Date(e.start?.dateTime || e.start_time || e.start).getTime();
+        const end = new Date(e.end?.dateTime || e.end_time || e.end).getTime();
+        if (start <= now.getTime() && now.getTime() < end) {
+          return false; // Se elimina/desocupa de inmediato
+        }
+        return true;
+      });
+
+      // Si no había eventos personalizados en store pero el escenario por defecto generaba uno ocupado:
+      if (this.isDemoMode && !this.mockEventsStore.has(roomEmail)) {
+        // Asignamos una lista vacía para que el buzón quede libre
+        this.mockEventsStore.set(roomEmail, []);
+      } else {
+        this.mockEventsStore.set(roomEmail, updated);
+      }
+
+      return {
+        success: true,
+        message: 'Sesión finalizada anticipadamente en modo simulación',
+        freedAt: now.toISOString()
+      };
+    }
+
+    const token = await this.getAccessToken();
+
+    // 1. Si se proporciona eventId directo, actualizar su hora de fin a ahora
+    if (eventId) {
+      try {
+        const url = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(roomEmail)}/events/${encodeURIComponent(eventId)}`;
+        const updatePayload = {
+          end: {
+            dateTime: now.toISOString(),
+            timeZone: this.timeZone
+          }
+        };
+
+        const response = await fetch(url, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatePayload)
+        });
+
+        if (response.ok) {
+          return {
+            success: true,
+            message: 'Reunión finalizada y liberada en Microsoft Exchange',
+            freedAt: now.toISOString()
+          };
+        }
+      } catch (err) {
+        console.warn(`[GraphService] Intento de PATCH directo falló para eventId ${eventId}:`, err.message);
+      }
+    }
+
+    // 2. Si no hay eventId o falló, buscar el evento activo en calendarView y acortarlo
+    const events = await this.getRoomCalendarView(roomEmail);
+    const nowMs = now.getTime();
+    const activeEvent = events.find(e => {
+      const startMs = new Date(e.start?.dateTime || e.start_time || e.start).getTime();
+      const endMs = new Date(e.end?.dateTime || e.end_time || e.end).getTime();
+      return startMs <= nowMs && nowMs < endMs;
+    });
+
+    if (activeEvent && activeEvent.id) {
+      const url = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(roomEmail)}/events/${encodeURIComponent(activeEvent.id)}`;
+      const updatePayload = {
+        end: {
+          dateTime: now.toISOString(),
+          timeZone: this.timeZone
+        }
+      };
+
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatePayload)
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`Error al actualizar evento en Microsoft Graph: ${errText}`);
+      }
+
+      return {
+        success: true,
+        message: 'Reunión activa finalizada y sala desocupada en Exchange',
+        freedAt: now.toISOString()
+      };
+    }
+
+    return {
+      success: true,
+      message: 'No había ninguna reunión en curso o ya fue liberada',
+      freedAt: now.toISOString()
+    };
+  }
+
+  /**
    * Genera eventos de calendario simulados relativos a la hora actual
    */
   generateMockEvents(roomEmail, scenario = null) {
@@ -264,13 +378,10 @@ class GraphService {
       ];
     }
 
-    // Si es un buzón de prueba explícito
-    if (this.mockEventsStore.has(roomEmail) && (roomEmail.startsWith('sala-disponible') || roomEmail.startsWith('test-'))) {
+    // Si es un buzón con eventos gestionados en el almacén de simulación
+    if (this.mockEventsStore.has(roomEmail)) {
       return this.mockEventsStore.get(roomEmail) || [];
     }
-
-    // Eventos adicionales creados dinámicamente por reservas rápidas
-    const customStored = this.mockEventsStore.get(roomEmail) || [];
 
     // Escenario por defecto dinámico: Reunión actual en progreso + Agenda completa
     const defaultEvents = [
@@ -297,7 +408,7 @@ class GraphService {
       }
     ];
 
-    return [...defaultEvents, ...customStored];
+    return defaultEvents;
   }
 }
 

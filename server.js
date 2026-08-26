@@ -146,6 +146,37 @@ app.post('/api/book', async (req, res) => {
 });
 
 /**
+ * POST /api/end-meeting
+ * Finaliza la reunión activa anticipadamente, liberando la sala en Exchange y actualizando el estado de inmediato.
+ */
+app.post('/api/end-meeting', async (req, res) => {
+  try {
+    const { room, eventId } = req.body || {};
+    const targetRoom = (room || DEFAULT_ROOM_EMAIL).trim();
+
+    const result = await graphService.endActiveMeeting(targetRoom, eventId);
+
+    // Invalidar todas las entradas de caché para esta sala
+    cacheService.delete(`room_status_${targetRoom}_default`);
+    cacheService.delete(`room_status_${targetRoom}_occupied`);
+    cacheService.delete(`room_status_${targetRoom}_free`);
+    cacheService.delete(`room_status_${targetRoom}_upcoming`);
+
+    return res.json({
+      success: true,
+      message: result.message || 'Sesión finalizada exitosamente',
+      freedAt: result.freedAt || new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('[API /api/end-meeting] Error:', error.message);
+    return res.status(500).json({
+      error: 'END_MEETING_FAILED',
+      message: error.message
+    });
+  }
+});
+
+/**
  * ==========================================
  * RUTAS CRUD DE SALAS (/api/rooms)
  * ==========================================

@@ -58,6 +58,18 @@ async function runIntegrationTests() {
     }
   });
 
+  app.post('/api/end-meeting', async (req, res) => {
+    try {
+      const { room, eventId } = req.body || {};
+      const targetRoom = (room || 'sala-juntas@empresa.com').trim();
+      const result = await graphService.endActiveMeeting(targetRoom, eventId);
+      cacheService.delete(`room_status_${targetRoom}_default`);
+      return res.json({ success: true, message: result.message, freedAt: result.freedAt });
+    } catch (err) {
+      return res.status(500).json({ error: 'END_MEETING_FAILED', message: err.message });
+    }
+  });
+
   app.get('/api/health', (req, res) => {
     res.json({ status: 'UP', demo_mode: true });
   });
@@ -237,6 +249,35 @@ async function runIntegrationTests() {
       });
       assert.strictEqual(resPinInvalid.status, 401);
       console.log('✔ POST /api/auth/verify-pin (PIN Incorrecto): OK (401 Rechazado)');
+
+      // 10. Probar Finalizar Sesión Anticipada (POST /api/end-meeting)
+      const testRoomEnd = 'sala-end-meeting-test@itzamna.mx';
+      graphService.mockEventsStore.set(testRoomEnd, []);
+      // Crear evento activo primero
+      await graphService.createQuickBooking(testRoomEnd, {
+        title: 'Reunión a Finalizar',
+        durationMinutes: 30,
+        organizer: 'Usuario Test'
+      });
+
+      // Verificar que está ocupada
+      const statusBefore = calculateRoomStatus(await graphService.getRoomCalendarView(testRoomEnd), testRoomEnd);
+      assert.strictEqual(statusBefore.current_status, 'OCCUPIED');
+
+      // Finalizar sesión anticipadamente
+      const resEnd = await fetch(`http://localhost:${PORT}/api/end-meeting`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room: testRoomEnd })
+      });
+      const dataEnd = await resEnd.json();
+      assert.strictEqual(resEnd.status, 200);
+      assert.strictEqual(dataEnd.success, true);
+
+      // Verificar que ahora está libre
+      const statusAfter = calculateRoomStatus(await graphService.getRoomCalendarView(testRoomEnd), testRoomEnd);
+      assert.strictEqual(statusAfter.current_status, 'FREE');
+      console.log('✔ POST /api/end-meeting: OK (Sesión finalizada anticipadamente y sala liberada)');
 
       console.log('\n--- Todas las pruebas de integración pasaron con éxito ---');
       server.close();

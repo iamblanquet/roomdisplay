@@ -388,7 +388,7 @@
         <span class="status-badge badge-red">En Sesión</span>
         <div class="status-name">🔴 Pantalla Roja</div>
         <div class="status-desc">
-          <strong>Reunión en curso.</strong> Muestra el asunto, quién la organizó, la hora exacta en que se desocupa (ej. <em>11:00</em>) y los minutos restantes.
+          <strong>Reunión en curso.</strong> Muestra el asunto, organizador y minutos restantes. Si la junta concluye antes, presiona <em>"Finalizar Sesión Ahora"</em> para desocuparla.
         </div>
       </div>
     </div>
@@ -478,17 +478,28 @@
       </tbody>
     </table>
 
-    <!-- SECCIÓN 4: FUNCIONES ADICIONALES (ALERTAS Y APP INSTALABLE) -->
+    <!-- SECCIÓN 4: FUNCIONES ADICIONALES (FINALIZAR SESIÓN, ALERTAS Y APP INSTALABLE) -->
     <div class="section-title">4. Funciones Adicionales y Acceso Móvil</div>
-    <div class="extras-grid">
+    <div class="extras-grid" style="grid-template-columns: 1fr 1fr 1fr;">
       
+      <!-- Card: Finalizar Sesión Anticipada -->
+      <div class="extra-card" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border-color: #e11d48;">
+        <div class="extra-icon">🚪</div>
+        <div>
+          <div class="extra-title" style="color: #be123c;">Liberar Sala Anticipada</div>
+          <div class="extra-body" style="color: #9f1239;">
+            Si tu junta concluye antes, toca <strong>«Finalizar Sesión»</strong> en la tablet y confirma para liberar el espacio en Exchange de inmediato.
+          </div>
+        </div>
+      </div>
+
       <!-- Card: Notificaciones Push -->
       <div class="extra-card extra-green">
         <div class="extra-icon">🔔</div>
         <div>
-          <div class="extra-title title-green">Alertas Push en tu Móvil / PC</div>
+          <div class="extra-title title-green">Alertas Push en Celular/PC</div>
           <div class="extra-body body-green">
-            Toca el icono de la <strong>Campana</strong> en la pantalla Kiosk o en tu navegador web para activar alertas y recibir un aviso en tiempo real cuando la sala quede <strong>desocupada</strong>.
+            Toca el icono de la <strong>Campana</strong> en la pantalla o en tu navegador web para recibir un aviso en tiempo real cuando la sala quede libre.
           </div>
         </div>
       </div>
@@ -497,9 +508,9 @@
       <div class="extra-card extra-purple">
         <div class="extra-icon">📲</div>
         <div>
-          <div class="extra-title title-purple">App Instalable en Celular / Laptop (PWA)</div>
+          <div class="extra-title title-purple">App Instalable (PWA)</div>
           <div class="extra-body body-purple">
-            Puedes instalar la aplicación en tu teléfono o computadora desde el navegador (<em>"Instalar App"</em> o <em>"Agregar a pantalla de inicio"</em>) para acceso directo instantáneo.
+            Instala la app en tu celular o laptop desde el navegador (<em>"Instalar App"</em> / <em>"Agregar a inicio"</em>) para acceso directo.
           </div>
         </div>
       </div>
