@@ -183,6 +183,7 @@ html, body {
   font-family: 'Inter', sans-serif;
   transition: background-color 0.4s ease, color 0.4s ease;
   height: 100%;
+  overflow: hidden;
 }
 
 h1, h2, h3, h4, .font-brand {
@@ -206,36 +207,42 @@ body.theme-light #modalSettings .overflow-y-auto::-webkit-scrollbar-thumb {
 }
 
 /* --------------------------------------------------------------------------
-   A. ORIENTACIÓN HORIZONTAL / LANDSCAPE (2 PANELES SIMULTÁNEOS)
-   Aplica a móviles en horizontal, tablets apaisadas y pantallas de escritorio
+   LAYOUT PRINCIPAL: 2 PANELES EN PARALELO (VERSIÓN WEB / DESKTOP / TABLET)
+   7 Columnas Hero (Izquierda) + 5 Columnas Agenda (Derecha)
    -------------------------------------------------------------------------- */
-@media (orientation: landscape) {
-  body {
-    overflow: hidden !important;
-    height: 100vh !important;
-  }
-
-  main.kiosk-grid-container {
-    display: grid !important;
-    grid-template-columns: 7fr 5fr !important;
-    height: calc(100vh - 64px) !important;
-    overflow: hidden !important;
-  }
-
-  .hero-section,
-  .agenda-section {
-    height: 100% !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-  }
-
-  #agendaListContainer {
-    overflow-y: auto !important;
-    flex: 1 1 0% !important;
-  }
+main.kiosk-grid-container {
+  display: grid !important;
+  grid-template-columns: 7fr 5fr !important;
+  gap: 1.5rem !important;
+  padding: 1.5rem !important;
+  height: calc(100vh - 78px) !important;
+  overflow: hidden !important;
 }
 
-/* Ajustes finos para móviles y dispositivos de baja altura en horizontal (h <= 560px) */
+.hero-section {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+.agenda-section {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#agendaListContainer {
+  overflow-y: auto !important;
+  flex: 1 1 0% !important;
+}
+
+/* --------------------------------------------------------------------------
+   AJUSTES EN MÓVILES EN HORIZONTAL (LANDSCAPE, ALTURA <= 560px)
+   -------------------------------------------------------------------------- */
 @media (orientation: landscape) and (max-height: 560px) {
   header {
     padding: 0.35rem 0.75rem !important;
@@ -342,9 +349,9 @@ body.theme-light #modalSettings .overflow-y-auto::-webkit-scrollbar-thumb {
 }
 
 /* --------------------------------------------------------------------------
-   B. ORIENTACIÓN VERTICAL / PORTRAIT (TELÉFONOS EN VERTICAL)
+   SOLO TELÉFONOS EN ORIENTACIÓN VERTICAL (PORTRAIT Y ANCHO < 768px)
    -------------------------------------------------------------------------- */
-@media (orientation: portrait) and (max-width: 1023px) {
+@media (orientation: portrait) and (max-width: 767px) {
   body {
     overflow-y: auto !important;
     height: auto !important;
