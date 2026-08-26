@@ -416,15 +416,9 @@
           <i class="fa-solid fa-sliders text-[#ffc400] text-lg"></i>
           <h3 class="text-base sm:text-lg font-black font-brand text-kiosk-main">Configuración del Kiosk</h3>
         </div>
-        <div class="flex items-center space-x-2">
-          <button type="button" onclick="lockAdminSession()" class="px-2.5 py-1 rounded-xl bg-kiosk-sub hover:bg-rose-500/20 border border-kiosk text-kiosk-muted hover:text-[#e11d48] text-xs font-bold font-brand transition flex items-center space-x-1" title="Bloquear y cerrar sesión de administrador">
-            <i class="fa-solid fa-lock text-[10px]"></i>
-            <span class="hidden sm:inline">Bloquear</span>
-          </button>
-          <button onclick="closeSettingsModal()" class="text-kiosk-muted hover:text-kiosk-main transition text-lg p-1" title="Cerrar">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
+        <button onclick="closeSettingsModal()" class="text-kiosk-muted hover:text-kiosk-main transition text-lg p-1" title="Cerrar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
 
       <!-- Cuerpo con Scroll Suave -->

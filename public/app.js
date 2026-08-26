@@ -796,12 +796,7 @@ async function submitQuickBooking() {
 // CONFIGURACIÓN & GESTOR CRUD DE SALAS
 // ==========================================
 function openSettingsModal() {
-  const isAuthenticated = sessionStorage.getItem('kiosk_admin_authenticated') === 'true';
-  if (!isAuthenticated) {
-    openAdminAuthModal();
-    return;
-  }
-  showSettingsModalUnlocked();
+  openAdminAuthModal();
 }
 
 async function showSettingsModalUnlocked() {
@@ -1632,8 +1627,7 @@ async function submitAdminPin() {
       throw new Error(data.message || 'PIN o contraseña incorrecta');
     }
 
-    // Autenticación exitosa
-    sessionStorage.setItem('kiosk_admin_authenticated', 'true');
+    // Autenticación exitosa (acceso inmediato estricto)
     closeAdminAuthModal();
     await showSettingsModalUnlocked();
   } catch (err) {
