@@ -21,7 +21,7 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #0f172a;
       background-color: #ffffff;
-      line-height: 1.32;
+      line-height: 1.33;
       font-size: 8.6pt;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
@@ -74,7 +74,7 @@
       font-weight: 600;
     }
 
-    /* Banner de Título */
+    /* Banner de Título (Sin el texto itzamna.mx) */
     .banner {
       background: linear-gradient(135deg, #070c18 0%, #131d36 100%);
       color: #ffffff;
@@ -82,9 +82,6 @@
       border-radius: 8px;
       margin-bottom: 8px;
       border-left: 4.5px solid #ffc400;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     .banner-title {
@@ -239,70 +236,24 @@
       color: #0f172a;
     }
 
-    /* Destacados en 3 Columnas: Asistentes, Notificaciones y App Instalable */
-    .features-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.95fr 0.9fr;
-      gap: 7px;
-      margin-bottom: 7px;
+    .step-note-email {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 3px 6px;
+      border-radius: 4px;
+      border: 1px solid #bae6fd;
+      font-size: 7.1pt;
+      font-weight: 600;
+      margin-top: 2px;
+      display: block;
     }
-
-    .callout-card {
-      border-radius: 7px;
-      padding: 7px 9px;
-      display: flex;
-      align-items: flex-start;
-      gap: 7px;
-      border-width: 1.5px;
-      border-style: solid;
-    }
-
-    .callout-blue {
-      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-      border-color: #3b82f6;
-    }
-
-    .callout-green {
-      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-      border-color: #00b090;
-    }
-
-    .callout-purple {
-      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-      border-color: #8b5cf6;
-    }
-
-    .callout-icon {
-      font-size: 12pt;
-      line-height: 1;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .callout-title {
-      font-size: 8pt;
-      font-weight: 800;
-      margin-bottom: 1.5px;
-    }
-
-    .title-blue { color: #1d4ed8; }
-    .title-green { color: #047857; }
-    .title-purple { color: #6d28d9; }
-
-    .callout-body {
-      font-size: 7.2pt;
-      line-height: 1.25;
-    }
-
-    .body-blue { color: #1e3a8a; }
-    .body-green { color: #065f46; }
-    .body-purple { color: #5b21b6; }
 
     /* Tabla de Salas */
     table.rooms-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 3px;
+      margin-top: 2px;
+      margin-bottom: 7px;
       font-size: 7.6pt;
     }
 
@@ -337,6 +288,57 @@
       border: 1px solid #94a3b8;
       font-weight: 700;
     }
+
+    /* Sección 4: Funciones Adicionales y Acceso Móvil */
+    .extras-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+
+    .extra-card {
+      border-radius: 7px;
+      padding: 6px 9px;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      border-width: 1.5px;
+      border-style: solid;
+    }
+
+    .extra-green {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-color: #00b090;
+    }
+
+    .extra-purple {
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      border-color: #8b5cf6;
+    }
+
+    .extra-icon {
+      font-size: 12pt;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .extra-title {
+      font-size: 7.9pt;
+      font-weight: 800;
+      margin-bottom: 1.5px;
+    }
+
+    .title-green { color: #047857; }
+    .title-purple { color: #6d28d9; }
+
+    .extra-body {
+      font-size: 7.2pt;
+      line-height: 1.25;
+    }
+
+    .body-green { color: #065f46; }
+    .body-purple { color: #5b21b6; }
   </style>
 </head>
 <body>
@@ -355,14 +357,11 @@
       </div>
     </div>
 
-    <!-- BANNER -->
+    <!-- BANNER (SIN ITZAMNA.MX) -->
     <div class="banner">
       <div>
         <div class="banner-title">Sistema de Reserva de Salas de Juntas</div>
         <div class="banner-subtitle">Consulta de disponibilidad en tiempo real, métodos oficiales de reserva y acceso móvil</div>
-      </div>
-      <div style="text-align: right; font-size: 7.8pt; font-weight: 700; color: #ffc400;">
-        ITZAMNA.MX
       </div>
     </div>
 
@@ -410,7 +409,7 @@
           </div>
           <div class="step-row">
             <div class="step-circle">2</div>
-            <div class="step-info">Selecciona la duración deseada: <strong>15, 30, 45 o 60 min</strong> (se deshabilitan opciones que causen conflicto).</div>
+            <div class="step-info">Selecciona la duración: <strong>15, 30, 45 o 60 min</strong> (se bloquean opciones que choquen con citas futuras).</div>
           </div>
           <div class="step-row">
             <div class="step-circle">3</div>
@@ -418,7 +417,7 @@
           </div>
           <div class="step-row">
             <div class="step-circle">4</div>
-            <div class="step-info">Presiona <strong>«Confirmar»</strong>. La pantalla cambiará a <strong>ROJO</strong> y se sincronizará en Outlook corporativo.</div>
+            <div class="step-info">Presiona <strong>«Confirmar»</strong>. La pantalla cambiará a <strong>ROJO</strong> de inmediato y la sala quedará reservada al instante.</div>
           </div>
         </div>
       </div>
@@ -431,7 +430,7 @@
         <div class="steps-list">
           <div class="step-row">
             <div class="step-circle">1</div>
-            <div class="step-info">Abre <strong>Outlook</strong> o <strong>Teams</strong> en tu computadora o celular y crea un <strong>Nuevo Evento</strong>.</div>
+            <div class="step-info">Abre <strong>Outlook</strong> o <strong>Teams</strong> en tu laptop/celular y crea un <strong>Nuevo Evento</strong>.</div>
           </div>
           <div class="step-row">
             <div class="step-circle">2</div>
@@ -439,56 +438,23 @@
           </div>
           <div class="step-row">
             <div class="step-circle">3</div>
-            <div class="step-info">En el campo <strong>Ubicación / Salas</strong>, selecciona tu sala.</div>
+            <div class="step-info">
+              Selecciona tu sala en <strong>Ubicación / Salas</strong> o escribe su correo en <strong>«Invitar asistentes»</strong> si no te aparece en la lista.
+            </div>
           </div>
           <div class="step-row">
             <div class="step-circle">4</div>
-            <div class="step-info">Envía la invitación. La pantalla exterior se actualizará automáticamente en menos de <strong>15 segundos</strong>.</div>
+            <div class="step-info">
+              Envía la invitación. 
+              <span class="step-note-email">📩 Recibirás un correo automático de Exchange confirmando si tu solicitud fue <strong>admitida (aceptada)</strong> o <strong>declinada</strong> por conflicto de horario.</span>
+            </div>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- SECCIÓN 3: TIPS CLAVE (INVITADOS, NOTIFICACIONES Y APP INSTALABLE) -->
-    <div class="features-grid">
-      
-      <!-- Callout: Asistentes requeridos -->
-      <div class="callout-card callout-blue">
-        <div class="callout-icon">💡</div>
-        <div>
-          <div class="callout-title title-blue">¿No ves la sala en la lista?</div>
-          <div class="callout-body body-blue">
-            <strong>¡Invítala como asistente!</strong> Escribe el correo de la sala en <strong>«Invitar asistentes»</strong>. Microsoft 365 la reservará automáticamente.
-          </div>
-        </div>
-      </div>
-
-      <!-- Callout: Notificaciones Push -->
-      <div class="callout-card callout-green">
-        <div class="callout-icon">🔔</div>
-        <div>
-          <div class="callout-title title-green">Alertas en Móvil / PC</div>
-          <div class="callout-body body-green">
-            Toca el icono de la <strong>Campana</strong> para activar <strong>Alertas Push</strong> y recibir un aviso al celular/PC cuando la sala se desocupe.
-          </div>
-        </div>
-      </div>
-
-      <!-- Callout: App Instalable PWA -->
-      <div class="callout-card callout-purple">
-        <div class="callout-icon">📲</div>
-        <div>
-          <div class="callout-title title-purple">App Instalable (PWA)</div>
-          <div class="callout-body body-purple">
-            Instálala en tu teléfono o laptop desde el navegador (<em>"Instalar App"</em> o <em>"Agregar a pantalla de inicio"</em>) para acceso directo.
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- SECCIÓN 4: DIRECTORIO OFICIAL DE SALAS -->
+    <!-- SECCIÓN 3: DIRECTORIO OFICIAL DE SALAS -->
     <div class="section-title">3. Directorio de Buzones Oficiales de Salas ITZ</div>
     <table class="rooms-table">
       <thead>
@@ -511,6 +477,34 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- SECCIÓN 4: FUNCIONES ADICIONALES (ALERTAS Y APP INSTALABLE) -->
+    <div class="section-title">4. Funciones Adicionales y Acceso Móvil</div>
+    <div class="extras-grid">
+      
+      <!-- Card: Notificaciones Push -->
+      <div class="extra-card extra-green">
+        <div class="extra-icon">🔔</div>
+        <div>
+          <div class="extra-title title-green">Alertas Push en tu Móvil / PC</div>
+          <div class="extra-body body-green">
+            Toca el icono de la <strong>Campana</strong> en la pantalla Kiosk o en tu navegador web para activar alertas y recibir un aviso en tiempo real cuando la sala quede <strong>desocupada</strong>.
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: App Instalable PWA -->
+      <div class="extra-card extra-purple">
+        <div class="extra-icon">📲</div>
+        <div>
+          <div class="extra-title title-purple">App Instalable en Celular / Laptop (PWA)</div>
+          <div class="extra-body body-purple">
+            Puedes instalar la aplicación en tu teléfono o computadora desde el navegador (<em>"Instalar App"</em> o <em>"Agregar a pantalla de inicio"</em>) para acceso directo instantáneo.
+          </div>
+        </div>
+      </div>
+
+    </div>
 
   </div>
 
