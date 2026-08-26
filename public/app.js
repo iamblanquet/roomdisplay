@@ -834,8 +834,7 @@ async function loadRooms() {
   if (!state.roomsList || state.roomsList.length === 0) {
     state.roomsList = [
       { id: 'saladejuntascamp-itzamna-mx', email: 'SaladeJuntasCamp@itzamna.mx', name: 'Sala de Juntas Campeche', location: 'Piso 1 - Campeche' },
-      { id: 'salamerida-itzamna-mx', email: 'SalaMerida@itzamna.mx', name: 'Sala de Juntas Mérida', location: 'Piso 2 - Mérida' },
-      { id: 'salacancun-itzamna-mx', email: 'SalaCancun@itzamna.mx', name: 'Sala Ejecutiva Cancún', location: 'Piso 1 - Cancún' }
+      { id: 'saladejuntastbc-itzamna-mx', email: 'SaladeJuntasTbc@itzamna.mx', name: 'Sala de Juntas Tabasco', location: 'Piso 1 - Tabasco' }
     ];
   }
 
