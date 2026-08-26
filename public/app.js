@@ -42,22 +42,28 @@ const elements = {
   dateDisplay: document.getElementById('dateDisplay'),
   statusCardHero: document.getElementById('statusCardHero'),
   statusTopBarAccent: document.getElementById('statusTopBarAccent'),
-  statusIndicatorDot: document.getElementById('statusIndicatorDot'),
-  statusMainBadge: document.getElementById('statusMainBadge'),
-  statusBadgeContainer: document.getElementById('statusBadgeContainer'),
-  liveCountdownBadge: document.getElementById('liveCountdownBadge'),
-  liveCountdownText: document.getElementById('liveCountdownText'),
+  heroAvailabilityPill: document.getElementById('heroAvailabilityPill'),
+  heroAvailabilityIcon: document.getElementById('heroAvailabilityIcon'),
+  heroAvailabilityText: document.getElementById('heroAvailabilityText'),
+  heroNextPill: document.getElementById('heroNextPill'),
+  heroNextIcon: document.getElementById('heroNextIcon'),
+  heroNextText: document.getElementById('heroNextText'),
   stateViewFree: document.getElementById('stateViewFree'),
   freeAvailabilitySubtitle: document.getElementById('freeAvailabilitySubtitle'),
   stateViewUpcoming: document.getElementById('stateViewUpcoming'),
   upcomingTitle: document.getElementById('upcomingTitle'),
   upcomingOrganizer: document.getElementById('upcomingOrganizer'),
+  upcomingTimeRange: document.getElementById('upcomingTimeRange'),
+  upcomingDurationBadge: document.getElementById('upcomingDurationBadge'),
+  upcomingDurationText: document.getElementById('upcomingDurationText'),
   upcomingWarningBox: document.getElementById('upcomingWarningBox'),
   upcomingWarningText: document.getElementById('upcomingWarningText'),
   stateViewOccupied: document.getElementById('stateViewOccupied'),
   occupiedTitle: document.getElementById('occupiedTitle'),
   occupiedOrganizer: document.getElementById('occupiedOrganizer'),
   occupiedTimeRange: document.getElementById('occupiedTimeRange'),
+  occupiedDurationBadge: document.getElementById('occupiedDurationBadge'),
+  occupiedDurationText: document.getElementById('occupiedDurationText'),
   meetingStartTimeText: document.getElementById('meetingStartTimeText'),
   meetingEndTimeText: document.getElementById('meetingEndTimeText'),
   meetingRemainingCountdown: document.getElementById('meetingRemainingCountdown'),
@@ -271,11 +277,8 @@ function updateLiveCountdown() {
     if (remainingMs > 0) {
       const totalSec = Math.floor(remainingMs / 1000);
       const min = Math.floor(totalSec / 60);
-      const sec = totalSec % 60;
-      const formatted = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
 
-      if (elements.liveCountdownText) elements.liveCountdownText.textContent = formatted;
-      if (elements.meetingRemainingCountdown) elements.meetingRemainingCountdown.textContent = `${min}m ${sec}s restantes`;
+      if (elements.meetingRemainingCountdown) elements.meetingRemainingCountdown.textContent = `${min} min restantes`;
 
       const totalDuration = endMs - startMs;
       const elapsed = now - startMs;
@@ -294,9 +297,7 @@ function updateLiveCountdown() {
       const totalSec = Math.floor(remainingMs / 1000);
       const min = Math.floor(totalSec / 60);
       const sec = totalSec % 60;
-      const formatted = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
 
-      if (elements.liveCountdownText) elements.liveCountdownText.textContent = formatted;
       if (elements.upcomingWarningText) {
         elements.upcomingWarningText.textContent = `La sesión comienza en ${min}m ${sec}s. Por favor prepare la sala.`;
       }
@@ -417,16 +418,43 @@ function renderFree(data) {
   elements.statusCardHero.classList.add('border-glow-free');
 
   if (elements.statusTopBarAccent) elements.statusTopBarAccent.style.backgroundColor = '#00b090';
-  if (elements.statusIndicatorDot) elements.statusIndicatorDot.className = 'w-3 h-3 rounded-full bg-[#00b090]';
-  if (elements.statusBadgeContainer) elements.statusBadgeContainer.className = 'inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-[#00b090] font-bold';
-  if (elements.statusMainBadge) elements.statusMainBadge.textContent = 'DISPONIBLE';
-  if (elements.liveCountdownBadge) elements.liveCountdownBadge.classList.add('hidden');
 
+  // Header Izquierdo: Disponibilidad Inmediata
+  if (elements.heroAvailabilityPill) {
+    elements.heroAvailabilityPill.className = 'inline-flex items-center space-x-2 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-[#00b090] text-[11px] sm:text-xs font-bold font-brand shadow-sm';
+  }
+  if (elements.heroAvailabilityIcon) {
+    elements.heroAvailabilityIcon.className = 'fa-solid fa-door-open text-xs sm:text-sm';
+  }
+
+  // Header Derecho: Próximo Evento
   if (data.next_meetings && data.next_meetings.length > 0) {
     const next = data.next_meetings[0];
-    elements.freeAvailabilitySubtitle.textContent = `Libre durante los próximos ${next.minutes_until_start} minutos. Siguiente sesión programada a las ${formatTime(next.start_time)}.`;
+    if (elements.heroAvailabilityText) {
+      elements.heroAvailabilityText.innerHTML = `Disponible los próximos <strong class="text-kiosk-main font-mono text-xs sm:text-sm">${next.minutes_until_start} min</strong>`;
+    }
+    if (elements.heroNextIcon) {
+      elements.heroNextIcon.className = 'fa-regular fa-calendar-check text-[#ffc400]';
+    }
+    if (elements.heroNextText) {
+      elements.heroNextText.innerHTML = `Siguiente: <strong class="text-kiosk-main">${escapeHtml(next.title)}</strong> <span class="font-mono text-[#ffc400]">(${formatTime(next.start_time)})</span>`;
+    }
+    if (elements.freeAvailabilitySubtitle) {
+      elements.freeAvailabilitySubtitle.textContent = `Libre durante los próximos ${next.minutes_until_start} minutos. Siguiente sesión programada a las ${formatTime(next.start_time)}.`;
+    }
   } else {
-    elements.freeAvailabilitySubtitle.textContent = 'Sin más sesiones para hoy. Sala completamente disponible.';
+    if (elements.heroAvailabilityText) {
+      elements.heroAvailabilityText.textContent = 'Disponible para uso inmediato';
+    }
+    if (elements.heroNextIcon) {
+      elements.heroNextIcon.className = 'fa-regular fa-circle-check text-[#00b090]';
+    }
+    if (elements.heroNextText) {
+      elements.heroNextText.textContent = 'Sin más reuniones hoy';
+    }
+    if (elements.freeAvailabilitySubtitle) {
+      elements.freeAvailabilitySubtitle.textContent = 'Sin más sesiones para hoy. Sala completamente disponible.';
+    }
   }
 }
 
@@ -438,14 +466,45 @@ function renderUpcoming(data) {
   const upcoming = data.upcoming_meeting || (data.next_meetings && data.next_meetings[0]);
 
   if (elements.statusTopBarAccent) elements.statusTopBarAccent.style.backgroundColor = '#f59e0b';
-  if (elements.statusIndicatorDot) elements.statusIndicatorDot.className = 'w-3 h-3 rounded-full bg-[#f59e0b] animate-pulse';
-  if (elements.statusBadgeContainer) elements.statusBadgeContainer.className = 'inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-[#f59e0b] font-bold';
-  if (elements.statusMainBadge) elements.statusMainBadge.textContent = 'INICIA EN BREVE';
-  if (elements.liveCountdownBadge) elements.liveCountdownBadge.classList.remove('hidden');
+
+  // Header Izquierdo: Horario de inicio inminente
+  if (elements.heroAvailabilityPill) {
+    elements.heroAvailabilityPill.className = 'inline-flex items-center space-x-2 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-[#f59e0b] text-[11px] sm:text-xs font-bold font-brand shadow-sm';
+  }
+  if (elements.heroAvailabilityIcon) {
+    elements.heroAvailabilityIcon.className = 'fa-solid fa-hourglass-start animate-pulse text-xs sm:text-sm';
+  }
 
   if (upcoming) {
+    const startStr = formatTime(upcoming.start_time);
+    const endStr = formatTime(upcoming.end_time);
+    const minUntil = upcoming.minutes_until_start || 1;
+
+    if (elements.heroAvailabilityText) {
+      elements.heroAvailabilityText.innerHTML = `Inicia en <strong class="text-kiosk-main font-mono text-xs sm:text-sm">${minUntil} min</strong> (${startStr})`;
+    }
     if (elements.upcomingTitle) elements.upcomingTitle.textContent = upcoming.title;
     if (elements.upcomingOrganizer) elements.upcomingOrganizer.textContent = upcoming.organizer;
+    if (elements.upcomingTimeRange) elements.upcomingTimeRange.textContent = `${startStr} - ${endStr}`;
+
+    const startMs = new Date(upcoming.start_time).getTime();
+    const endMs = new Date(upcoming.end_time).getTime();
+    if (!isNaN(startMs) && !isNaN(endMs) && endMs > startMs) {
+      const dur = Math.round((endMs - startMs) / 60000);
+      if (elements.upcomingDurationText) elements.upcomingDurationText.textContent = `${dur} min`;
+    }
+  }
+
+  // Header Derecho: Evento subsiguiente
+  if (data.next_meetings && data.next_meetings.length > 1) {
+    const afterNext = data.next_meetings[1];
+    if (elements.heroNextIcon) elements.heroNextIcon.className = 'fa-regular fa-calendar-check text-[#ffc400]';
+    if (elements.heroNextText) {
+      elements.heroNextText.innerHTML = `Siguiente: <strong class="text-kiosk-main">${escapeHtml(afterNext.title)}</strong> <span class="font-mono text-[#ffc400]">(${formatTime(afterNext.start_time)})</span>`;
+    }
+  } else {
+    if (elements.heroNextIcon) elements.heroNextIcon.className = 'fa-regular fa-circle-check text-[#00b090]';
+    if (elements.heroNextText) elements.heroNextText.textContent = 'Última sesión de la jornada';
   }
 }
 
@@ -457,21 +516,48 @@ function renderOccupied(data) {
   const meeting = data.current_meeting;
 
   if (elements.statusTopBarAccent) elements.statusTopBarAccent.style.backgroundColor = '#e11d48';
-  if (elements.statusIndicatorDot) elements.statusIndicatorDot.className = 'w-3 h-3 rounded-full bg-[#e11d48] animate-ping';
-  if (elements.statusBadgeContainer) elements.statusBadgeContainer.className = 'inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-xl border border-rose-500/40 bg-rose-500/10 text-[#e11d48] font-bold';
-  if (elements.statusMainBadge) elements.statusMainBadge.textContent = 'SALA OCUPADA';
-  if (elements.liveCountdownBadge) elements.liveCountdownBadge.classList.remove('hidden');
 
   if (meeting) {
-    if (elements.occupiedTitle) elements.occupiedTitle.textContent = meeting.title;
-    if (elements.occupiedOrganizer) elements.occupiedOrganizer.textContent = meeting.organizer;
-
     const startStr = formatTime(meeting.start_time);
     const endStr = formatTime(meeting.end_time);
+
+    // Header Izquierdo: Horario de desocupación directa
+    if (elements.heroAvailabilityPill) {
+      elements.heroAvailabilityPill.className = 'inline-flex items-center space-x-2 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-xl border border-rose-500/40 bg-rose-500/10 text-[#e11d48] text-[11px] sm:text-xs font-bold font-brand shadow-sm';
+    }
+    if (elements.heroAvailabilityIcon) {
+      elements.heroAvailabilityIcon.className = 'fa-solid fa-arrow-right-to-bracket text-[#ffc400] text-xs sm:text-sm';
+    }
+    if (elements.heroAvailabilityText) {
+      elements.heroAvailabilityText.innerHTML = `Se desocupa a las <strong class="text-kiosk-main font-mono text-xs sm:text-sm ml-0.5">${endStr}</strong>`;
+    }
+
+    // Detalle de la reunión
+    if (elements.occupiedTitle) elements.occupiedTitle.textContent = meeting.title;
+    if (elements.occupiedOrganizer) elements.occupiedOrganizer.textContent = meeting.organizer;
     if (elements.occupiedTimeRange) elements.occupiedTimeRange.textContent = `${startStr} - ${endStr}`;
     if (elements.meetingStartTimeText) elements.meetingStartTimeText.textContent = startStr;
     if (elements.meetingEndTimeText) elements.meetingEndTimeText.textContent = endStr;
     if (elements.meetingRemainingCountdown) elements.meetingRemainingCountdown.textContent = `${meeting.minutes_remaining} min restantes`;
+
+    const startMs = new Date(meeting.start_time).getTime();
+    const endMs = new Date(meeting.end_time).getTime();
+    if (!isNaN(startMs) && !isNaN(endMs) && endMs > startMs) {
+      const dur = Math.round((endMs - startMs) / 60000);
+      if (elements.occupiedDurationText) elements.occupiedDurationText.textContent = `${dur} min`;
+    }
+  }
+
+  // Header Derecho: Qué reunión sigue después de esta
+  if (data.next_meetings && data.next_meetings.length > 0) {
+    const next = data.next_meetings[0];
+    if (elements.heroNextIcon) elements.heroNextIcon.className = 'fa-regular fa-calendar-check text-[#ffc400]';
+    if (elements.heroNextText) {
+      elements.heroNextText.innerHTML = `Siguiente: <strong class="text-kiosk-main">${escapeHtml(next.title)}</strong> <span class="font-mono text-[#ffc400]">(${formatTime(next.start_time)})</span>`;
+    }
+  } else {
+    if (elements.heroNextIcon) elements.heroNextIcon.className = 'fa-regular fa-circle-check text-[#00b090]';
+    if (elements.heroNextText) elements.heroNextText.textContent = 'Libre tras esta reunión';
   }
 }
 
