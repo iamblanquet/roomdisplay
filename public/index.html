@@ -47,57 +47,57 @@
 <body class="h-full flex flex-col overflow-hidden font-sans select-none antialiased theme-dark" id="bodyRoot">
 
   <!-- ==================== ENCABEZADO CORPORATIVO ITZ OIL AND GAS ==================== -->
-  <header class="px-4 sm:px-6 lg:px-8 py-3.5 border-b border-kiosk bg-kiosk-header backdrop-blur-md z-20 shrink-0 transition-colors duration-400 shadow-sm">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4">
+  <header class="px-3 sm:px-6 lg:px-8 py-2 sm:py-3.5 border-b border-kiosk bg-kiosk-header backdrop-blur-md z-20 shrink-0 transition-colors duration-400 shadow-sm">
+    <div class="flex items-center justify-between gap-2 sm:gap-4">
       
       <!-- Lado Izquierdo: Logotipo y Datos de la Sala -->
-      <div class="flex items-center space-x-3 sm:space-x-5 min-w-0">
-        <!-- Logotipo Oficial Grande -->
-        <div class="flex items-center pr-3 sm:pr-5 border-r border-kiosk shrink-0">
-          <img id="companyLogo" src="assets/logonegro.png" alt="ITZ Oil and Gas" class="h-12 sm:h-14 md:h-16 w-auto max-w-[170px] sm:max-w-[220px] md:max-w-[280px] object-contain transition-all duration-300">
+      <div class="flex items-center space-x-2.5 sm:space-x-4 md:space-x-5 min-w-0 flex-1">
+        <!-- Logotipo Oficial Grande / Responsivo -->
+        <div class="flex items-center pr-2.5 sm:pr-4 md:pr-5 border-r border-kiosk shrink-0">
+          <img id="companyLogo" src="assets/logonegro.png" alt="ITZ Oil and Gas" class="h-8 sm:h-12 md:h-14 lg:h-16 w-auto max-w-[105px] xs:max-w-[140px] sm:max-w-[200px] md:max-w-[260px] object-contain transition-all duration-300">
         </div>
 
         <!-- Nombre de Sala y Correo -->
         <div class="min-w-0 flex-1">
-          <h1 id="roomNameDisplay" class="text-sm sm:text-base md:text-xl lg:text-2xl font-black font-brand tracking-tight text-kiosk-main uppercase truncate">
+          <h1 id="roomNameDisplay" class="text-xs xs:text-sm sm:text-base md:text-xl lg:text-2xl font-black font-brand tracking-tight text-kiosk-main uppercase truncate">
             SALA DE JUNTAS CAMPECHE
           </h1>
-          <p id="roomEmailDisplay" class="text-xs text-kiosk-muted font-mono tracking-wide mt-0.5 flex items-center space-x-1.5 truncate">
-            <i class="fa-solid fa-location-dot text-[10px] shrink-0"></i>
+          <p id="roomEmailDisplay" class="text-[10px] sm:text-xs text-kiosk-muted font-mono tracking-wide mt-0.5 flex items-center space-x-1.5 truncate">
+            <i class="fa-solid fa-location-dot text-[9px] sm:text-[10px] shrink-0 text-[#ffc400]"></i>
             <span class="truncate">SaladeJuntasCamp@itzamna.mx</span>
           </p>
         </div>
       </div>
 
       <!-- Lado Derecho: Reloj Digital y Botones de Acción -->
-      <div class="flex items-center justify-between md:justify-end space-x-3 sm:space-x-5 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-kiosk/60">
+      <div class="flex items-center space-x-2 sm:space-x-4 shrink-0">
         <!-- Reloj Digital y Fecha -->
-        <div class="text-left md:text-right">
-          <div id="digitalClock" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-widest font-mono text-kiosk-main tabular-nums leading-none">
+        <div class="text-right">
+          <div id="digitalClock" class="text-lg xs:text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-wider sm:tracking-widest font-mono text-kiosk-main tabular-nums leading-none">
             12:00:00
           </div>
-          <div id="dateDisplay" class="text-[10px] sm:text-xs font-semibold text-kiosk-muted capitalize mt-1">
+          <div id="dateDisplay" class="text-[9px] sm:text-xs font-semibold text-kiosk-muted capitalize mt-0.5 sm:mt-1 hidden xs:block">
             Martes, 25 de Agosto de 2026
           </div>
         </div>
 
         <!-- Grupo de Botones de Acción (Notificaciones, Reservar y Pantalla Completa) -->
-        <div class="flex items-center space-x-2 border-l border-kiosk pl-3 sm:pl-4">
+        <div class="flex items-center space-x-1.5 sm:space-x-2 border-l border-kiosk pl-2 sm:pl-3 md:pl-4">
           <!-- Botón Notificaciones Push (Campana) -->
-          <button id="btnHeaderPush" onclick="togglePushNotifications()" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-muted hover:text-[#ffc400] transition flex items-center justify-center active:scale-95 shadow-sm shrink-0 relative" title="Activar / Desactivar Alertas Push">
-            <i id="headerPushIcon" class="fa-regular fa-bell text-base"></i>
-            <span id="headerPushBadgeDot" class="hidden absolute top-2 right-2 w-2 h-2 rounded-full bg-[#00b090] animate-pulse"></span>
+          <button id="btnHeaderPush" onclick="togglePushNotifications()" class="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-muted hover:text-[#ffc400] transition flex items-center justify-center active:scale-95 shadow-sm shrink-0 relative" title="Activar / Desactivar Alertas Push">
+            <i id="headerPushIcon" class="fa-regular fa-bell text-xs sm:text-base"></i>
+            <span id="headerPushBadgeDot" class="hidden absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-2 h-2 rounded-full bg-[#00b090] animate-pulse"></span>
           </button>
 
           <!-- Botón Reservar Instantáneo -->
-          <button id="btnQuickBook" class="h-10 sm:h-11 px-3.5 sm:px-5 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black text-xs font-brand tracking-wider transition flex items-center space-x-2 shadow-md active:scale-95 shrink-0" title="Reserva rápida instantánea">
-            <i class="fa-solid fa-bolt text-black"></i>
+          <button id="btnQuickBook" class="h-8 xs:h-9 sm:h-11 px-2.5 xs:px-3.5 sm:px-5 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black text-[11px] sm:text-xs font-brand tracking-wider transition flex items-center space-x-1.5 sm:space-x-2 shadow-md active:scale-95 shrink-0" title="Reserva rápida instantánea">
+            <i class="fa-solid fa-bolt text-black text-xs sm:text-sm"></i>
             <span>RESERVAR</span>
           </button>
 
           <!-- Botón Pantalla Completa -->
-          <button id="btnFullscreen" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-main transition flex items-center justify-center active:scale-95 shadow-sm shrink-0" title="Pantalla completa">
-            <i class="fa-solid fa-expand text-base"></i>
+          <button id="btnFullscreen" class="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-main transition flex items-center justify-center active:scale-95 shadow-sm shrink-0" title="Pantalla completa">
+            <i class="fa-solid fa-expand text-xs sm:text-base"></i>
           </button>
         </div>
       </div>
@@ -105,55 +105,55 @@
     </div>
   </header>
 
-  <!-- ==================== CONTENIDO PRINCIPAL A PANTALLA COMPLETA (RESPONSIVO) ==================== -->
-  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 p-4 sm:p-6 overflow-hidden bg-kiosk-main transition-colors duration-400">
+  <!-- ==================== CONTENIDO PRINCIPAL: 2 PANELES SIMULTÁNEOS (HORIZONTAL) ==================== -->
+  <main class="kiosk-grid-container flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-6 p-3 sm:p-6 overflow-hidden bg-kiosk-main transition-colors duration-400">
 
-    <!-- PANEL IZQUIERDO: ESTADO HERO DE SALA (7 COLUMNAS EN DESKTOP/TABLET LANDSCAPE) -->
-    <section class="lg:col-span-7 flex flex-col justify-between h-full min-h-[360px]">
+    <!-- PANEL IZQUIERDO: ESTADO HERO DE SALA -->
+    <section class="hero-section lg:col-span-7 flex flex-col justify-between h-full min-h-0">
 
-      <div id="statusCardHero" class="relative flex-1 rounded-3xl p-6 sm:p-8 flex flex-col justify-between overflow-hidden border-2 transition-all duration-500 bg-kiosk-card border-kiosk shadow-lg">
+      <div id="statusCardHero" class="relative flex-1 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col justify-between overflow-hidden border-2 transition-all duration-500 bg-kiosk-card border-kiosk shadow-lg">
         
         <!-- Barra de acento superior limpia y profesional -->
         <div id="statusTopBarAccent" class="absolute top-0 left-0 right-0 h-2 bg-[#00b090] transition-colors duration-500"></div>
 
         <!-- Encabezado de Estado y Contador Regresivo -->
         <div class="relative z-10 flex items-start justify-between pt-1">
-          <div id="statusBadgeContainer" class="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-xl border transition-all duration-300">
-            <span id="statusIndicatorDot" class="w-3 h-3 rounded-full bg-[#00b090]"></span>
-            <span id="statusMainBadge" class="text-xs font-black font-brand tracking-widest uppercase">DISPONIBLE</span>
+          <div id="statusBadgeContainer" class="inline-flex items-center space-x-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl border transition-all duration-300">
+            <span id="statusIndicatorDot" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#00b090]"></span>
+            <span id="statusMainBadge" class="text-[11px] sm:text-xs font-black font-brand tracking-widest uppercase">DISPONIBLE</span>
           </div>
 
-          <div id="liveCountdownBadge" class="hidden font-mono text-sm px-3.5 py-1.5 rounded-xl border font-extrabold shadow-sm flex items-center space-x-2">
+          <div id="liveCountdownBadge" class="hidden font-mono text-xs sm:text-sm px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl border font-extrabold shadow-sm flex items-center space-x-2">
             <i class="fa-regular fa-clock text-[#ffc400]"></i>
             <span id="liveCountdownText">00:00</span>
           </div>
         </div>
 
         <!-- Contenido Central del Estado -->
-        <div class="relative z-10 my-auto py-4">
+        <div class="relative z-10 my-auto py-2 sm:py-4">
 
           <!-- 1. ESTADO: LIBRE (FREE) -->
-          <div id="stateViewFree" class="space-y-4 sm:space-y-5">
-            <div class="text-xs font-black font-brand tracking-widest text-[#00b090] uppercase flex items-center space-x-2">
-              <i class="fa-solid fa-circle-check text-sm"></i>
+          <div id="stateViewFree" class="space-y-2.5 sm:space-y-5">
+            <div class="text-[11px] sm:text-xs font-black font-brand tracking-widest text-[#00b090] uppercase flex items-center space-x-1.5 sm:space-x-2">
+              <i class="fa-solid fa-circle-check text-xs sm:text-sm"></i>
               <span>ESPACIO DISPONIBLE PARA USO</span>
             </div>
-            <div class="text-4xl sm:text-5xl lg:text-6xl font-black font-brand text-kiosk-main tracking-tight leading-none">
+            <div class="hero-status-title text-3xl sm:text-5xl lg:text-6xl font-black font-brand text-kiosk-main tracking-tight leading-none">
               SALA LIBRE
             </div>
-            <p id="freeAvailabilitySubtitle" class="text-base sm:text-lg text-kiosk-muted font-medium max-w-xl">
+            <p id="freeAvailabilitySubtitle" class="hero-subtitle text-xs sm:text-base lg:text-lg text-kiosk-muted font-medium max-w-xl">
               Disponible para reuniones espontáneas o sesiones de trabajo.
             </p>
-            <div class="pt-2 sm:pt-4 flex flex-wrap items-center gap-3">
-              <button onclick="openBookingModal(15)" class="px-5 py-3 rounded-2xl bg-[#00b090] hover:bg-[#008f75] text-white font-bold font-brand text-sm transition shadow-lg shadow-[#00b090]/25 flex items-center space-x-2 active:scale-95">
+            <div class="pt-1.5 sm:pt-4 flex flex-wrap items-center gap-2 sm:gap-3 quick-book-buttons">
+              <button onclick="openBookingModal(15)" class="px-3.5 py-2 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl bg-[#00b090] hover:bg-[#008f75] text-white font-bold font-brand text-xs sm:text-sm transition shadow-md sm:shadow-lg shadow-[#00b090]/25 flex items-center space-x-1.5 sm:space-x-2 active:scale-95">
                 <i class="fa-solid fa-bolt text-[#ffc400]"></i>
                 <span>Ocupar 15 min</span>
               </button>
-              <button onclick="openBookingModal(30)" class="px-5 py-3 rounded-2xl bg-kiosk-sub hover:opacity-80 text-kiosk-main font-bold font-brand text-sm transition border border-kiosk flex items-center space-x-2 active:scale-95">
+              <button onclick="openBookingModal(30)" class="px-3.5 py-2 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl bg-kiosk-sub hover:opacity-80 text-kiosk-main font-bold font-brand text-xs sm:text-sm transition border border-kiosk flex items-center space-x-1.5 sm:space-x-2 active:scale-95">
                 <i class="fa-regular fa-clock text-slate-400"></i>
                 <span>30 min</span>
               </button>
-              <button onclick="openBookingModal(60)" class="px-5 py-3 rounded-2xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand text-sm transition border border-kiosk flex items-center space-x-2 active:scale-95">
+              <button onclick="openBookingModal(60)" class="px-3.5 py-2 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand text-xs sm:text-sm transition border border-kiosk flex items-center space-x-1.5 sm:space-x-2 active:scale-95">
                 <i class="fa-regular fa-calendar-plus text-slate-400"></i>
                 <span>1 hora</span>
               </button>
@@ -161,52 +161,52 @@
           </div>
 
           <!-- 2. ESTADO: PRÓXIMO (UPCOMING <= 10m) -->
-          <div id="stateViewUpcoming" class="hidden space-y-4">
-            <div class="text-xs font-black font-brand tracking-widest text-[#f59e0b] uppercase flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b] animate-ping"></span>
+          <div id="stateViewUpcoming" class="hidden space-y-2.5 sm:space-y-4">
+            <div class="text-[11px] sm:text-xs font-black font-brand tracking-widest text-[#f59e0b] uppercase flex items-center space-x-1.5 sm:space-x-2">
+              <span class="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#f59e0b] animate-ping"></span>
               <span>REUNIÓN POR COMENZAR</span>
             </div>
-            <div class="text-3xl sm:text-4xl lg:text-5xl font-black font-brand text-kiosk-main tracking-tight leading-tight" id="upcomingTitle">
+            <div class="hero-status-title text-2xl sm:text-4xl lg:text-5xl font-black font-brand text-kiosk-main tracking-tight leading-tight" id="upcomingTitle">
               Revisión de Operaciones
             </div>
-            <div class="flex items-center space-x-3 text-base text-kiosk-muted">
+            <div class="flex items-center space-x-2 sm:space-x-3 text-xs sm:text-base text-kiosk-muted">
               <i class="fa-solid fa-user-tie text-[#f59e0b]"></i>
               <span class="font-bold font-brand text-kiosk-main" id="upcomingOrganizer">Organizador</span>
             </div>
-            <div id="upcomingWarningBox" class="p-4 rounded-2xl bg-[#ffc400]/10 border border-[#ffc400]/40 text-[#b45309] font-semibold flex items-center space-x-3">
-              <i class="fa-solid fa-triangle-exclamation text-[#f59e0b] text-xl shrink-0"></i>
-              <span id="upcomingWarningText" class="text-sm">La sesión comienza en menos de 10 minutos. Por favor prepare la sala.</span>
+            <div id="upcomingWarningBox" class="p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#ffc400]/10 border border-[#ffc400]/40 text-[#b45309] font-semibold flex items-center space-x-2.5 sm:space-x-3">
+              <i class="fa-solid fa-triangle-exclamation text-[#f59e0b] text-base sm:text-xl shrink-0"></i>
+              <span id="upcomingWarningText" class="text-xs sm:text-sm">La sesión comienza en menos de 10 minutos. Por favor prepare la sala.</span>
             </div>
           </div>
 
           <!-- 3. ESTADO: OCUPADO (OCCUPIED) -->
-          <div id="stateViewOccupied" class="hidden space-y-4 sm:space-y-5">
-            <div class="text-xs font-black font-brand tracking-widest text-[#e11d48] uppercase flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-[#e11d48] animate-ping"></span>
+          <div id="stateViewOccupied" class="hidden space-y-2.5 sm:space-y-5">
+            <div class="text-[11px] sm:text-xs font-black font-brand tracking-widest text-[#e11d48] uppercase flex items-center space-x-1.5 sm:space-x-2">
+              <span class="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#e11d48] animate-ping"></span>
               <span>REUNIÓN EN CURSO</span>
             </div>
-            <div class="text-3xl sm:text-4xl lg:text-5xl font-black font-brand text-kiosk-main tracking-tight leading-tight" id="occupiedTitle">
+            <div class="hero-status-title text-2xl sm:text-4xl lg:text-5xl font-black font-brand text-kiosk-main tracking-tight leading-tight" id="occupiedTitle">
               Comité Directivo
             </div>
-            <div class="flex flex-wrap items-center gap-4 sm:gap-6 text-kiosk-muted text-sm sm:text-base">
-              <div class="flex items-center space-x-2">
+            <div class="flex flex-wrap items-center gap-3 sm:gap-6 text-kiosk-muted text-xs sm:text-base">
+              <div class="flex items-center space-x-1.5 sm:space-x-2">
                 <i class="fa-solid fa-user-tie text-[#e11d48]"></i>
                 <span class="font-bold font-brand text-kiosk-main" id="occupiedOrganizer">Mauricio Blanquet</span>
               </div>
-              <div class="flex items-center space-x-2 font-mono">
+              <div class="flex items-center space-x-1.5 sm:space-x-2 font-mono">
                 <i class="fa-regular fa-clock text-[#e11d48]"></i>
                 <span class="font-bold text-kiosk-main" id="occupiedTimeRange">13:30 - 14:30</span>
               </div>
             </div>
 
             <!-- Barra de Progreso de Tiempo -->
-            <div class="space-y-1.5 pt-2">
-              <div class="flex justify-between text-xs font-bold text-kiosk-muted font-mono">
+            <div class="space-y-1 sm:space-y-1.5 pt-1 sm:pt-2">
+              <div class="flex justify-between text-[11px] sm:text-xs font-bold text-kiosk-muted font-mono">
                 <span id="meetingStartTimeText">13:30</span>
                 <span id="meetingRemainingCountdown" class="text-[#e11d48] font-black">35 min restantes</span>
                 <span id="meetingEndTimeText">14:30</span>
               </div>
-              <div class="w-full h-3.5 rounded-full bg-black/30 border border-kiosk overflow-hidden p-0.5">
+              <div class="w-full h-2.5 sm:h-3.5 rounded-full bg-black/30 border border-kiosk overflow-hidden p-0.5">
                 <div id="meetingProgressBar" class="h-full bg-gradient-to-r from-[#e11d48] to-[#fb7185] rounded-full transition-all duration-500 w-1/2"></div>
               </div>
             </div>
@@ -215,10 +215,11 @@
         </div>
 
         <!-- Pie de la Tarjeta Hero: Microsoft 365 + Sincronización limpia -->
-        <div class="relative z-10 pt-3 border-t border-kiosk flex items-center justify-between text-xs text-kiosk-muted font-medium">
-          <div class="flex items-center space-x-2">
+        <div class="relative z-10 pt-2 sm:pt-3 border-t border-kiosk flex items-center justify-between text-[10px] sm:text-xs text-kiosk-muted font-medium">
+          <div class="flex items-center space-x-1.5 sm:space-x-2">
             <i class="fa-brands fa-microsoft text-[#176be0]"></i>
-            <span>Microsoft 365 Exchange Online</span>
+            <span class="hidden xs:inline">Microsoft 365 Exchange Online</span>
+            <span class="xs:hidden">Microsoft 365</span>
           </div>
           <div class="font-semibold text-kiosk-main flex items-center space-x-1.5">
             <span class="w-2 h-2 rounded-full bg-[#00b090] animate-pulse"></span>
@@ -230,33 +231,33 @@
 
     </section>
 
-    <!-- PANEL DERECHO: AGENDA DEL DÍA (5 COLUMNAS EN DESKTOP/TABLET LANDSCAPE) -->
-    <section class="lg:col-span-5 flex flex-col h-full min-h-[360px] bg-kiosk-card rounded-3xl border border-kiosk p-5 sm:p-6 backdrop-blur-md overflow-hidden transition-colors duration-400 shadow-lg">
+    <!-- PANEL DERECHO: AGENDA DEL DÍA -->
+    <section class="agenda-section lg:col-span-5 flex flex-col h-full min-h-0 bg-kiosk-card rounded-2xl sm:rounded-3xl border border-kiosk p-4 sm:p-6 backdrop-blur-md overflow-hidden transition-colors duration-400 shadow-lg">
       
       <!-- Título de Agenda -->
-      <div class="flex items-center justify-between pb-3.5 border-b border-kiosk mb-4 shrink-0">
-        <div class="flex items-center space-x-2.5">
-          <i class="fa-regular fa-calendar-check text-[#ffc400] text-lg"></i>
-          <h2 class="text-base sm:text-lg font-black font-brand text-kiosk-main tracking-wide">Agenda de Hoy</h2>
+      <div class="flex items-center justify-between pb-2.5 sm:pb-3.5 border-b border-kiosk mb-3 sm:mb-4 shrink-0">
+        <div class="flex items-center space-x-2 sm:space-x-2.5">
+          <i class="fa-regular fa-calendar-check text-[#ffc400] text-base sm:text-lg"></i>
+          <h2 class="text-sm sm:text-lg font-black font-brand text-kiosk-main tracking-wide">Agenda de Hoy</h2>
         </div>
-        <span id="meetingsCountBadge" class="text-xs px-3 py-1 rounded-full bg-kiosk-sub border border-kiosk text-[#ffc400] font-bold font-brand">
+        <span id="meetingsCountBadge" class="text-[10px] sm:text-xs px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-kiosk-sub border border-kiosk text-[#ffc400] font-bold font-brand">
           0 eventos
         </span>
       </div>
 
       <!-- Lista de Eventos con Scroll Suave -->
-      <div id="agendaListContainer" class="flex-1 overflow-y-auto space-y-3 pr-1">
+      <div id="agendaListContainer" class="flex-1 overflow-y-auto space-y-2.5 sm:space-y-3 pr-1">
         <!-- Rellenado dinámicamente -->
       </div>
 
       <!-- Estado Vacío Centrado Perfectamente en el Medio del Panel -->
-      <div id="agendaEmptyState" class="hidden flex-1 flex flex-col items-center justify-center text-center p-6 space-y-4 my-auto h-full">
-        <div class="w-16 h-16 rounded-2xl bg-kiosk-sub border border-kiosk flex items-center justify-center text-[#ffc400] text-2xl shadow-sm">
+      <div id="agendaEmptyState" class="hidden flex-1 flex flex-col items-center justify-center text-center p-4 sm:p-6 space-y-2.5 sm:space-y-4 my-auto h-full">
+        <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-kiosk-sub border border-kiosk flex items-center justify-center text-[#ffc400] text-xl sm:text-2xl shadow-sm">
           <i class="fa-regular fa-calendar-check"></i>
         </div>
         <div class="space-y-1">
-          <p class="text-base font-bold font-brand text-kiosk-main">Sin más reuniones hoy</p>
-          <p class="text-xs text-kiosk-muted max-w-xs leading-relaxed">La sala se encuentra totalmente disponible por el resto de la jornada.</p>
+          <p class="text-sm sm:text-base font-bold font-brand text-kiosk-main">Sin más reuniones hoy</p>
+          <p class="text-[11px] sm:text-xs text-kiosk-muted max-w-xs leading-relaxed">La sala se encuentra totalmente disponible por el resto de la jornada.</p>
         </div>
       </div>
 
@@ -264,88 +265,96 @@
 
   </main>
 
-  <!-- ==================== MODAL: RESERVA RÁPIDA ==================== -->
-  <div id="modalBooking" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="bg-kiosk-card border border-kiosk rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
-      <div class="flex items-center justify-between border-b border-kiosk pb-3">
+  <!-- ==================== MODAL: RESERVA RÁPIDA (RESPONSIVO Y NO RECORTABLE) ==================== -->
+  <div id="modalBooking" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto hidden">
+    <div class="bg-kiosk-card border border-kiosk rounded-2xl sm:rounded-3xl max-w-md w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl my-auto animate-fade-in">
+      
+      <!-- Cabecera Fija -->
+      <div class="flex items-center justify-between border-b border-kiosk p-4 sm:p-5 shrink-0 bg-kiosk-card">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-bolt text-[#ffc400] text-lg"></i>
-          <h3 class="text-lg font-black font-brand text-kiosk-main">Reserva Rápida de Sala</h3>
+          <h3 class="text-base sm:text-lg font-black font-brand text-kiosk-main">Reserva Rápida de Sala</h3>
         </div>
-        <button onclick="closeBookingModal()" class="text-kiosk-muted hover:text-kiosk-main transition text-lg p-1">
+        <button onclick="closeBookingModal()" class="text-kiosk-muted hover:text-kiosk-main transition text-lg p-1" title="Cerrar">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <!-- Alerta de Disponibilidad y Detección de Conflictos -->
-      <div id="bookingAvailabilityNotice" class="hidden p-3.5 rounded-2xl text-xs font-semibold flex items-start space-x-2.5">
-        <i id="bookingNoticeIcon" class="fa-solid fa-circle-info text-base mt-0.5 shrink-0"></i>
-        <div id="bookingNoticeText" class="leading-relaxed"></div>
-      </div>
+      <!-- Cuerpo con Scroll Suave -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+        <!-- Alerta de Disponibilidad y Detección de Conflictos -->
+        <div id="bookingAvailabilityNotice" class="hidden p-3.5 rounded-2xl text-xs font-semibold flex items-start space-x-2.5">
+          <i id="bookingNoticeIcon" class="fa-solid fa-circle-info text-base mt-0.5 shrink-0"></i>
+          <div id="bookingNoticeText" class="leading-relaxed"></div>
+        </div>
 
-      <div class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Asunto de la Reunión</label>
-          <input type="text" id="inputBookingTitle" class="w-full px-4 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main placeholder-slate-500 focus:outline-none focus:border-[#ffc400] font-medium" placeholder="Reunión rápida" value="Reunión Rápida">
+          <input type="text" id="inputBookingTitle" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main placeholder-slate-500 focus:outline-none focus:border-[#ffc400] font-medium text-sm" placeholder="Reunión rápida" value="Reunión Rápida">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Organizador</label>
-          <input type="text" id="inputBookingOrganizer" class="w-full px-4 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main placeholder-slate-500 focus:outline-none focus:border-[#ffc400] font-medium" placeholder="Tu nombre" value="Tablet Kiosk Campeche">
+          <input type="text" id="inputBookingOrganizer" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main placeholder-slate-500 focus:outline-none focus:border-[#ffc400] font-medium text-sm" placeholder="Tu nombre" value="Tablet Kiosk Campeche">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Duración</label>
           <div class="grid grid-cols-4 gap-2">
-            <button type="button" onclick="selectDuration(15)" class="duration-btn py-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold font-brand text-sm hover:border-[#ffc400]" data-duration="15">15m</button>
-            <button type="button" onclick="selectDuration(30)" class="duration-btn py-2.5 rounded-xl border border-[#ffc400] bg-[#ffc400]/20 text-[#ffc400] font-black font-brand text-sm" data-duration="30">30m</button>
-            <button type="button" onclick="selectDuration(45)" class="duration-btn py-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold font-brand text-sm hover:border-[#ffc400]" data-duration="45">45m</button>
-            <button type="button" onclick="selectDuration(60)" class="duration-btn py-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold font-brand text-sm hover:border-[#ffc400]" data-duration="60">60m</button>
+            <button type="button" onclick="selectDuration(15)" class="duration-btn py-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold font-brand text-xs sm:text-sm hover:border-[#ffc400]" data-duration="15">15m</button>
+            <button type="button" onclick="selectDuration(30)" class="duration-btn py-2.5 rounded-xl border border-[#ffc400] bg-[#ffc400]/20 text-[#ffc400] font-black font-brand text-xs sm:text-sm" data-duration="30">30m</button>
+            <button type="button" onclick="selectDuration(45)" class="duration-btn py-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold font-brand text-xs sm:text-sm hover:border-[#ffc400]" data-duration="45">45m</button>
+            <button type="button" onclick="selectDuration(60)" class="duration-btn py-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold font-brand text-xs sm:text-sm hover:border-[#ffc400]" data-duration="60">60m</button>
           </div>
         </div>
       </div>
 
-      <div class="pt-2 flex items-center space-x-3">
-        <button onclick="closeBookingModal()" class="flex-1 py-3 rounded-xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand transition text-sm">
+      <!-- Pie Fijo con Botones -->
+      <div class="border-t border-kiosk p-3.5 sm:p-4 shrink-0 bg-kiosk-card flex items-center space-x-3">
+        <button onclick="closeBookingModal()" class="flex-1 py-2.5 sm:py-3 rounded-xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand transition text-xs sm:text-sm">
           Cancelar
         </button>
-        <button id="btnConfirmBooking" onclick="submitQuickBooking()" class="flex-1 py-3 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand transition shadow-md text-sm flex items-center justify-center space-x-2">
+        <button id="btnConfirmBooking" onclick="submitQuickBooking()" class="flex-1 py-2.5 sm:py-3 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand transition shadow-md text-xs sm:text-sm flex items-center justify-center space-x-2">
           <span>Confirmar</span>
           <i class="fa-solid fa-check"></i>
         </button>
       </div>
+
     </div>
   </div>
 
-  <!-- ==================== MODAL: CONFIGURACIÓN DE SALA ==================== -->
-  <div id="modalSettings" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="bg-kiosk-card border border-kiosk rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5">
-      <div class="flex items-center justify-between border-b border-kiosk pb-3">
+  <!-- ==================== MODAL: CONFIGURACIÓN DE SALA (RESPONSIVO Y NO RECORTABLE) ==================== -->
+  <div id="modalSettings" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto hidden">
+    <div class="bg-kiosk-card border border-kiosk rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl my-auto animate-fade-in">
+      
+      <!-- Cabecera Fija -->
+      <div class="flex items-center justify-between border-b border-kiosk p-4 sm:p-5 shrink-0 bg-kiosk-card">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-sliders text-[#ffc400] text-lg"></i>
-          <h3 class="text-lg font-black font-brand text-kiosk-main">Configuración del Kiosk</h3>
+          <h3 class="text-base sm:text-lg font-black font-brand text-kiosk-main">Configuración del Kiosk</h3>
         </div>
-        <button onclick="closeSettingsModal()" class="text-kiosk-muted hover:text-kiosk-main transition text-lg p-1">
+        <button onclick="closeSettingsModal()" class="text-kiosk-muted hover:text-kiosk-main transition text-lg p-1" title="Cerrar">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <div class="space-y-4">
+      <!-- Cuerpo con Scroll Suave -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
         <!-- MODO DE TEMA (DÍA / NOCHE / AUTO) -->
         <div>
           <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
             <i class="fa-solid fa-circle-half-stroke text-[#ffc400] mr-1"></i> Modo Visual (Tema)
           </label>
           <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="setThemePreference('auto')" id="themeBtnAuto" class="py-2 px-3 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-main font-bold text-xs flex items-center justify-center space-x-1.5">
+            <button type="button" onclick="setThemePreference('auto')" id="themeBtnAuto" class="py-2 px-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-main font-bold text-xs flex items-center justify-center space-x-1">
               <i class="fa-solid fa-clock-rotate-left"></i>
-              <span>Auto (Horario)</span>
+              <span>Auto</span>
             </button>
-            <button type="button" onclick="setThemePreference('light')" id="themeBtnLight" class="py-2 px-3 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold text-xs flex items-center justify-center space-x-1.5">
+            <button type="button" onclick="setThemePreference('light')" id="themeBtnLight" class="py-2 px-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold text-xs flex items-center justify-center space-x-1">
               <i class="fa-solid fa-sun text-amber-500"></i>
               <span>Modo Día</span>
             </button>
-            <button type="button" onclick="setThemePreference('dark')" id="themeBtnDark" class="py-2 px-3 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold text-xs flex items-center justify-center space-x-1.5">
+            <button type="button" onclick="setThemePreference('dark')" id="themeBtnDark" class="py-2 px-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold text-xs flex items-center justify-center space-x-1">
               <i class="fa-solid fa-moon text-blue-400"></i>
               <span>Modo Noche</span>
             </button>
@@ -356,7 +365,7 @@
           <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
             <i class="fa-solid fa-list-check text-[#ffc400] mr-1"></i> Seleccionar Plantilla Rápida
           </label>
-          <select id="selectPresetRoom" onchange="onPresetRoomChange(this.value)" class="w-full px-4 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-semibold text-sm">
+          <select id="selectPresetRoom" onchange="onPresetRoomChange(this.value)" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-semibold text-xs sm:text-sm">
             <option value="SaladeJuntasCamp@itzamna.mx" data-name="Sala de Juntas Campeche" data-capacity="10">Sala de Juntas Campeche (10 pers.)</option>
             <option value="SalaMerida@itzamna.mx" data-name="Sala de Juntas Mérida" data-capacity="14">Sala de Juntas Mérida (14 pers.)</option>
             <option value="SalaCancun@itzamna.mx" data-name="Sala Ejecutiva Cancún" data-capacity="8">Sala Ejecutiva Cancún (8 pers.)</option>
@@ -368,21 +377,21 @@
           <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
             <i class="fa-solid fa-signature text-[#ffc400] mr-1"></i> Nombre Visible de la Sala (Editable)
           </label>
-          <input type="text" id="inputRoomName" class="w-full px-4 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold font-brand text-sm" placeholder="Ej. Sala de Juntas Campeche" value="Sala de Juntas Campeche">
+          <input type="text" id="inputRoomName" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold font-brand text-xs sm:text-sm" placeholder="Ej. Sala de Juntas Campeche" value="Sala de Juntas Campeche">
         </div>
 
-        <div class="grid grid-cols-12 gap-3">
+        <div class="grid grid-cols-12 gap-2.5 sm:gap-3">
           <div class="col-span-8">
             <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
               <i class="fa-solid fa-envelope text-[#ffc400] mr-1"></i> Buzón de Exchange Online
             </label>
-            <input type="email" id="inputRoomEmail" class="w-full px-4 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-mono text-sm" value="SaladeJuntasCamp@itzamna.mx" placeholder="correo@itzamna.mx">
+            <input type="email" id="inputRoomEmail" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-mono text-xs sm:text-sm" value="SaladeJuntasCamp@itzamna.mx" placeholder="correo@itzamna.mx">
           </div>
           <div class="col-span-4">
             <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
               <i class="fa-solid fa-users text-[#ffc400] mr-1"></i> Capacidad
             </label>
-            <input type="number" id="inputRoomCapacity" min="1" max="100" class="w-full px-4 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold text-center text-sm" value="10" placeholder="10">
+            <input type="number" id="inputRoomCapacity" min="1" max="100" class="w-full px-3 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold text-center text-xs sm:text-sm" value="10" placeholder="10">
           </div>
         </div>
 
@@ -397,7 +406,7 @@
                 <p class="text-xs font-bold text-kiosk-main">Alertas de Ocupación</p>
                 <p class="text-[11px] text-kiosk-muted">Notifica quién ocupa la sala y la hora exacta en que se desocupará</p>
               </div>
-              <button type="button" id="btnTogglePushNotifications" onclick="togglePushNotifications()" class="px-3.5 py-1.5 rounded-xl bg-kiosk-card border border-kiosk text-xs font-bold text-kiosk-main flex items-center space-x-1.5 transition active:scale-95">
+              <button type="button" id="btnTogglePushNotifications" onclick="togglePushNotifications()" class="px-3 py-1.5 rounded-xl bg-kiosk-card border border-kiosk text-xs font-bold text-kiosk-main flex items-center space-x-1.5 transition active:scale-95">
                 <i id="pushStatusIcon" class="fa-solid fa-bell text-[#00b090]"></i>
                 <span id="pushStatusText">Activo</span>
               </button>
@@ -416,21 +425,22 @@
           </button>
         </div>
 
+        <!-- SIMULADOR DE ESTADOS -->
         <div class="pt-2 border-t border-kiosk">
           <label class="block text-xs font-bold text-[#ffc400] uppercase tracking-wider mb-2">
             <i class="fa-solid fa-flask mr-1"></i> Simulador de Estados Visuales (Demo)
           </label>
           <div class="grid grid-cols-3 gap-2">
-            <button onclick="simulateScenario('free')" class="p-3 rounded-xl bg-[#00b090]/15 border border-[#00b090]/50 hover:bg-[#00b090]/25 text-[#00b090] font-black font-brand text-xs flex flex-col items-center space-y-1">
-              <i class="fa-solid fa-circle-check text-base"></i>
+            <button onclick="simulateScenario('free')" class="p-2.5 rounded-xl bg-[#00b090]/15 border border-[#00b090]/50 hover:bg-[#00b090]/25 text-[#00b090] font-black font-brand text-xs flex flex-col items-center space-y-1">
+              <i class="fa-solid fa-circle-check text-sm sm:text-base"></i>
               <span>Verde (Libre)</span>
             </button>
-            <button onclick="simulateScenario('upcoming')" class="p-3 rounded-xl bg-[#ffc400]/15 border border-[#ffc400]/50 hover:bg-[#ffc400]/25 text-[#ffc400] font-black font-brand text-xs flex flex-col items-center space-y-1">
-              <i class="fa-solid fa-clock text-base"></i>
+            <button onclick="simulateScenario('upcoming')" class="p-2.5 rounded-xl bg-[#ffc400]/15 border border-[#ffc400]/50 hover:bg-[#ffc400]/25 text-[#ffc400] font-black font-brand text-xs flex flex-col items-center space-y-1">
+              <i class="fa-solid fa-clock text-sm sm:text-base"></i>
               <span>Amarillo (&le;10m)</span>
             </button>
-            <button onclick="simulateScenario('occupied')" class="p-3 rounded-xl bg-[#e11d48]/15 border border-[#e11d48]/50 hover:bg-[#e11d48]/25 text-[#e11d48] font-black font-brand text-xs flex flex-col items-center space-y-1">
-              <i class="fa-solid fa-lock text-base"></i>
+            <button onclick="simulateScenario('occupied')" class="p-2.5 rounded-xl bg-[#e11d48]/15 border border-[#e11d48]/50 hover:bg-[#e11d48]/25 text-[#e11d48] font-black font-brand text-xs flex flex-col items-center space-y-1">
+              <i class="fa-solid fa-lock text-sm sm:text-base"></i>
               <span>Rojo (Ocupado)</span>
             </button>
           </div>
@@ -440,14 +450,16 @@
         </div>
       </div>
 
-      <div class="pt-2 flex items-center space-x-3">
-        <button onclick="closeSettingsModal()" class="flex-1 py-2.5 rounded-xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand transition text-sm">
+      <!-- Pie Fijo con Botones -->
+      <div class="border-t border-kiosk p-3.5 sm:p-4 shrink-0 bg-kiosk-card flex items-center space-x-3">
+        <button onclick="closeSettingsModal()" class="flex-1 py-2.5 sm:py-3 rounded-xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand transition text-xs sm:text-sm">
           Cerrar
         </button>
-        <button onclick="saveRoomSettings()" class="flex-1 py-2.5 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand transition text-sm">
+        <button onclick="saveRoomSettings()" class="flex-1 py-2.5 sm:py-3 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand transition text-xs sm:text-sm">
           Guardar Cambios
         </button>
       </div>
+
     </div>
   </div>
 

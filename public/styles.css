@@ -173,7 +173,7 @@ body.theme-light #agendaListContainer::-webkit-scrollbar-thumb {
 }
 
 /* ==========================================================================
-   4. OPTIMIZACIÓN RESPONSIVA
+   4. OPTIMIZACIÓN RESPONSIVA (HORIZONTAL & VERTICAL)
    ========================================================================== */
 html, body {
   touch-action: manipulation;
@@ -189,13 +189,186 @@ h1, h2, h3, h4, .font-brand {
   font-family: 'Montserrat', 'Inter', sans-serif;
 }
 
-/* Ajustes para tabletas en orientación vertical o móviles */
-@media (max-width: 1023px) {
+/* Modales: Scrollbar interno estilizado */
+#modalBooking .overflow-y-auto::-webkit-scrollbar,
+#modalSettings .overflow-y-auto::-webkit-scrollbar {
+  width: 5px;
+}
+body.theme-dark #modalBooking .overflow-y-auto::-webkit-scrollbar-thumb,
+body.theme-dark #modalSettings .overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #1c283f;
+  border-radius: 4px;
+}
+body.theme-light #modalBooking .overflow-y-auto::-webkit-scrollbar-thumb,
+body.theme-light #modalSettings .overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   A. ORIENTACIÓN HORIZONTAL / LANDSCAPE (2 PANELES SIMULTÁNEOS)
+   Aplica a móviles en horizontal, tablets apaisadas y pantallas de escritorio
+   -------------------------------------------------------------------------- */
+@media (orientation: landscape) {
+  body {
+    overflow: hidden !important;
+    height: 100vh !important;
+  }
+
+  main.kiosk-grid-container {
+    display: grid !important;
+    grid-template-columns: 7fr 5fr !important;
+    height: calc(100vh - 64px) !important;
+    overflow: hidden !important;
+  }
+
+  .hero-section,
+  .agenda-section {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #agendaListContainer {
+    overflow-y: auto !important;
+    flex: 1 1 0% !important;
+  }
+}
+
+/* Ajustes finos para móviles y dispositivos de baja altura en horizontal (h <= 560px) */
+@media (orientation: landscape) and (max-height: 560px) {
+  header {
+    padding: 0.35rem 0.75rem !important;
+  }
+
+  #companyLogo {
+    height: 1.75rem !important;
+    max-width: 110px !important;
+  }
+
+  #roomNameDisplay {
+    font-size: 0.85rem !important;
+    line-height: 1.1 !important;
+  }
+
+  #roomEmailDisplay {
+    font-size: 0.65rem !important;
+  }
+
+  #digitalClock {
+    font-size: 1.25rem !important;
+    line-height: 1 !important;
+  }
+
+  #dateDisplay {
+    font-size: 0.58rem !important;
+    margin-top: 0.15rem !important;
+  }
+
+  #btnHeaderPush,
+  #btnFullscreen {
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  #btnQuickBook {
+    height: 2rem !important;
+    padding-left: 0.65rem !important;
+    padding-right: 0.65rem !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  main.kiosk-grid-container {
+    height: calc(100vh - 46px) !important;
+    gap: 0.5rem !important;
+    padding: 0.4rem 0.6rem !important;
+  }
+
+  #statusCardHero {
+    padding: 0.75rem 1rem !important;
+    border-radius: 1rem !important;
+  }
+
+  .hero-status-title {
+    font-size: 1.6rem !important;
+    line-height: 1 !important;
+  }
+
+  .hero-subtitle {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    margin-top: 0.2rem !important;
+  }
+
+  .quick-book-buttons {
+    padding-top: 0.4rem !important;
+    gap: 0.4rem !important;
+  }
+
+  .quick-book-buttons button {
+    padding: 0.35rem 0.65rem !important;
+    font-size: 0.72rem !important;
+    border-radius: 0.6rem !important;
+  }
+
+  .agenda-section {
+    padding: 0.65rem 0.75rem !important;
+    border-radius: 1rem !important;
+  }
+
+  .agenda-section h2 {
+    font-size: 0.85rem !important;
+  }
+
+  #meetingsCountBadge {
+    font-size: 0.65rem !important;
+    padding: 0.15rem 0.5rem !important;
+  }
+
+  .agenda-item {
+    padding: 0.4rem 0.55rem !important;
+    border-radius: 0.55rem !important;
+  }
+
+  .agenda-item h4 {
+    font-size: 0.75rem !important;
+  }
+
+  .agenda-item p,
+  .agenda-item span {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   B. ORIENTACIÓN VERTICAL / PORTRAIT (TELÉFONOS EN VERTICAL)
+   -------------------------------------------------------------------------- */
+@media (orientation: portrait) and (max-width: 1023px) {
   body {
     overflow-y: auto !important;
-  }
-  main {
-    overflow-y: visible !important;
     height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  main.kiosk-grid-container {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    overflow-y: visible !important;
+    padding: 0.75rem !important;
+    gap: 0.75rem !important;
+  }
+
+  .hero-section {
+    min-height: 380px !important;
+    height: auto !important;
+  }
+
+  .agenda-section {
+    min-height: 300px !important;
+    height: auto !important;
+    max-height: 500px !important;
   }
 }
