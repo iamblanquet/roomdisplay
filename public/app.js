@@ -834,7 +834,7 @@ async function loadRooms() {
   if (!state.roomsList || state.roomsList.length === 0) {
     state.roomsList = [
       { id: 'saladejuntascamp-itzamna-mx', email: 'SaladeJuntasCamp@itzamna.mx', name: 'Sala de Juntas Campeche', location: 'Piso 1 - Campeche' },
-      { id: 'saladejuntasyl-itzamna-mx', email: 'saladejuntasyl@itzamna.mx', name: 'Sala de Juntas Tabasco', location: 'Piso 1 - Tabasco' }
+      { id: 'saladejuntasvsa-itzamna-mx', email: 'SalaDeJuntasVsa@itzamna.mx', name: 'Sala de Juntas Villahermosa', location: 'Piso 1 - Villahermosa' }
     ];
   }
 
