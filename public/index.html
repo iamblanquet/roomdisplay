@@ -52,7 +52,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=3.7">
+  <link rel="stylesheet" href="styles.css?v=3.8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="h-full flex flex-col overflow-hidden font-sans select-none antialiased theme-dark" id="bodyRoot">
@@ -271,6 +271,67 @@
 
   </main>
 
+  <!-- ==================== MODAL: AUTENTICACIÓN ADMIN / PIN DE SEGURIDAD ==================== -->
+  <div id="modalAdminAuth" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto hidden">
+    <div id="adminAuthCard" class="bg-kiosk-card border border-kiosk rounded-2xl sm:rounded-3xl max-w-sm w-full p-5 sm:p-6 overflow-hidden shadow-2xl my-auto animate-fade-in space-y-4">
+      
+      <!-- Cabecera -->
+      <div class="text-center space-y-1.5">
+        <div class="w-12 h-12 rounded-2xl bg-[#ffc400]/15 border border-[#ffc400]/40 flex items-center justify-center text-[#ffc400] text-xl mx-auto shadow-sm">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h3 class="text-base sm:text-lg font-black font-brand text-kiosk-main">Acceso Administrativo</h3>
+        <p class="text-xs text-kiosk-muted">Ingresa el PIN de seguridad del Kiosk para acceder a la configuración</p>
+      </div>
+
+      <!-- Input de PIN con botón de visibilidad -->
+      <div class="space-y-1.5">
+        <div class="relative flex items-center">
+          <input type="password" id="inputAdminPin" class="w-full px-4 py-3 rounded-2xl bg-kiosk-sub border-2 border-kiosk text-kiosk-main text-center font-mono text-xl sm:text-2xl tracking-[0.3em] placeholder-slate-500 focus:outline-none focus:border-[#ffc400] transition" placeholder="••••" maxlength="20" autocomplete="off" onkeydown="handleAdminPinKeyDown(event)">
+          <button type="button" onclick="toggleAdminPinVisibility()" class="absolute right-3.5 text-kiosk-muted hover:text-kiosk-main text-sm p-1" title="Mostrar/Ocultar PIN">
+            <i id="iconTogglePin" class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+        
+        <!-- Mensaje de Error -->
+        <div id="adminPinErrorBox" class="hidden p-2.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-xs text-[#e11d48] font-bold text-center flex items-center justify-center space-x-1.5">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="adminPinErrorMessage">PIN o contraseña incorrecta</span>
+        </div>
+      </div>
+
+      <!-- Teclado Numérico Táctil para Pantallas Kiosk -->
+      <div class="grid grid-cols-3 gap-2 pt-1">
+        <button type="button" onclick="appendAdminPinDigit('1')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">1</button>
+        <button type="button" onclick="appendAdminPinDigit('2')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">2</button>
+        <button type="button" onclick="appendAdminPinDigit('3')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">3</button>
+        <button type="button" onclick="appendAdminPinDigit('4')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">4</button>
+        <button type="button" onclick="appendAdminPinDigit('5')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">5</button>
+        <button type="button" onclick="appendAdminPinDigit('6')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">6</button>
+        <button type="button" onclick="appendAdminPinDigit('7')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">7</button>
+        <button type="button" onclick="appendAdminPinDigit('8')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">8</button>
+        <button type="button" onclick="appendAdminPinDigit('9')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">9</button>
+        <button type="button" onclick="clearAdminPin()" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-rose-500/20 border border-kiosk text-kiosk-muted hover:text-[#e11d48] text-xs font-bold font-brand transition shadow-sm">C</button>
+        <button type="button" onclick="appendAdminPinDigit('0')" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-main font-mono text-base font-bold transition shadow-sm">0</button>
+        <button type="button" onclick="backspaceAdminPin()" class="pin-key-btn py-3 rounded-xl bg-kiosk-sub hover:bg-kiosk-card border border-kiosk text-kiosk-muted hover:text-[#ffc400] text-sm font-bold transition shadow-sm" title="Borrar">
+          <i class="fa-solid fa-delete-left"></i>
+        </button>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="flex items-center space-x-2 pt-2 border-t border-kiosk">
+        <button type="button" onclick="closeAdminAuthModal()" class="flex-1 py-2.5 rounded-xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand text-xs transition">
+          Cancelar
+        </button>
+        <button type="button" id="btnSubmitAdminPin" onclick="submitAdminPin()" class="flex-1 py-2.5 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand text-xs shadow-md transition flex items-center justify-center space-x-1.5 active:scale-95">
+          <span>Desbloquear</span>
+          <i class="fa-solid fa-lock-open"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- ==================== MODAL: RESERVA RÁPIDA (RESPONSIVO Y NO RECORTABLE) ==================== -->
   <div id="modalBooking" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto hidden">
     <div class="bg-kiosk-card border border-kiosk rounded-2xl sm:rounded-3xl max-w-md w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl my-auto animate-fade-in">
@@ -339,9 +400,15 @@
           <i class="fa-solid fa-sliders text-[#ffc400] text-lg"></i>
           <h3 class="text-base sm:text-lg font-black font-brand text-kiosk-main">Configuración del Kiosk</h3>
         </div>
-        <button onclick="closeSettingsModal()" class="text-kiosk-muted hover:text-kiosk-main transition text-lg p-1" title="Cerrar">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+        <div class="flex items-center space-x-2">
+          <button type="button" onclick="lockAdminSession()" class="px-2.5 py-1 rounded-xl bg-kiosk-sub hover:bg-rose-500/20 border border-kiosk text-kiosk-muted hover:text-[#e11d48] text-xs font-bold font-brand transition flex items-center space-x-1" title="Bloquear y cerrar sesión de administrador">
+            <i class="fa-solid fa-lock text-[10px]"></i>
+            <span class="hidden sm:inline">Bloquear</span>
+          </button>
+          <button onclick="closeSettingsModal()" class="text-kiosk-muted hover:text-kiosk-main transition text-lg p-1" title="Cerrar">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Cuerpo con Scroll Suave -->

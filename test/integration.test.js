@@ -89,6 +89,17 @@ async function runIntegrationTests() {
     }
   });
 
+  app.post('/api/auth/verify-pin', (req, res) => {
+    const { pin } = req.body || {};
+    if (!pin && pin !== 0) {
+      return res.status(400).json({ success: false, message: 'PIN requerido' });
+    }
+    if (String(pin).trim() === '1234') {
+      return res.json({ success: true, message: 'Autenticación exitosa' });
+    }
+    return res.status(401).json({ success: false, message: 'PIN incorrecto' });
+  });
+
   app.delete('/api/rooms/:id', (req, res) => {
     try {
       const room = roomService.deleteRoom(req.params.id);
@@ -207,6 +218,25 @@ async function runIntegrationTests() {
       const dataDeleteRoom = await resDeleteRoom.json();
       assert.strictEqual(dataDeleteRoom.success, true);
       console.log('✔ DELETE /api/rooms/:id: OK (Sala eliminada)');
+
+      // 9. Probar Autenticación de PIN de Administrador (POST /api/auth/verify-pin)
+      const resPinValid = await fetch(`http://localhost:${PORT}/api/auth/verify-pin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin: '1234' })
+      });
+      const dataPinValid = await resPinValid.json();
+      assert.strictEqual(resPinValid.status, 200);
+      assert.strictEqual(dataPinValid.success, true);
+      console.log('✔ POST /api/auth/verify-pin (PIN Correcto): OK (200)');
+
+      const resPinInvalid = await fetch(`http://localhost:${PORT}/api/auth/verify-pin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin: '9999' })
+      });
+      assert.strictEqual(resPinInvalid.status, 401);
+      console.log('✔ POST /api/auth/verify-pin (PIN Incorrecto): OK (401 Rechazado)');
 
       console.log('\n--- Todas las pruebas de integración pasaron con éxito ---');
       server.close();

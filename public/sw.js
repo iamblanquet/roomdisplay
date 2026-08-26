@@ -1,8 +1,8 @@
-const CACHE_NAME = 'itz-kiosk-v3.7';
+const CACHE_NAME = 'itz-kiosk-v3.8';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/styles.css?v=3.7',
+  '/styles.css?v=3.8',
   '/app.js',
   '/manifest.json',
   '/assets/logonegro.png',

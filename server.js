@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 const CACHE_TTL_SECONDS = parseInt(process.env.CACHE_TTL_SECONDS, 10) || 15;
 const DEFAULT_ROOM_EMAIL = process.env.DEFAULT_ROOM_EMAIL || 'SaladeJuntasCamp@itzamna.mx';
 const DEFAULT_ROOM_NAME = process.env.DEFAULT_ROOM_NAME || 'Sala de Juntas Campeche';
+const ADMIN_PIN = (process.env.ADMIN_PIN || process.env.KIOSK_ADMIN_PIN || process.env.ADMIN_PASSWORD || '1234').trim();
 
 // Inicializar servicios
 const cacheService = new CacheService(CACHE_TTL_SECONDS);
@@ -22,6 +23,25 @@ const roomService = new RoomService();
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * POST /api/auth/verify-pin
+ * Valida el PIN administrativo para acceder a la configuración del Kiosk
+ */
+app.post('/api/auth/verify-pin', (req, res) => {
+  try {
+    const { pin } = req.body || {};
+    if (!pin && pin !== 0) {
+      return res.status(400).json({ success: false, message: 'Por favor introduce el PIN o contraseña' });
+    }
+    if (String(pin).trim() === ADMIN_PIN) {
+      return res.json({ success: true, message: 'Autenticación exitosa' });
+    }
+    return res.status(401).json({ success: false, message: 'PIN o contraseña incorrecta' });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
 
 /**
  * GET /api/status

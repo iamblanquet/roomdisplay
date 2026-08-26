@@ -723,7 +723,16 @@ async function submitQuickBooking() {
 // ==========================================
 // CONFIGURACIÓN & GESTOR CRUD DE SALAS
 // ==========================================
-async function openSettingsModal() {
+function openSettingsModal() {
+  const isAuthenticated = sessionStorage.getItem('kiosk_admin_authenticated') === 'true';
+  if (!isAuthenticated) {
+    openAdminAuthModal();
+    return;
+  }
+  showSettingsModalUnlocked();
+}
+
+async function showSettingsModalUnlocked() {
   updateThemeModalButtons(state.themeMode);
   updateAodUI();
   cancelRoomForm();
@@ -1438,4 +1447,152 @@ function stopAodTestDemo() {
   resetPixelShift();
   resetAodIdleTimer();
 }
+
+// ==========================================
+// CONTROL DE ACCESO ADMIN (PIN DE SEGURIDAD)
+// ==========================================
+function openAdminAuthModal() {
+  const modal = document.getElementById('modalAdminAuth');
+  const input = document.getElementById('inputAdminPin');
+  const errBox = document.getElementById('adminPinErrorBox');
+  const card = document.getElementById('adminAuthCard');
+
+  if (errBox) errBox.classList.add('hidden');
+  if (card) card.classList.remove('shake-error');
+  if (input) {
+    input.value = '';
+    input.type = 'password';
+  }
+  const eye = document.getElementById('iconTogglePin');
+  if (eye) eye.className = 'fa-solid fa-eye';
+
+  if (modal) {
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      if (input) input.focus();
+    }, 150);
+  }
+}
+
+function closeAdminAuthModal() {
+  const modal = document.getElementById('modalAdminAuth');
+  if (modal) modal.classList.add('hidden');
+}
+
+function lockAdminSession() {
+  sessionStorage.removeItem('kiosk_admin_authenticated');
+  closeSettingsModal();
+  console.log('[Auth] Sesión de administrador bloqueada.');
+}
+
+function toggleAdminPinVisibility() {
+  const input = document.getElementById('inputAdminPin');
+  const eye = document.getElementById('iconTogglePin');
+  if (!input) return;
+
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (eye) eye.className = 'fa-solid fa-eye-slash text-[#ffc400]';
+  } else {
+    input.type = 'password';
+    if (eye) eye.className = 'fa-solid fa-eye text-kiosk-muted';
+  }
+}
+
+function appendAdminPinDigit(digit) {
+  const input = document.getElementById('inputAdminPin');
+  const errBox = document.getElementById('adminPinErrorBox');
+  if (errBox) errBox.classList.add('hidden');
+  if (input && input.value.length < 20) {
+    input.value += digit;
+  }
+}
+
+function backspaceAdminPin() {
+  const input = document.getElementById('inputAdminPin');
+  const errBox = document.getElementById('adminPinErrorBox');
+  if (errBox) errBox.classList.add('hidden');
+  if (input && input.value.length > 0) {
+    input.value = input.value.slice(0, -1);
+  }
+}
+
+function clearAdminPin() {
+  const input = document.getElementById('inputAdminPin');
+  const errBox = document.getElementById('adminPinErrorBox');
+  if (errBox) errBox.classList.add('hidden');
+  if (input) input.value = '';
+}
+
+function handleAdminPinKeyDown(e) {
+  if (e.key === 'Enter') {
+    submitAdminPin();
+  }
+}
+
+async function submitAdminPin() {
+  const input = document.getElementById('inputAdminPin');
+  const btn = document.getElementById('btnSubmitAdminPin');
+  const errBox = document.getElementById('adminPinErrorBox');
+  const errMsg = document.getElementById('adminPinErrorMessage');
+  const card = document.getElementById('adminAuthCard');
+
+  const pin = (input ? input.value : '').trim();
+  if (!pin) {
+    if (errBox && errMsg) {
+      errMsg.textContent = 'Por favor introduce el PIN';
+      errBox.classList.remove('hidden');
+    }
+    if (card) {
+      card.classList.remove('shake-error');
+      void card.offsetWidth;
+      card.classList.add('shake-error');
+    }
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>Verificando...</span>';
+  }
+
+  try {
+    const response = await fetch('/api/auth/verify-pin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || 'PIN o contraseña incorrecta');
+    }
+
+    // Autenticación exitosa
+    sessionStorage.setItem('kiosk_admin_authenticated', 'true');
+    closeAdminAuthModal();
+    await showSettingsModalUnlocked();
+  } catch (err) {
+    if (errBox && errMsg) {
+      errMsg.textContent = err.message || 'PIN o contraseña incorrecta';
+      errBox.classList.remove('hidden');
+    }
+    if (card) {
+      card.classList.remove('shake-error');
+      void card.offsetWidth;
+      card.classList.add('shake-error');
+    }
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Desbloquear</span><i class="fa-solid fa-lock-open"></i>';
+    }
+  }
+}
+
 
