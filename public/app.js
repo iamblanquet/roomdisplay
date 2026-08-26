@@ -780,10 +780,21 @@ function saveRoomSettings() {
 }
 
 function toggleFullscreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(err => console.warn(err));
-  } else {
-    document.exitFullscreen().catch(err => console.warn(err));
+  try {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      const el = document.documentElement;
+      const requestMethod = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+      if (requestMethod) {
+        requestMethod.call(el).catch(() => {});
+      }
+    } else {
+      const exitMethod = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if (exitMethod) {
+        exitMethod.call(document).catch(() => {});
+      }
+    }
+  } catch (err) {
+    // Ignorar si el navegador bloquea la acción sin interacción directa
   }
 }
 

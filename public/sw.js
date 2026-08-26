@@ -1,29 +1,28 @@
-const CACHE_NAME = 'itz-kiosk-v2.5';
+const CACHE_NAME = 'itz-kiosk-v3.0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/styles.css',
+  '/styles.css?v=2.5',
   '/app.js',
   '/manifest.json',
   '/assets/logonegro.png',
   '/assets/icon-192.png',
-  '/assets/icon-512.png',
-  'https://cdn.tailwindcss.com',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
+  '/assets/icon-512.png'
 ];
 
-// Instalación del Service Worker: cachear activos estáticos básicos
+// Instalación del Service Worker: cachear activos locales esenciales
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(STATIC_ASSETS).catch(err => {
-        console.warn('[SW] Algunos recursos no pudieron cachearse durante install:', err);
-      });
-    }).then(() => self.skipWaiting())
+      return cache.addAll(STATIC_ASSETS);
+    }).catch(err => {
+      console.warn('[SW] Aviso de instalación:', err);
+    })
   );
 });
 
-// Activación: limpiar cachés antiguas
+// Activación: limpiar cachés antiguas y reclamar clientes
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -36,9 +35,14 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Estrategia de Fetch: Network-First para APIs, Cache-First para estáticos
+// Estrategia de Fetch: Network-First para APIs locales, Cache-First para estáticos locales
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
+
+  // Ignorar peticiones externas (CDNs) en el SW para evitar bloqueos CORS
+  if (url.origin !== self.location.origin) {
+    return;
+  }
 
   // Las peticiones a la API nunca se bloquean con caché estático
   if (url.pathname.startsWith('/api/')) {
@@ -55,7 +59,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Recursos estáticos: Stale-While-Revalidate
+  // Recursos estáticos locales: Cache First con refresco en segundo plano
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
       const fetchPromise = fetch(event.request).then(networkResponse => {
