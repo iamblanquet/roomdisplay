@@ -17,7 +17,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS CDN -->
+  <!-- Silenciar advertencia informativa de Tailwind CDN en producción -->
+  <script>
+    (function() {
+      const origWarn = console.warn;
+      console.warn = function(...args) {
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) {
+          return;
+        }
+        origWarn.apply(console, args);
+      };
+    })();
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -41,7 +52,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=2.5">
+  <link rel="stylesheet" href="styles.css?v=3.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="h-full flex flex-col overflow-hidden font-sans select-none antialiased theme-dark" id="bodyRoot">
