@@ -365,17 +365,17 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Asunto de la Reunión</label>
+          <label for="inputBookingTitle" class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Asunto de la Reunión</label>
           <input type="text" id="inputBookingTitle" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main placeholder-slate-500 focus:outline-none focus:border-[#ffc400] font-medium text-sm" placeholder="Reunión rápida" value="Reunión Rápida">
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Organizador</label>
+          <label for="inputBookingOrganizer" class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Organizador</label>
           <input type="text" id="inputBookingOrganizer" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main placeholder-slate-500 focus:outline-none focus:border-[#ffc400] font-medium text-sm" placeholder="Tu nombre" value="Tablet Kiosk Campeche">
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Duración</label>
+          <span class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">Duración</span>
           <div class="grid grid-cols-4 gap-2">
             <button type="button" onclick="selectDuration(15)" class="duration-btn py-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-muted font-bold font-brand text-xs sm:text-sm hover:border-[#ffc400]" data-duration="15">15m</button>
             <button type="button" onclick="selectDuration(30)" class="duration-btn py-2.5 rounded-xl border border-[#ffc400] bg-[#ffc400]/20 text-[#ffc400] font-black font-brand text-xs sm:text-sm" data-duration="30">30m</button>
@@ -418,9 +418,9 @@
       <div class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
         <!-- MODO DE TEMA (DÍA / NOCHE / AUTO) -->
         <div>
-          <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
+          <span class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
             <i class="fa-solid fa-circle-half-stroke text-[#ffc400] mr-1"></i> Modo Visual (Tema)
-          </label>
+          </span>
           <div class="grid grid-cols-3 gap-2">
             <button type="button" onclick="setThemePreference('auto')" id="themeBtnAuto" class="py-2 px-2.5 rounded-xl border border-kiosk bg-kiosk-sub text-kiosk-main font-bold text-xs flex items-center justify-center space-x-1">
               <i class="fa-solid fa-clock-rotate-left"></i>
@@ -440,9 +440,9 @@
         <!-- ==================== GESTOR DE SALAS (CRUD) ==================== -->
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider">
+            <span class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider">
               <i class="fa-solid fa-door-open text-[#ffc400] mr-1"></i> Administración de Salas
-            </label>
+            </span>
             <button type="button" id="btnOpenCreateRoom" onclick="openCreateRoomForm()" class="px-2.5 py-1.5 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand text-xs flex items-center space-x-1.5 shadow-sm active:scale-95 transition">
               <i class="fa-solid fa-plus text-xs"></i>
               <span>Nueva Sala</span>
@@ -471,17 +471,17 @@
             <input type="hidden" id="inputCrudRoomId" value="">
 
             <div>
-              <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Nombre Visible de la Sala</label>
+              <label for="inputCrudRoomName" class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Nombre Visible de la Sala</label>
               <input type="text" id="inputCrudRoomName" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold font-brand text-xs" placeholder="Ej. Sala de Innovación">
             </div>
 
             <div>
-              <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Buzón de Exchange Online (Email)</label>
+              <label for="inputCrudRoomEmail" class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Buzón de Exchange Online (Email)</label>
               <input type="email" id="inputCrudRoomEmail" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-mono text-xs" placeholder="correo@itzamna.mx">
             </div>
 
             <div>
-              <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Ubicación / Piso</label>
+              <label for="inputCrudRoomLocation" class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Ubicación / Piso</label>
               <input type="text" id="inputCrudRoomLocation" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] text-xs font-medium" placeholder="Ej. Piso 1 - Campeche" value="Oficinas ITZ">
             </div>
 
@@ -499,9 +499,9 @@
 
         <!-- PROTECCIÓN ANTI-BURN-IN ALWAYS-ON DISPLAY (AOD) -->
         <div class="pt-2 border-t border-kiosk">
-          <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-2">
+          <span class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-2">
             <i class="fa-solid fa-shield-halved text-[#00b090] mr-1"></i> Protección de Pantalla (Always-On)
-          </label>
+          </span>
           <div class="p-3.5 rounded-2xl bg-kiosk-sub border border-kiosk space-y-3">
             <div class="flex items-center justify-between">
               <div>
@@ -522,9 +522,9 @@
 
         <!-- NOTIFICACIONES PUSH & ALERTAS EN TIEMPO REAL -->
         <div class="pt-2 border-t border-kiosk">
-          <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-2">
+          <span class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-2">
             <i class="fa-solid fa-bell text-[#ffc400] mr-1"></i> Alertas Push del Navegador
-          </label>
+          </span>
           <div class="p-3.5 rounded-2xl bg-kiosk-sub border border-kiosk space-y-3">
             <div class="flex items-center justify-between">
               <div>
@@ -552,9 +552,9 @@
 
         <!-- SIMULADOR DE ESTADOS -->
         <div class="pt-2 border-t border-kiosk">
-          <label class="block text-xs font-bold text-[#ffc400] uppercase tracking-wider mb-2">
+          <span class="block text-xs font-bold text-[#ffc400] uppercase tracking-wider mb-2">
             <i class="fa-solid fa-flask mr-1"></i> Simulador de Estados Visuales (Demo)
-          </label>
+          </span>
           <div class="grid grid-cols-3 gap-2">
             <button onclick="simulateScenario('free')" class="p-2.5 rounded-xl bg-[#00b090]/15 border border-[#00b090]/50 hover:bg-[#00b090]/25 text-[#00b090] font-black font-brand text-xs flex flex-col items-center space-y-1">
               <i class="fa-solid fa-circle-check text-sm sm:text-base"></i>
