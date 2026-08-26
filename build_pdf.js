@@ -15,7 +15,7 @@ const htmlContent = `<!DOCTYPE html>
 
     @page {
       size: letter portrait;
-      margin: 8mm 12mm 8mm 12mm;
+      margin: 7mm 11mm 7mm 11mm;
     }
 
     * {
@@ -28,8 +28,8 @@ const htmlContent = `<!DOCTYPE html>
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #0f172a;
       background-color: #ffffff;
-      line-height: 1.34;
-      font-size: 8.8pt;
+      line-height: 1.32;
+      font-size: 8.6pt;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -47,12 +47,12 @@ const htmlContent = `<!DOCTYPE html>
       justify-content: space-between;
       align-items: center;
       border-bottom: 2.5px solid #ffc400;
-      padding-bottom: 7px;
-      margin-bottom: 9px;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .logo-img {
-      height: 44px;
+      height: 42px;
       width: auto;
       object-fit: contain;
       display: block;
@@ -67,16 +67,16 @@ const htmlContent = `<!DOCTYPE html>
       background: #0f172a;
       color: #ffc400;
       font-weight: 800;
-      font-size: 7.5pt;
-      padding: 2.5px 8px;
-      border-radius: 5px;
+      font-size: 7.2pt;
+      padding: 2px 7.5px;
+      border-radius: 4px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 2px;
     }
 
     .doc-meta {
-      font-size: 7.5pt;
+      font-size: 7.2pt;
       color: #64748b;
       font-weight: 600;
     }
@@ -85,40 +85,40 @@ const htmlContent = `<!DOCTYPE html>
     .banner {
       background: linear-gradient(135deg, #070c18 0%, #131d36 100%);
       color: #ffffff;
-      padding: 10px 15px;
+      padding: 9px 14px;
       border-radius: 8px;
-      margin-bottom: 9px;
-      border-left: 5px solid #ffc400;
+      margin-bottom: 8px;
+      border-left: 4.5px solid #ffc400;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .banner-title {
-      font-size: 13.5pt;
+      font-size: 13pt;
       font-weight: 900;
       letter-spacing: -0.3px;
       color: #ffffff;
     }
 
     .banner-subtitle {
-      font-size: 8pt;
+      font-size: 7.8pt;
       color: #cbd5e1;
       margin-top: 1.5px;
     }
 
     /* Encabezados de Sección */
     .section-title {
-      font-size: 9.6pt;
+      font-size: 9.2pt;
       font-weight: 800;
       color: #0f172a;
-      margin-top: 7px;
-      margin-bottom: 5px;
+      margin-top: 6px;
+      margin-bottom: 4.5px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       border-left: 3.5px solid #ffc400;
-      padding-left: 6px;
+      padding-left: 5px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
     }
@@ -127,13 +127,13 @@ const htmlContent = `<!DOCTYPE html>
     .status-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 9px;
+      gap: 7px;
+      margin-bottom: 8px;
     }
 
     .status-card {
-      border-radius: 8px;
-      padding: 7px 9px;
+      border-radius: 7px;
+      padding: 6px 8px;
       border-width: 1.5px;
       border-style: solid;
       background: #f8fafc;
@@ -156,11 +156,11 @@ const htmlContent = `<!DOCTYPE html>
 
     .status-badge {
       display: inline-block;
-      font-size: 6.8pt;
+      font-size: 6.5pt;
       font-weight: 800;
       text-transform: uppercase;
-      padding: 1.5px 5.5px;
-      border-radius: 4px;
+      padding: 1.5px 5px;
+      border-radius: 3.5px;
       margin-bottom: 2px;
       color: #ffffff;
     }
@@ -171,63 +171,63 @@ const htmlContent = `<!DOCTYPE html>
 
     .status-name {
       font-weight: 800;
-      font-size: 8.8pt;
+      font-size: 8.5pt;
       color: #0f172a;
       margin-bottom: 1.5px;
     }
 
     .status-desc {
-      font-size: 7.5pt;
+      font-size: 7.3pt;
       color: #475569;
-      line-height: 1.25;
+      line-height: 1.22;
     }
 
     /* Columnas Dobles para Métodos de Reserva */
     .methods-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 9px;
-      margin-bottom: 8px;
+      gap: 8px;
+      margin-bottom: 7px;
     }
 
     .method-box {
       background: #f8fafc;
       border: 1.2px solid #e2e8f0;
       border-radius: 8px;
-      padding: 8px 11px;
+      padding: 7px 10px;
     }
 
     .method-header {
       font-weight: 800;
-      font-size: 9pt;
+      font-size: 8.8pt;
       color: #0f172a;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
       gap: 5px;
-      padding-bottom: 3px;
+      padding-bottom: 2.5px;
       border-bottom: 1.5px solid #e2e8f0;
     }
 
     .steps-list {
       display: flex;
       flex-direction: column;
-      gap: 4.5px;
+      gap: 4px;
     }
 
     .step-row {
       display: flex;
       align-items: flex-start;
-      gap: 7px;
+      gap: 6px;
     }
 
     .step-circle {
       background: #0f172a;
       color: #ffc400;
       font-weight: 800;
-      font-size: 7.8pt;
-      width: 17px;
-      height: 17px;
+      font-size: 7.5pt;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -237,78 +237,86 @@ const htmlContent = `<!DOCTYPE html>
     }
 
     .step-info {
-      font-size: 7.6pt;
+      font-size: 7.4pt;
       color: #334155;
-      line-height: 1.28;
+      line-height: 1.25;
     }
 
     .step-info strong {
       color: #0f172a;
     }
 
-    /* Destacados en 2 Columnas: Asistentes y Notificaciones */
+    /* Destacados en 3 Columnas: Asistentes, Notificaciones y App Instalable */
     .features-grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 9px;
-      margin-bottom: 8px;
+      grid-template-columns: 1.15fr 0.95fr 0.9fr;
+      gap: 7px;
+      margin-bottom: 7px;
     }
 
-    .callout-assistants {
+    .callout-card {
+      border-radius: 7px;
+      padding: 7px 9px;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      border-width: 1.5px;
+      border-style: solid;
+    }
+
+    .callout-blue {
       background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-      border: 1.5px solid #3b82f6;
-      border-radius: 8px;
-      padding: 8px 11px;
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
+      border-color: #3b82f6;
     }
 
-    .callout-notifications {
+    .callout-green {
       background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-      border: 1.5px solid #00b090;
-      border-radius: 8px;
-      padding: 8px 11px;
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
+      border-color: #00b090;
+    }
+
+    .callout-purple {
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      border-color: #8b5cf6;
     }
 
     .callout-icon {
-      font-size: 13.5pt;
+      font-size: 12pt;
       line-height: 1;
       flex-shrink: 0;
+      margin-top: 1px;
     }
 
     .callout-title {
-      font-size: 8.3pt;
+      font-size: 8pt;
       font-weight: 800;
-      margin-bottom: 2px;
+      margin-bottom: 1.5px;
     }
 
     .title-blue { color: #1d4ed8; }
     .title-green { color: #047857; }
+    .title-purple { color: #6d28d9; }
 
     .callout-body {
-      font-size: 7.5pt;
-      line-height: 1.3;
+      font-size: 7.2pt;
+      line-height: 1.25;
     }
 
     .body-blue { color: #1e3a8a; }
     .body-green { color: #065f46; }
+    .body-purple { color: #5b21b6; }
 
     /* Tabla de Salas */
     table.rooms-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 3px;
-      font-size: 7.8pt;
+      font-size: 7.6pt;
     }
 
     table.rooms-table th,
     table.rooms-table td {
       border: 1px solid #cbd5e1;
-      padding: 5px 8px;
+      padding: 4.5px 7px;
       text-align: left;
     }
 
@@ -330,9 +338,9 @@ const htmlContent = `<!DOCTYPE html>
       font-family: 'JetBrains Mono', monospace;
       background: #ffffff;
       color: #0f172a;
-      font-size: 7.6pt;
+      font-size: 7.4pt;
       padding: 1.5px 5px;
-      border-radius: 4px;
+      border-radius: 3.5px;
       border: 1px solid #94a3b8;
       font-weight: 700;
     }
@@ -358,9 +366,9 @@ const htmlContent = `<!DOCTYPE html>
     <div class="banner">
       <div>
         <div class="banner-title">Sistema de Reserva de Salas de Juntas</div>
-        <div class="banner-subtitle">Consulta de disponibilidad en tiempo real, métodos oficiales de reserva y alertas móviles</div>
+        <div class="banner-subtitle">Consulta de disponibilidad en tiempo real, métodos oficiales de reserva y acceso móvil</div>
       </div>
-      <div style="text-align: right; font-size: 8pt; font-weight: 700; color: #ffc400;">
+      <div style="text-align: right; font-size: 7.8pt; font-weight: 700; color: #ffc400;">
         ITZAMNA.MX
       </div>
     </div>
@@ -409,7 +417,7 @@ const htmlContent = `<!DOCTYPE html>
           </div>
           <div class="step-row">
             <div class="step-circle">2</div>
-            <div class="step-info">Selecciona la duración deseada: <strong>15, 30, 45 o 60 min</strong> (se deshabilitan duraciones que choquen con citas futuras).</div>
+            <div class="step-info">Selecciona la duración deseada: <strong>15, 30, 45 o 60 min</strong> (se deshabilitan opciones que causen conflicto).</div>
           </div>
           <div class="step-row">
             <div class="step-circle">3</div>
@@ -417,7 +425,7 @@ const htmlContent = `<!DOCTYPE html>
           </div>
           <div class="step-row">
             <div class="step-circle">4</div>
-            <div class="step-info">Presiona <strong>«Confirmar»</strong>. La pantalla cambiará a <strong>ROJO</strong> y se sincronizará en Outlook para toda la empresa.</div>
+            <div class="step-info">Presiona <strong>«Confirmar»</strong>. La pantalla cambiará a <strong>ROJO</strong> y se sincronizará en Outlook corporativo.</div>
           </div>
         </div>
       </div>
@@ -449,27 +457,38 @@ const htmlContent = `<!DOCTYPE html>
 
     </div>
 
-    <!-- SECCIÓN 3: TIPS CLAVE (INVITADOS Y NOTIFICACIONES PUSH) -->
+    <!-- SECCIÓN 3: TIPS CLAVE (INVITADOS, NOTIFICACIONES Y APP INSTALABLE) -->
     <div class="features-grid">
       
       <!-- Callout: Asistentes requeridos -->
-      <div class="callout-assistants">
+      <div class="callout-card callout-blue">
         <div class="callout-icon">💡</div>
         <div>
-          <div class="callout-title title-blue">¿No encuentras la sala en la lista de ubicaciones?</div>
+          <div class="callout-title title-blue">¿No ves la sala en la lista?</div>
           <div class="callout-body body-blue">
-            <strong>¡Invítala como asistente!</strong> Escribe el correo oficial de la sala en el campo <strong>«Invitar asistentes»</strong> (como si fuera un compañero). Microsoft 365 reservará la sala automáticamente y se mostrará en pantalla.
+            <strong>¡Invítala como asistente!</strong> Escribe el correo de la sala en <strong>«Invitar asistentes»</strong>. Microsoft 365 la reservará automáticamente.
           </div>
         </div>
       </div>
 
       <!-- Callout: Notificaciones Push -->
-      <div class="callout-notifications">
+      <div class="callout-card callout-green">
         <div class="callout-icon">🔔</div>
         <div>
-          <div class="callout-title title-green">Alertas en tu Móvil / PC</div>
+          <div class="callout-title title-green">Alertas en Móvil / PC</div>
           <div class="callout-body body-green">
-            Toca el icono de la <strong>Campana</strong> en la pantalla o en tu navegador web para activar <strong>Alertas Push</strong>. Recibirás un aviso en tiempo real cuando la sala quede <strong>desocupada</strong>.
+            Toca el icono de la <strong>Campana</strong> para activar <strong>Alertas Push</strong> y recibir un aviso al celular/PC cuando la sala se desocupe.
+          </div>
+        </div>
+      </div>
+
+      <!-- Callout: App Instalable PWA -->
+      <div class="callout-card callout-purple">
+        <div class="callout-icon">📲</div>
+        <div>
+          <div class="callout-title title-purple">App Instalable (PWA)</div>
+          <div class="callout-body body-purple">
+            Instálala en tu teléfono o laptop desde el navegador (<em>"Instalar App"</em> o <em>"Agregar a pantalla de inicio"</em>) para acceso directo.
           </div>
         </div>
       </div>
