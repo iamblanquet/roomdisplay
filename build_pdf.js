@@ -480,7 +480,7 @@ const htmlContent = `<!DOCTYPE html>
         <tr>
           <td><strong>Sala de Juntas Tabasco</strong></td>
           <td>Piso 1 - Oficinas Tabasco</td>
-          <td><span class="code-email">SaladeJuntasTbc@itzamna.mx</span></td>
+          <td><span class="code-email">saladejuntasyl@itzamna.mx</span></td>
         </tr>
       </tbody>
     </table>

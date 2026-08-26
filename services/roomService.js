@@ -12,8 +12,8 @@ const DEFAULT_ROOMS = [
     location: 'Piso 1 - Campeche'
   },
   {
-    id: 'saladejuntastbc-itzamna-mx',
-    email: 'SaladeJuntasTbc@itzamna.mx',
+    id: 'saladejuntasyl-itzamna-mx',
+    email: 'saladejuntasyl@itzamna.mx',
     name: 'Sala de Juntas Tabasco',
     location: 'Piso 1 - Tabasco'
   }
