@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 
 const logoPath = path.join(__dirname, 'public', 'assets', 'logonegro.png');
 const logoBase64 = fs.readFileSync(logoPath).toString('base64');
@@ -15,7 +15,7 @@ const htmlContent = `<!DOCTYPE html>
 
     @page {
       size: letter portrait;
-      margin: 10mm 13mm 10mm 13mm;
+      margin: 10mm 14mm 10mm 14mm;
     }
 
     * {
@@ -52,7 +52,7 @@ const htmlContent = `<!DOCTYPE html>
     }
 
     .logo-img {
-      height: 46px;
+      height: 48px;
       width: auto;
       object-fit: contain;
       display: block;
@@ -471,5 +471,34 @@ const htmlContent = `<!DOCTYPE html>
 `;
 
 const htmlFilePath = path.join(__dirname, 'docs', 'manual_usuario_kiosk.html');
+const pdfFilePath = path.join(__dirname, 'docs', 'Manual_Usuario_Kiosk_Salas_ITZ.pdf');
+
 fs.writeFileSync(htmlFilePath, htmlContent, 'utf-8');
-console.log('HTML creado exitosamente en:', htmlFilePath);
+console.log('1. HTML guardado en:', htmlFilePath);
+
+// Buscar ejecutable de Edge o Chrome
+const edgePaths = [
+  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+  'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+];
+
+let browserPath = edgePaths.find(p => fs.existsSync(p));
+
+if (!browserPath) {
+  throw new Error('No se encontró navegador Chromium para exportar el PDF.');
+}
+
+console.log('2. Utilizando navegador:', browserPath);
+
+// Ejecutar comando con --no-pdf-header-footer para que NO imprima URLs, fechas ni encabezados del navegador
+const args = [
+  '--headless=new',
+  '--disable-gpu',
+  '--no-pdf-header-footer',
+  `--print-to-pdf=${pdfFilePath}`,
+  `file:///${htmlFilePath.replace(/\\\\/g, '/')}`
+];
+
+execFileSync(browserPath, args);
+console.log('3. PDF generado limpiamente sin cabeceras/pies de navegador en:', pdfFilePath);
