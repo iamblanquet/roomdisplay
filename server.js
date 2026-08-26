@@ -15,6 +15,8 @@ const DEFAULT_ROOM_NAME = process.env.DEFAULT_ROOM_NAME || 'Sala de Juntas Campe
 // Inicializar servicios
 const cacheService = new CacheService(CACHE_TTL_SECONDS);
 const graphService = new GraphService();
+const RoomService = require('./services/roomService');
+const roomService = new RoomService();
 
 // Middlewares
 app.use(cors());
@@ -124,28 +126,77 @@ app.post('/api/book', async (req, res) => {
 });
 
 /**
+ * ==========================================
+ * RUTAS CRUD DE SALAS (/api/rooms)
+ * ==========================================
+ */
+
+/**
  * GET /api/rooms
- * Lista salas preconfiguradas para selector rápido en tablets
+ * Retorna la lista completa de salas disponibles
  */
 app.get('/api/rooms', (req, res) => {
-  let rooms = [];
-  if (process.env.ROOMS_CONFIG) {
-    try {
-      rooms = JSON.parse(process.env.ROOMS_CONFIG);
-    } catch (e) {
-      console.warn('[Rooms] Error al parsear ROOMS_CONFIG, usando lista por defecto');
-    }
+  try {
+    const rooms = roomService.getAllRooms();
+    res.json({ rooms });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al listar salas', message: error.message });
   }
+});
 
-  if (!rooms || rooms.length === 0) {
-    rooms = [
-      { email: DEFAULT_ROOM_EMAIL, name: DEFAULT_ROOM_NAME, capacity: 10, location: 'Piso 1 - Campeche' },
-      { email: 'SalaMerida@itzamna.mx', name: 'Sala de Juntas Mérida', capacity: 14, location: 'Piso 2 - Mérida' },
-      { email: 'SalaCancun@itzamna.mx', name: 'Sala Ejecutiva Cancún', capacity: 8, location: 'Piso 1 - Cancún' }
-    ];
+/**
+ * POST /api/rooms
+ * Registra una nueva sala
+ */
+app.post('/api/rooms', (req, res) => {
+  try {
+    const { name, email, capacity, location } = req.body;
+    const room = roomService.createRoom({ name, email, capacity, location });
+    res.status(201).json({
+      success: true,
+      message: 'Sala creada exitosamente',
+      room
+    });
+  } catch (error) {
+    res.status(400).json({ error: 'ROOM_CREATE_FAILED', message: error.message });
   }
+});
 
-  res.json({ rooms });
+/**
+ * PUT /api/rooms/:id
+ * Modifica una sala existente
+ */
+app.put('/api/rooms/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, capacity, location } = req.body;
+    const room = roomService.updateRoom(id, { name, email, capacity, location });
+    res.json({
+      success: true,
+      message: 'Sala actualizada exitosamente',
+      room
+    });
+  } catch (error) {
+    res.status(400).json({ error: 'ROOM_UPDATE_FAILED', message: error.message });
+  }
+});
+
+/**
+ * DELETE /api/rooms/:id
+ * Elimina una sala existente
+ */
+app.delete('/api/rooms/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedRoom = roomService.deleteRoom(id);
+    res.json({
+      success: true,
+      message: `Sala "${deletedRoom.name}" eliminada exitosamente`,
+      room: deletedRoom
+    });
+  } catch (error) {
+    res.status(400).json({ error: 'ROOM_DELETE_FAILED', message: error.message });
+  }
 });
 
 /**

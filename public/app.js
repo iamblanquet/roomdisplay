@@ -708,23 +708,12 @@ async function submitQuickBooking() {
 }
 
 // ==========================================
-// CONFIGURACIÓN & SIMULADOR
+// CONFIGURACIÓN & GESTOR CRUD DE SALAS
 // ==========================================
-function openSettingsModal() {
-  if (elements.inputRoomName) elements.inputRoomName.value = state.roomName;
-  if (elements.inputRoomEmail) elements.inputRoomEmail.value = state.roomEmail;
-  if (elements.inputRoomCapacity) elements.inputRoomCapacity.value = state.capacity || 10;
-
-  if (elements.selectPresetRoom) {
-    const matchingOption = Array.from(elements.selectPresetRoom.options).find(opt => opt.value.toLowerCase() === state.roomEmail.toLowerCase());
-    if (matchingOption) {
-      elements.selectPresetRoom.value = matchingOption.value;
-    } else {
-      elements.selectPresetRoom.value = 'custom';
-    }
-  }
-
+async function openSettingsModal() {
   updateThemeModalButtons(state.themeMode);
+  cancelRoomForm();
+  await loadRooms();
   elements.modalSettings.classList.remove('hidden');
 }
 
@@ -738,44 +727,234 @@ function simulateScenario(scenario) {
   fetchStatus(true);
 }
 
-function onPresetRoomChange(selectedVal) {
-  if (selectedVal === 'custom') {
-    if (elements.inputRoomName) elements.inputRoomName.focus();
+// Cargar lista de salas desde el Backend / LocalStorage
+async function loadRooms() {
+  try {
+    const response = await fetch('/api/rooms', {
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      state.roomsList = data.rooms || [];
+    }
+  } catch (err) {
+    console.warn('[Rooms] Error al consultar /api/rooms, usando lista local:', err);
+  }
+
+  if (!state.roomsList || state.roomsList.length === 0) {
+    state.roomsList = [
+      { id: 'saladejuntascamp-itzamna-mx', email: 'SaladeJuntasCamp@itzamna.mx', name: 'Sala de Juntas Campeche', capacity: 10, location: 'Piso 1 - Campeche' },
+      { id: 'salamerida-itzamna-mx', email: 'SalaMerida@itzamna.mx', name: 'Sala de Juntas Mérida', capacity: 14, location: 'Piso 2 - Mérida' },
+      { id: 'salacancun-itzamna-mx', email: 'SalaCancun@itzamna.mx', name: 'Sala Ejecutiva Cancún', capacity: 8, location: 'Piso 1 - Cancún' }
+    ];
+  }
+
+  renderRoomsList();
+}
+
+// Renderizar tarjetas de salas en la vista del modal
+function renderRoomsList() {
+  const container = document.getElementById('roomsListContainer');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  state.roomsList.forEach(room => {
+    const isActive = room.email.toLowerCase() === state.roomEmail.toLowerCase();
+    const card = document.createElement('div');
+    card.className = `p-3 rounded-2xl border transition-all ${
+      isActive 
+        ? 'bg-[#00b090]/10 border-[#00b090]/50 shadow-sm' 
+        : 'bg-kiosk-sub border-kiosk hover:border-[#ffc400]/40'
+    }`;
+
+    card.innerHTML = `
+      <div class="flex items-start justify-between gap-2">
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center space-x-2 flex-wrap">
+            <h4 class="text-xs sm:text-sm font-black font-brand text-kiosk-main truncate">${escapeHtml(room.name)}</h4>
+            ${isActive ? '<span class="px-2 py-0.5 rounded-full bg-[#00b090] text-black text-[9px] font-black uppercase tracking-wider">Activa Aquí</span>' : ''}
+          </div>
+          <p class="text-[11px] font-mono text-kiosk-muted truncate mt-0.5 flex items-center space-x-1">
+            <i class="fa-solid fa-envelope text-[9px] text-[#ffc400]"></i>
+            <span class="truncate">${escapeHtml(room.email)}</span>
+          </p>
+          <div class="flex items-center space-x-3 text-[10px] text-kiosk-muted font-medium mt-1">
+            <span><i class="fa-solid fa-users text-[#ffc400] mr-1"></i>${room.capacity || 10} personas</span>
+            <span><i class="fa-solid fa-location-dot text-[#ffc400] mr-1"></i>${escapeHtml(room.location || 'Oficinas ITZ')}</span>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-1 shrink-0">
+          ${!isActive ? `
+            <button type="button" onclick="selectActiveRoom('${escapeHtml(room.id || room.email)}')" class="px-2.5 py-1.5 rounded-xl bg-kiosk-card hover:bg-[#ffc400] hover:text-black border border-kiosk text-kiosk-main text-[11px] font-bold font-brand transition shadow-sm" title="Mostrar esta sala en este Kiosk">
+              Usar
+            </button>
+          ` : ''}
+          <button type="button" onclick="openEditRoomForm('${escapeHtml(room.id || room.email)}')" class="w-7 h-7 rounded-xl bg-kiosk-card hover:bg-[#ffc400]/20 border border-kiosk text-kiosk-muted hover:text-[#ffc400] text-xs flex items-center justify-center transition" title="Editar Sala">
+            <i class="fa-solid fa-pen text-[10px]"></i>
+          </button>
+          <button type="button" onclick="deleteRoom('${escapeHtml(room.id || room.email)}')" class="w-7 h-7 rounded-xl bg-kiosk-card hover:bg-rose-500/20 border border-kiosk text-kiosk-muted hover:text-[#e11d48] text-xs flex items-center justify-center transition" title="Eliminar Sala">
+            <i class="fa-solid fa-trash text-[10px]"></i>
+          </button>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// Abrir formulario para crear sala
+function openCreateRoomForm() {
+  document.getElementById('inputCrudRoomId').value = '';
+  document.getElementById('crudFormTitle').innerHTML = '<i class="fa-solid fa-plus-circle"></i><span>Registrar Nueva Sala</span>';
+  document.getElementById('btnSaveCrudRoomText').textContent = 'Crear Sala';
+
+  document.getElementById('inputCrudRoomName').value = '';
+  document.getElementById('inputCrudRoomEmail').value = '';
+  document.getElementById('inputCrudRoomCapacity').value = '10';
+  document.getElementById('inputCrudRoomLocation').value = 'Oficinas ITZ';
+
+  document.getElementById('roomsListView').classList.add('hidden');
+  document.getElementById('btnOpenCreateRoom').classList.add('hidden');
+  document.getElementById('roomsFormView').classList.remove('hidden');
+}
+
+// Abrir formulario para editar sala
+function openEditRoomForm(roomId) {
+  const room = (state.roomsList || []).find(r => r.id === roomId || r.email === roomId);
+  if (!room) return;
+
+  document.getElementById('inputCrudRoomId').value = room.id || room.email;
+  document.getElementById('crudFormTitle').innerHTML = `<i class="fa-solid fa-pen-to-square"></i><span>Editar Sala: ${escapeHtml(room.name)}</span>`;
+  document.getElementById('btnSaveCrudRoomText').textContent = 'Guardar Cambios';
+
+  document.getElementById('inputCrudRoomName').value = room.name;
+  document.getElementById('inputCrudRoomEmail').value = room.email;
+  document.getElementById('inputCrudRoomCapacity').value = room.capacity || 10;
+  document.getElementById('inputCrudRoomLocation').value = room.location || 'Oficinas ITZ';
+
+  document.getElementById('roomsListView').classList.add('hidden');
+  document.getElementById('btnOpenCreateRoom').classList.add('hidden');
+  document.getElementById('roomsFormView').classList.remove('hidden');
+}
+
+// Cancelar formulario y volver a lista
+function cancelRoomForm() {
+  const formView = document.getElementById('roomsFormView');
+  const listView = document.getElementById('roomsListView');
+  const btnOpen = document.getElementById('btnOpenCreateRoom');
+  if (formView) formView.classList.add('hidden');
+  if (listView) listView.classList.remove('hidden');
+  if (btnOpen) btnOpen.classList.remove('hidden');
+}
+
+// Enviar formulario (Crear o Actualizar Sala)
+async function submitRoomForm() {
+  const id = (document.getElementById('inputCrudRoomId').value || '').trim();
+  const name = (document.getElementById('inputCrudRoomName').value || '').trim();
+  const email = (document.getElementById('inputCrudRoomEmail').value || '').trim();
+  const capacity = parseInt(document.getElementById('inputCrudRoomCapacity').value, 10) || 10;
+  const location = (document.getElementById('inputCrudRoomLocation').value || '').trim() || 'Oficinas ITZ';
+
+  if (!name) {
+    alert('Por favor introduce el nombre visible de la sala.');
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    alert('Por favor introduce un correo válido del buzón de Exchange.');
     return;
   }
 
-  const select = elements.selectPresetRoom;
-  const selectedOpt = select.options[select.selectedIndex];
-  if (selectedOpt) {
-    const name = selectedOpt.getAttribute('data-name');
-    const capacity = selectedOpt.getAttribute('data-capacity');
+  const isEdit = Boolean(id);
+  const url = isEdit ? `/api/rooms/${encodeURIComponent(id)}` : '/api/rooms';
+  const method = isEdit ? 'PUT' : 'POST';
 
-    if (elements.inputRoomEmail) elements.inputRoomEmail.value = selectedVal;
-    if (elements.inputRoomName && name) elements.inputRoomName.value = name;
-    if (elements.inputRoomCapacity && capacity) elements.inputRoomCapacity.value = capacity;
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, capacity, location })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al guardar sala');
+    }
+
+    // Si modificamos la sala que actualmente está activa en la pantalla, actualizar UI principal
+    if (isEdit && (id === state.roomEmail || id === state.roomName)) {
+      state.roomName = name;
+      state.roomEmail = email;
+      state.capacity = capacity;
+      localStorage.setItem('kiosk_room_name', name);
+      localStorage.setItem('kiosk_room_email', email);
+      localStorage.setItem('kiosk_room_capacity', capacity);
+      if (elements.roomNameDisplay) elements.roomNameDisplay.textContent = state.roomName;
+      if (elements.roomEmailDisplay) elements.roomEmailDisplay.textContent = state.roomEmail;
+      fetchStatus(true);
+    }
+
+    cancelRoomForm();
+    await loadRooms();
+  } catch (error) {
+    alert(`Error: ${error.message}`);
   }
 }
 
-function saveRoomSettings() {
-  const name = (elements.inputRoomName ? elements.inputRoomName.value : '').trim() || 'Sala de Juntas';
-  const email = (elements.inputRoomEmail ? elements.inputRoomEmail.value : '').trim() || state.roomEmail;
-  const capacity = (elements.inputRoomCapacity ? elements.inputRoomCapacity.value : '').trim() || '10';
+// Eliminar sala
+async function deleteRoom(roomId) {
+  const room = (state.roomsList || []).find(r => r.id === roomId || r.email === roomId);
+  const roomName = room ? room.name : roomId;
 
-  state.roomName = name;
-  state.roomEmail = email;
-  state.capacity = capacity;
+  if (!confirm(`¿Estás seguro de que deseas eliminar la sala "${roomName}"?`)) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/rooms/${encodeURIComponent(roomId)}`, {
+      method: 'DELETE'
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al eliminar sala');
+    }
+
+    // Si la sala eliminada era la que estaba activa, cambiar a la primera sala disponible
+    await loadRooms();
+    if (room && room.email.toLowerCase() === state.roomEmail.toLowerCase()) {
+      if (state.roomsList.length > 0) {
+        selectActiveRoom(state.roomsList[0].id || state.roomsList[0].email);
+      }
+    }
+  } catch (error) {
+    alert(`Error al eliminar: ${error.message}`);
+  }
+}
+
+// Seleccionar sala para mostrar en este Kiosk
+function selectActiveRoom(roomId) {
+  const room = (state.roomsList || []).find(r => r.id === roomId || r.email === roomId);
+  if (!room) return;
+
+  state.roomEmail = room.email;
+  state.roomName = room.name;
+  state.capacity = room.capacity || '10';
   state.activeScenario = null;
 
-  localStorage.setItem('kiosk_room_name', name);
-  localStorage.setItem('kiosk_room_email', email);
-  localStorage.setItem('kiosk_room_capacity', capacity);
+  localStorage.setItem('kiosk_room_name', room.name);
+  localStorage.setItem('kiosk_room_email', room.email);
+  localStorage.setItem('kiosk_room_capacity', room.capacity || '10');
 
-  // Actualizar UI inmediatamente
   if (elements.roomNameDisplay) elements.roomNameDisplay.textContent = state.roomName;
   if (elements.roomEmailDisplay) elements.roomEmailDisplay.textContent = state.roomEmail;
   if (elements.capacityValue) elements.capacityValue.textContent = `${state.capacity} personas`;
 
-  closeSettingsModal();
+  renderRoomsList();
   fetchStatus(true);
 }
 

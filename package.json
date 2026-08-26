@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "node test/statusCalculator.test.js && node test/integration.test.js"
+    "test": "node test/statusCalculator.test.js && node test/roomsCrud.test.js && node test/integration.test.js"
   },
   "keywords": [
     "kiosk",

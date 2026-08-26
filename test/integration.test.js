@@ -62,8 +62,40 @@ async function runIntegrationTests() {
     res.json({ status: 'UP', demo_mode: true });
   });
 
+  const RoomService = require('../services/roomService');
+  const roomService = new RoomService();
+
+  app.use(express.json());
+
   app.get('/api/rooms', (req, res) => {
-    res.json({ rooms: [{ email: 'sala-juntas@empresa.com', name: 'Sala Principal', capacity: 12 }] });
+    res.json({ rooms: roomService.getAllRooms() });
+  });
+
+  app.post('/api/rooms', (req, res) => {
+    try {
+      const room = roomService.createRoom(req.body);
+      res.status(201).json({ success: true, room });
+    } catch (err) {
+      res.status(400).json({ error: 'ROOM_CREATE_FAILED', message: err.message });
+    }
+  });
+
+  app.put('/api/rooms/:id', (req, res) => {
+    try {
+      const room = roomService.updateRoom(req.params.id, req.body);
+      res.json({ success: true, room });
+    } catch (err) {
+      res.status(400).json({ error: 'ROOM_UPDATE_FAILED', message: err.message });
+    }
+  });
+
+  app.delete('/api/rooms/:id', (req, res) => {
+    try {
+      const room = roomService.deleteRoom(req.params.id);
+      res.json({ success: true, room });
+    } catch (err) {
+      res.status(400).json({ error: 'ROOM_DELETE_FAILED', message: err.message });
+    }
   });
 
   const server = app.listen(PORT, async () => {
@@ -142,6 +174,39 @@ async function runIntegrationTests() {
       assert.strictEqual(resConflict.status, 409, 'Debe retornar status 409 Conflict');
       assert.strictEqual(dataConflict.error, 'SCHEDULE_CONFLICT');
       console.log('✔ POST /api/book con conflicto: OK (409 SCHEDULE_CONFLICT rechazado correctamente)');
+
+      // 8. Probar CRUD de Salas vía API
+      const resRooms = await fetch(`http://localhost:${PORT}/api/rooms`);
+      const dataRooms = await resRooms.json();
+      assert(Array.isArray(dataRooms.rooms), 'Debe retornar array de salas');
+      console.log('✔ GET /api/rooms: OK');
+
+      const tempEmail = `api-test-${Date.now()}@itzamna.mx`;
+      const resCreateRoom = await fetch(`http://localhost:${PORT}/api/rooms`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: 'Sala API Test', email: tempEmail, capacity: 6, location: 'Remoto' })
+      });
+      const dataCreateRoom = await resCreateRoom.json();
+      assert.strictEqual(resCreateRoom.status, 201);
+      assert.strictEqual(dataCreateRoom.room.email, tempEmail);
+      console.log('✔ POST /api/rooms: OK (Sala creada)');
+
+      const resUpdateRoom = await fetch(`http://localhost:${PORT}/api/rooms/${dataCreateRoom.room.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: 'Sala API Test Modificada', capacity: 15 })
+      });
+      const dataUpdateRoom = await resUpdateRoom.json();
+      assert.strictEqual(dataUpdateRoom.room.capacity, 15);
+      console.log('✔ PUT /api/rooms/:id: OK (Sala modificada)');
+
+      const resDeleteRoom = await fetch(`http://localhost:${PORT}/api/rooms/${dataCreateRoom.room.id}`, {
+        method: 'DELETE'
+      });
+      const dataDeleteRoom = await resDeleteRoom.json();
+      assert.strictEqual(dataDeleteRoom.success, true);
+      console.log('✔ DELETE /api/rooms/:id: OK (Sala eliminada)');
 
       console.log('\n--- Todas las pruebas de integración pasaron con éxito ---');
       server.close();

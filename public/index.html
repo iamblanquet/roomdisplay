@@ -52,7 +52,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=3.0">
+  <link rel="stylesheet" href="styles.css?v=3.5">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="h-full flex flex-col overflow-hidden font-sans select-none antialiased theme-dark" id="bodyRoot">
@@ -364,37 +364,69 @@
           </div>
         </div>
 
-        <div>
-          <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
-            <i class="fa-solid fa-list-check text-[#ffc400] mr-1"></i> Seleccionar Plantilla Rápida
-          </label>
-          <select id="selectPresetRoom" onchange="onPresetRoomChange(this.value)" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-semibold text-xs sm:text-sm">
-            <option value="SaladeJuntasCamp@itzamna.mx" data-name="Sala de Juntas Campeche" data-capacity="10">Sala de Juntas Campeche (10 pers.)</option>
-            <option value="SalaMerida@itzamna.mx" data-name="Sala de Juntas Mérida" data-capacity="14">Sala de Juntas Mérida (14 pers.)</option>
-            <option value="SalaCancun@itzamna.mx" data-name="Sala Ejecutiva Cancún" data-capacity="8">Sala Ejecutiva Cancún (8 pers.)</option>
-            <option value="custom" data-name="" data-capacity="10">Otra Sala Personalizada...</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
-            <i class="fa-solid fa-signature text-[#ffc400] mr-1"></i> Nombre Visible de la Sala (Editable)
-          </label>
-          <input type="text" id="inputRoomName" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold font-brand text-xs sm:text-sm" placeholder="Ej. Sala de Juntas Campeche" value="Sala de Juntas Campeche">
-        </div>
-
-        <div class="grid grid-cols-12 gap-2.5 sm:gap-3">
-          <div class="col-span-8">
-            <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
-              <i class="fa-solid fa-envelope text-[#ffc400] mr-1"></i> Buzón de Exchange Online
+        <!-- ==================== GESTOR DE SALAS (CRUD) ==================== -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider">
+              <i class="fa-solid fa-door-open text-[#ffc400] mr-1"></i> Administración de Salas
             </label>
-            <input type="email" id="inputRoomEmail" class="w-full px-3.5 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-mono text-xs sm:text-sm" value="SaladeJuntasCamp@itzamna.mx" placeholder="correo@itzamna.mx">
+            <button type="button" id="btnOpenCreateRoom" onclick="openCreateRoomForm()" class="px-2.5 py-1.5 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand text-xs flex items-center space-x-1.5 shadow-sm active:scale-95 transition">
+              <i class="fa-solid fa-plus text-xs"></i>
+              <span>Nueva Sala</span>
+            </button>
           </div>
-          <div class="col-span-4">
-            <label class="block text-xs font-bold text-kiosk-muted uppercase tracking-wider mb-1.5">
-              <i class="fa-solid fa-users text-[#ffc400] mr-1"></i> Capacidad
-            </label>
-            <input type="number" id="inputRoomCapacity" min="1" max="100" class="w-full px-3 py-2.5 rounded-xl bg-kiosk-sub border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold text-center text-xs sm:text-sm" value="10" placeholder="10">
+
+          <!-- A. VISTA: LISTA DE SALAS -->
+          <div id="roomsListView" class="space-y-2.5">
+            <div id="roomsListContainer" class="space-y-2 max-h-64 overflow-y-auto pr-1">
+              <!-- Renderizado dinámico de tarjetas de salas -->
+            </div>
+          </div>
+
+          <!-- B. VISTA: FORMULARIO CREAR / EDITAR SALA -->
+          <div id="roomsFormView" class="hidden p-4 rounded-2xl bg-kiosk-sub border border-[#ffc400]/40 space-y-3 animate-fade-in">
+            <div class="flex items-center justify-between border-b border-kiosk pb-2">
+              <h4 id="crudFormTitle" class="text-xs sm:text-sm font-black font-brand text-[#ffc400] flex items-center space-x-1.5">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Registrar Nueva Sala</span>
+              </h4>
+              <button type="button" onclick="cancelRoomForm()" class="text-kiosk-muted hover:text-kiosk-main text-xs p-1">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <input type="hidden" id="inputCrudRoomId" value="">
+
+            <div>
+              <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Nombre Visible de la Sala</label>
+              <input type="text" id="inputCrudRoomName" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold font-brand text-xs" placeholder="Ej. Sala de Innovación">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Buzón de Exchange Online (Email)</label>
+              <input type="email" id="inputCrudRoomEmail" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-mono text-xs" placeholder="correo@itzamna.mx">
+            </div>
+
+            <div class="grid grid-cols-12 gap-2">
+              <div class="col-span-5">
+                <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Capacidad</label>
+                <input type="number" id="inputCrudRoomCapacity" min="1" max="150" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] font-bold text-center text-xs" value="10" placeholder="10">
+              </div>
+              <div class="col-span-7">
+                <label class="block text-[11px] font-bold text-kiosk-muted uppercase tracking-wider mb-1">Ubicación / Piso</label>
+                <input type="text" id="inputCrudRoomLocation" class="w-full px-3 py-2 rounded-xl bg-kiosk-card border border-kiosk text-kiosk-main focus:outline-none focus:border-[#ffc400] text-xs font-medium" placeholder="Ej. Piso 1 - Campeche" value="Oficinas ITZ">
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 pt-1">
+              <button type="button" onclick="cancelRoomForm()" class="flex-1 py-2 rounded-xl bg-kiosk-card hover:opacity-80 border border-kiosk text-kiosk-muted font-bold font-brand text-xs transition">
+                Cancelar
+              </button>
+              <button type="button" id="btnSaveCrudRoom" onclick="submitRoomForm()" class="flex-1 py-2 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand text-xs shadow-md transition flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span id="btnSaveCrudRoomText">Guardar Sala</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -454,12 +486,9 @@
       </div>
 
       <!-- Pie Fijo con Botones -->
-      <div class="border-t border-kiosk p-3.5 sm:p-4 shrink-0 bg-kiosk-card flex items-center space-x-3">
-        <button onclick="closeSettingsModal()" class="flex-1 py-2.5 sm:py-3 rounded-xl bg-kiosk-sub hover:opacity-80 text-kiosk-muted font-bold font-brand transition text-xs sm:text-sm">
-          Cerrar
-        </button>
-        <button onclick="saveRoomSettings()" class="flex-1 py-2.5 sm:py-3 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black font-brand transition text-xs sm:text-sm">
-          Guardar Cambios
+      <div class="border-t border-kiosk p-3.5 sm:p-4 shrink-0 bg-kiosk-card flex items-center justify-end">
+        <button type="button" onclick="closeSettingsModal()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-main font-bold font-brand transition text-xs sm:text-sm">
+          Listo / Cerrar
         </button>
       </div>
 
