@@ -212,14 +212,16 @@ body.theme-light #modalSettings .overflow-y-auto::-webkit-scrollbar-thumb {
    -------------------------------------------------------------------------- */
 main.kiosk-grid-container {
   display: grid !important;
-  grid-template-columns: 7fr 5fr !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   gap: 1.5rem !important;
   padding: 1.5rem !important;
   height: calc(100vh - 78px) !important;
   overflow: hidden !important;
+  width: 100% !important;
 }
 
 .hero-section {
+  grid-column: span 7 / span 7 !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
@@ -228,6 +230,7 @@ main.kiosk-grid-container {
 }
 
 .agenda-section {
+  grid-column: span 5 / span 5 !important;
   display: flex !important;
   flex-direction: column !important;
   height: 100% !important;

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'itz-kiosk-v1.2';
+const CACHE_NAME = 'itz-kiosk-v2.5';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
