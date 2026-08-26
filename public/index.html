@@ -47,19 +47,19 @@
 <body class="h-full flex flex-col overflow-hidden font-sans select-none antialiased theme-dark" id="bodyRoot">
 
   <!-- ==================== ENCABEZADO CORPORATIVO ITZ OIL AND GAS ==================== -->
-  <header class="px-3 sm:px-6 lg:px-8 py-2 sm:py-3.5 border-b border-kiosk bg-kiosk-header backdrop-blur-md z-20 shrink-0 transition-colors duration-400 shadow-sm">
-    <div class="flex items-center justify-between gap-2 sm:gap-4">
+  <header class="px-3 sm:px-6 lg:px-8 py-2 sm:py-3 border-b border-kiosk bg-kiosk-header backdrop-blur-md z-20 shrink-0 transition-colors duration-400 shadow-sm">
+    <div class="flex items-center justify-between gap-2 sm:gap-4 max-w-full">
       
-      <!-- Lado Izquierdo: Logotipo y Datos de la Sala -->
-      <div class="flex items-center space-x-2.5 sm:space-x-4 md:space-x-5 min-w-0 flex-1">
-        <!-- Logotipo Oficial Grande / Responsivo -->
-        <div class="flex items-center pr-2.5 sm:pr-4 md:pr-5 border-r border-kiosk shrink-0">
-          <img id="companyLogo" src="assets/logonegro.png" alt="ITZ Oil and Gas" class="h-8 sm:h-12 md:h-14 lg:h-16 w-auto max-w-[105px] xs:max-w-[140px] sm:max-w-[200px] md:max-w-[260px] object-contain transition-all duration-300">
+      <!-- Lado Izquierdo: Logotipo y Nombre de Sala -->
+      <div class="flex items-center space-x-2.5 sm:space-x-4 min-w-0 flex-1">
+        <!-- Logotipo Oficial ITZ -->
+        <div class="flex items-center pr-2.5 sm:pr-4 border-r border-kiosk shrink-0">
+          <img id="companyLogo" src="assets/logonegro.png" alt="ITZ Oil and Gas" class="h-7 sm:h-11 md:h-13 lg:h-15 w-auto max-w-[95px] xs:max-w-[130px] sm:max-w-[180px] md:max-w-[240px] object-contain transition-all duration-300">
         </div>
 
         <!-- Nombre de Sala y Correo -->
         <div class="min-w-0 flex-1">
-          <h1 id="roomNameDisplay" class="text-xs xs:text-sm sm:text-base md:text-xl lg:text-2xl font-black font-brand tracking-tight text-kiosk-main uppercase truncate">
+          <h1 id="roomNameDisplay" class="text-xs xs:text-sm sm:text-base md:text-xl font-black font-brand tracking-tight text-kiosk-main uppercase truncate">
             SALA DE JUNTAS CAMPECHE
           </h1>
           <p id="roomEmailDisplay" class="text-[10px] sm:text-xs text-kiosk-muted font-mono tracking-wide mt-0.5 flex items-center space-x-1.5 truncate">
@@ -69,37 +69,29 @@
         </div>
       </div>
 
-      <!-- Lado Derecho: Reloj Digital y Botones de Acción -->
-      <div class="flex items-center space-x-2 sm:space-x-4 shrink-0">
+      <!-- Lado Derecho: Reloj Digital y Acciones -->
+      <div class="flex items-center space-x-2 sm:space-x-3 shrink-0">
         <!-- Reloj Digital y Fecha -->
-        <div class="text-right">
-          <div id="digitalClock" class="text-lg xs:text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-wider sm:tracking-widest font-mono text-kiosk-main tabular-nums leading-none">
+        <div class="text-right shrink-0 border-l border-kiosk pl-2.5 sm:pl-4">
+          <div id="digitalClock" class="text-base xs:text-lg sm:text-2xl md:text-3xl font-extrabold tracking-wider font-mono text-kiosk-main tabular-nums leading-none">
             12:00:00
           </div>
-          <div id="dateDisplay" class="text-[9px] sm:text-xs font-semibold text-kiosk-muted capitalize mt-0.5 sm:mt-1 hidden xs:block">
+          <div id="dateDisplay" class="text-[9px] sm:text-xs font-semibold text-kiosk-muted capitalize mt-0.5 hidden sm:block">
             Martes, 25 de Agosto de 2026
           </div>
         </div>
 
-        <!-- Grupo de Botones de Acción (Notificaciones, Reservar y Pantalla Completa) -->
-        <div class="flex items-center space-x-1.5 sm:space-x-2 border-l border-kiosk pl-2 sm:pl-3 md:pl-4">
-          <!-- Botón Notificaciones Push (Campana) -->
-          <button id="btnHeaderPush" onclick="togglePushNotifications()" class="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-muted hover:text-[#ffc400] transition flex items-center justify-center active:scale-95 shadow-sm shrink-0 relative" title="Activar / Desactivar Alertas Push">
-            <i id="headerPushIcon" class="fa-regular fa-bell text-xs sm:text-base"></i>
-            <span id="headerPushBadgeDot" class="hidden absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-2 h-2 rounded-full bg-[#00b090] animate-pulse"></span>
-          </button>
+        <!-- Botón Notificaciones Push (Campana) -->
+        <button id="btnHeaderPush" onclick="togglePushNotifications()" class="w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-muted hover:text-[#ffc400] transition flex items-center justify-center active:scale-95 shadow-sm shrink-0 relative" title="Activar / Desactivar Alertas Push">
+          <i id="headerPushIcon" class="fa-regular fa-bell text-xs sm:text-sm"></i>
+          <span id="headerPushBadgeDot" class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#00b090] animate-pulse"></span>
+        </button>
 
-          <!-- Botón Reservar Instantáneo -->
-          <button id="btnQuickBook" class="h-8 xs:h-9 sm:h-11 px-2.5 xs:px-3.5 sm:px-5 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black text-[11px] sm:text-xs font-brand tracking-wider transition flex items-center space-x-1.5 sm:space-x-2 shadow-md active:scale-95 shrink-0" title="Reserva rápida instantánea">
-            <i class="fa-solid fa-bolt text-black text-xs sm:text-sm"></i>
-            <span>RESERVAR</span>
-          </button>
-
-          <!-- Botón Pantalla Completa -->
-          <button id="btnFullscreen" class="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl bg-kiosk-sub hover:opacity-80 border border-kiosk text-kiosk-main transition flex items-center justify-center active:scale-95 shadow-sm shrink-0" title="Pantalla completa">
-            <i class="fa-solid fa-expand text-xs sm:text-base"></i>
-          </button>
-        </div>
+        <!-- Botón Reservar Instantáneo -->
+        <button id="btnQuickBook" class="h-8 xs:h-9 sm:h-10 px-2.5 xs:px-3.5 sm:px-4 rounded-xl bg-[#ffc400] hover:bg-[#e6b000] text-black font-black text-[11px] sm:text-xs font-brand tracking-wider transition flex items-center space-x-1.5 shadow-md active:scale-95 shrink-0" title="Reserva rápida instantánea">
+          <i class="fa-solid fa-bolt text-black text-xs"></i>
+          <span>RESERVAR</span>
+        </button>
       </div>
 
     </div>
@@ -463,7 +455,12 @@
     </div>
   </div>
 
-  <!-- ==================== ACCESO OCULTO / DISCRETO: SÍMBOLO PI ==================== -->
+  <!-- ==================== ACCESO OCULTO / DISCRETO: PANTALLA COMPLETA (IZQUIERDA) ==================== -->
+  <button id="btnFullscreen" onclick="toggleFullscreen()" class="fixed bottom-2 left-2.5 w-7 h-7 rounded-full bg-black/10 hover:bg-black/25 dark:bg-white/5 dark:hover:bg-white/15 text-kiosk-muted hover:text-[#ffc400] transition-all flex items-center justify-center text-xs opacity-25 hover:opacity-100 z-30 cursor-pointer select-none" title="Pantalla Completa">
+    <i class="fa-solid fa-expand text-[11px]"></i>
+  </button>
+
+  <!-- ==================== ACCESO OCULTO / DISCRETO: SÍMBOLO PI (DERECHA) ==================== -->
   <button id="btnSettings" onclick="openSettingsModal()" class="fixed bottom-2 right-2.5 w-7 h-7 rounded-full bg-black/10 hover:bg-black/25 dark:bg-white/5 dark:hover:bg-white/15 text-kiosk-muted hover:text-[#ffc400] transition-all flex items-center justify-center font-serif text-sm opacity-25 hover:opacity-100 z-30 cursor-pointer select-none" title="Configuración de Sistema (Admin)">
     &pi;
   </button>

@@ -265,8 +265,7 @@ body.theme-light #modalSettings .overflow-y-auto::-webkit-scrollbar-thumb {
     margin-top: 0.15rem !important;
   }
 
-  #btnHeaderPush,
-  #btnFullscreen {
+  #btnHeaderPush {
     width: 2rem !important;
     height: 2rem !important;
     font-size: 0.75rem !important;
